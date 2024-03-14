@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "name": "mallgateway-front",
+    "slug": "mallgateway-front",
+    "userInterfaceStyle": "automatic"
+  }
+}
