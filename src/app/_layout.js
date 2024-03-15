@@ -31,12 +31,13 @@ const MainLayout = () => {
 
   useEffect(() => {
     const inApp = segments[0] === '(app)';
-    if (user && !inApp) {
-      // Redirect to the app if the user is logged in and the current segment is not in the app.
-      router.replace('/(app)/home');
-    } else if (!user) {
+
+    if (!user) {
       // Redirect to the login page if the user is not logged in.
       router.replace('/(auth)/login');
+    } else if (!inApp) {
+      // Redirect to the app if the user is logged in and the current segment is not in the app.
+      router.replace('/(app)');
     }
   }, [user]);
 
