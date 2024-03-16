@@ -1,34 +1,39 @@
 import { create } from 'zustand';
-import { setSecureValue } from '../utils/secureStorage';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const useAuthStore = create((set) => ({
-  user: null,
-  token: null,
-  isLoading: false,
+export const useAuthStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      isLoading: false,
 
-  doLogin: async (user, token) => {
-    set({ isLoading: true });
-    try {
-      await setSecureValue('user', JSON.stringify(user));
-      await setSecureValue('token', token);
-      set({ user, token });
-    } catch (error) {
-      console.log('🚀 ~ login: ~ error:', error);
-    } finally {
-      set({ isLoading: false });
+      doLogin: async (user, token) => {
+        set({ isLoading: true });
+        try {
+          set({ user, token });
+        } catch (error) {
+          console.log('🚀 ~ login: ~ error:', error);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      doLogout: async () => {
+        set({ isLoading: true });
+        try {
+          set({ user: null, token: null });
+        } catch (error) {
+          console.log('🚀 ~ logout: ~ error:', error);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => AsyncStorage),
     }
-  },
-
-  doLogout: async () => {
-    set({ isLoading: true });
-    try {
-      await setSecureValue('user', null);
-      await setSecureValue('token', null);
-      set({ user: null, token: null });
-    } catch (error) {
-      console.log('🚀 ~ logout: ~ error:', error);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-}));
+  )
+);

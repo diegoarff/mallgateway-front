@@ -11,11 +11,12 @@ import {
 
 import { Slot, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../stores/auth';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import ROLES from '../utils/roles';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -29,15 +30,26 @@ const MainLayout = () => {
   const router = useRouter();
   const segments = useSegments();
 
-  useEffect(() => {
-    const inApp = segments[0] === '(app)';
+  const roleRoutes = useMemo(() => {
+    return {
+      [ROLES.ADMIN]: '(admin)',
+      [ROLES.STORE]: '(store)',
+      [ROLES.USER]: '(user)',
+      [ROLES.GUEST]: '(user)',
+    };
+  }, []);
 
+  useEffect(() => {
     if (!user) {
       // Redirect to the login page if the user is not logged in.
-      router.replace('/(auth)/login');
-    } else if (!inApp) {
-      // Redirect to the app if the user is logged in and the current segment is not in the app.
-      router.replace('/(app)');
+      return router.replace('/(auth)/login');
+    }
+
+    const correspondingRoute = roleRoutes[user.role];
+
+    // If the user isn't on their corresponding route, redirect them to it.
+    if (segments[0] !== correspondingRoute) {
+      router.replace(`/${correspondingRoute}`);
     }
   }, [user]);
 

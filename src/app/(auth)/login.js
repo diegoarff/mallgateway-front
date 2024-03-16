@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useAuthStore } from '../../stores/auth';
 
 const Login = () => {
@@ -11,24 +11,15 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Login</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => handleLogin('admin')}
-      >
+      <Pressable style={styles.button} onPress={() => handleLogin('admin')}>
         <Text style={styles.text}>Login as Admin</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => handleLogin('store')}
-      >
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => handleLogin('store')}>
         <Text style={styles.text}>Login as Store</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => handleLogin('user')}
-      >
+      </Pressable>
+      <Pressable style={styles.button} onPress={() => handleLogin('user')}>
         <Text style={styles.text}>Login as User</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
@@ -46,7 +37,7 @@ const styles = StyleSheet.create({
     fontFamily: 'interBold',
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#ffeeee',
     padding: 10,
     borderRadius: 5,
   },
