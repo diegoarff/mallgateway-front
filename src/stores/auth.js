@@ -7,29 +7,9 @@ export const useAuthStore = create(
     (set) => ({
       user: null,
       token: null,
-      isLoading: false,
 
-      doLogin: async (user, token) => {
-        set({ isLoading: true });
-        try {
-          set({ user, token });
-        } catch (error) {
-          console.log('🚀 ~ login: ~ error:', error);
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-
-      doLogout: async () => {
-        set({ isLoading: true });
-        try {
-          set({ user: null, token: null });
-        } catch (error) {
-          console.log('🚀 ~ logout: ~ error:', error);
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      doLogin: (user, token) => set({ user, token }),
+      doLogout: () => set({ user: null, token: null }),
     }),
     {
       name: 'auth-storage',

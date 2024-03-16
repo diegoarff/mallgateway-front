@@ -1,14 +1,20 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAuthStore } from '../../stores/auth';
+import { useUiStore } from '../../stores/ui';
 import { login, register } from '../api/auth';
 
 export const useAuthMutation = (fn) => {
   const doLogin = useAuthStore((state) => state.doLogin);
+  const showSnackbar = useUiStore((state) => state.showSnackbar);
+
   return useMutation({
     mutationFn: (data) => fn(data),
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       const { user, token } = data;
-      await doLogin(user, token);
+      doLogin(user, token);
+    },
+    onError: (error) => {
+      showSnackbar(error);
     },
   });
 };

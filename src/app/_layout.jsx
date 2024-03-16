@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../stores/auth';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import ROLES from '../utils/roles';
+import Snack from '../components/Snack';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -53,7 +54,12 @@ const MainLayout = () => {
     }
   }, [user]);
 
-  return <Slot />;
+  return (
+    <>
+      <Slot />
+      <Snack />
+    </>
+  );
 };
 
 const RootLayout = () => {
