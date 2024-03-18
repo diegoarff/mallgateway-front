@@ -1,4 +1,4 @@
-import { Appbar } from 'react-native-paper';
+import { Appbar, Tooltip } from 'react-native-paper';
 
 const Header = ({ navigation, back, options, actions }) => {
   return (
@@ -7,7 +7,9 @@ const Header = ({ navigation, back, options, actions }) => {
       <Appbar.Content title={options.headerTitle} />
       {actions &&
         actions.map((action, index) => (
-          <Appbar.Action key={index} {...action} />
+          <Tooltip key={index} title={action.tooltip}>
+            <Appbar.Action {...action} />
+          </Tooltip>
         ))}
     </Appbar.Header>
   );

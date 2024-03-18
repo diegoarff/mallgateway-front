@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   Button,
@@ -9,29 +9,20 @@ import {
   Surface,
 } from 'react-native-paper';
 import EditableListDialog from './EditableListDialog';
+import { useGlobalStore } from '../stores/global';
 
-const EditableList = ({ items, itemsName, mutation }) => {
-  const [data, setData] = useState([]);
+const EditableList = ({ itemsName, mutation }) => {
   const [editItem, setEditItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
 
+  const listData = useGlobalStore((state) => state.listData);
+  const setListData = useGlobalStore((state) => state.setListData);
+  const isListDataEqual = useGlobalStore((state) => state.isListDataEqual);
+
   const nonDeletedData = useMemo(
-    () => data.filter((item) => !item.deleted),
-    [data]
+    () => listData.filter((item) => !item.deleted),
+    [listData]
   );
-
-  const areEqual = useMemo(() => {
-    return JSON.stringify(data) === JSON.stringify(items);
-  }, [data, items]);
-
-  const getList = useCallback(() => {
-    setData(JSON.parse(JSON.stringify(items)));
-  }, [items]);
-
-  useEffect(() => {
-    // Reset data when items refetch
-    getList();
-  }, [getList]);
 
   const toggleDialog = (item = null, index = null) => {
     setShowDialog((prev) => !prev);
@@ -39,27 +30,23 @@ const EditableList = ({ items, itemsName, mutation }) => {
   };
 
   const onConfirm = (item) => {
-    setData((prevData) => {
-      const newData = [...prevData];
-      if (item.index !== null) {
-        newData[item.index] = item;
-      } else {
-        newData.push(item);
-      }
-      return newData;
-    });
+    const newData = [...listData];
+    if (item.index !== null) {
+      newData[item.index] = item;
+    } else {
+      newData.push(item);
+    }
+    setListData(newData);
   };
 
   const handleDelete = (index) => {
-    setData((prevData) => {
-      const newData = [...prevData];
-      newData[index].deleted = true;
-      return newData;
-    });
+    const newData = [...listData];
+    newData[index].deleted = true;
+    setListData(newData, false);
   };
 
   const handleSave = () => {
-    mutation.mutate(data);
+    mutation.mutate(listData);
   };
 
   return (
@@ -67,20 +54,10 @@ const EditableList = ({ items, itemsName, mutation }) => {
       {/* List */}
       <List.Section style={styles.section}>
         {/* List header */}
-        <View style={styles.row}>
-          <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
-          <View style={styles.row}>
-            <IconButton icon="restore" disabled={areEqual} onPress={getList} />
-            <IconButton
-              icon="content-save-outline"
-              disabled={areEqual}
-              onPress={handleSave}
-            />
-          </View>
-        </View>
+        <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
 
         {/* Items */}
-        {data.map(
+        {listData.map(
           (item, idx) =>
             !item.deleted && (
               <ListItem
@@ -98,7 +75,7 @@ const EditableList = ({ items, itemsName, mutation }) => {
       <Button
         mode="contained"
         style={styles.button}
-        disabled={areEqual || mutation.isPending}
+        disabled={isListDataEqual() || mutation.isPending}
         loading={mutation.isPending}
         onPress={handleSave}
       >
@@ -148,10 +125,6 @@ const ListItem = ({ item, index, onEdit, onDelete }) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingBottom: 92 },
-  subheader: {
-    position: 'absolute',
-    top: 0,
-  },
   surface: {
     paddingHorizontal: 4,
     borderRadius: 12,

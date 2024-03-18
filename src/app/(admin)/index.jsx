@@ -1,4 +1,4 @@
-import { Button, Icon, Surface, Text } from 'react-native-paper';
+import { Icon, Surface, Text } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import { Pressable, StyleSheet } from 'react-native';

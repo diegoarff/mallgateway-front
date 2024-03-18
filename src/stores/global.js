@@ -2,11 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 export const useGlobalStore = create()(
-  immer((set) => ({
-    // Root view color
-    rootColor: 'white',
-    setRootColor: (color) => set({ rootColor: color }),
-
+  immer((set, get) => ({
     // Snackbar
     snackbar: {
       visible: false,
@@ -18,6 +14,17 @@ export const useGlobalStore = create()(
 
     // Editable List
     listData: [],
-    setListData: (data) => set({ listData: data }),
+    initialListData: [],
+    setListData: (data, setInitial = false) => {
+      set({ listData: data });
+      if (setInitial) {
+        set({ initialListData: JSON.parse(JSON.stringify(data)) });
+      }
+    },
+    isListDataEqual: () => {
+      return (
+        JSON.stringify(get().listData) === JSON.stringify(get().initialListData)
+      );
+    },
   }))
 );

@@ -30,7 +30,6 @@ import {
 import ROLES from '../utils/roles';
 import Snack from '../components/Snack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useGlobalStore } from '../stores/global';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -88,6 +87,8 @@ const RootLayout = () => {
   const theme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
   const reactNavTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
 
+  SystemUI.setBackgroundColorAsync(theme.colors.background);
+
   const queryClient = new QueryClient();
 
   const [fontsLoaded, fontError] = useFonts({
@@ -101,7 +102,6 @@ const RootLayout = () => {
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
-      await SystemUI.setBackgroundColorAsync(theme.colors.background);
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
