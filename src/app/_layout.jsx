@@ -16,12 +16,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../stores/auth';
-import {
-  MD3DarkTheme,
-  MD3LightTheme,
-  PaperProvider,
-  adaptNavigationTheme,
-} from 'react-native-paper';
+import { PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import {
   ThemeProvider,
   DefaultTheme,
@@ -30,6 +25,7 @@ import {
 import ROLES from '../utils/roles';
 import Snack from '../components/Snack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MallLightTheme, MallDarkTheme } from '../settings';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -84,7 +80,7 @@ const MainLayout = () => {
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
+  const theme = colorScheme === 'dark' ? MallDarkTheme : MallLightTheme;
   const reactNavTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
 
   SystemUI.setBackgroundColorAsync(theme.colors.background);
