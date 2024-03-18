@@ -1,7 +1,16 @@
-import { Icon, Surface, Text } from 'react-native-paper';
-import { useRouter } from 'expo-router';
+import {
+  Appbar,
+  Avatar,
+  Icon,
+  Surface,
+  Text,
+  useTheme,
+} from 'react-native-paper';
+import { Stack, useRouter } from 'expo-router';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import { Pressable, StyleSheet } from 'react-native';
+import { appSettings } from '../../settings';
+import { useAuthStore } from '../../stores/auth';
 
 const Index = () => {
   const router = useRouter();
@@ -9,11 +18,11 @@ const Index = () => {
   return (
     <ScreenWrapper
       contentContainerStyle={{
-        justifyContent: 'center',
         gap: 12,
       }}
     >
-      <Text variant="headlineMedium" style={{ marginBottom: 20 }}>
+      <AdminHeader />
+      <Text variant="titleLarge" style={styles.text}>
         Panel de administración
       </Text>
 
@@ -36,6 +45,30 @@ const Index = () => {
   );
 };
 
+const AdminHeader = () => {
+  const theme = useTheme();
+  const doLogout = useAuthStore((state) => state.doLogout);
+  return (
+    <Stack.Screen
+      options={{
+        header: () => {
+          return (
+            <Appbar.Header style={styles.header}>
+              <Avatar.Image source={{ uri: appSettings.mallLogo }} size={40} />
+              <Appbar.Content title={appSettings.mallName} />
+              <Appbar.Action
+                icon="logout"
+                color={theme.colors.error}
+                onPress={doLogout}
+              />
+            </Appbar.Header>
+          );
+        },
+      }}
+    />
+  );
+};
+
 const MenuItem = ({ icon, title, onPress }) => {
   return (
     <Pressable onPress={onPress}>
@@ -50,6 +83,11 @@ const MenuItem = ({ icon, title, onPress }) => {
 export default Index;
 
 const styles = StyleSheet.create({
+  header: {
+    paddingLeft: 16,
+    gap: 12,
+  },
+  text: { marginBottom: 12 },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',

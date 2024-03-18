@@ -1,9 +1,7 @@
 import { Stack } from 'expo-router';
-import { useTheme } from 'react-native-paper';
 import Header from '../../components/Header';
 
 const AdminLayout = () => {
-  const theme = useTheme();
   return (
     <Stack
       screenOptions={{
@@ -12,12 +10,7 @@ const AdminLayout = () => {
         },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="index" />
       <Stack.Screen
         name="categories"
         options={{
