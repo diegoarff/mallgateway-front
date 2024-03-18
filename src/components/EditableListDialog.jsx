@@ -32,7 +32,10 @@ const EditableListDialog = ({ visible, editItem, onConfirm, onDismiss }) => {
             mode="outlined"
             label="Nombre"
             value={value}
-            onChangeText={(text) => setValue(text)}
+            onChangeText={setValue}
+            autoComplete="off"
+            autoCorrect={false}
+            autoFocus
           />
           <HelperText>* requerido</HelperText>
         </Dialog.Content>

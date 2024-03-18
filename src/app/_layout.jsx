@@ -16,12 +16,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '../stores/auth';
-import { PaperProvider, adaptNavigationTheme } from 'react-native-paper';
-import {
-  ThemeProvider,
-  DefaultTheme,
-  DarkTheme as RNDarkTheme,
-} from '@react-navigation/native';
+import { PaperProvider } from 'react-native-paper';
+import { ThemeProvider } from '@react-navigation/native';
 import ROLES from '../utils/roles';
 import Snack from '../components/Snack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -31,14 +27,6 @@ export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: 'index',
 };
-
-const { DarkTheme } = adaptNavigationTheme({
-  reactNavigationDark: RNDarkTheme,
-});
-
-const { LightTheme } = adaptNavigationTheme({
-  reactNavigationLight: DefaultTheme,
-});
 
 SplashScreen.preventAutoHideAsync();
 
@@ -81,7 +69,6 @@ const MainLayout = () => {
 const RootLayout = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? MallDarkTheme : MallLightTheme;
-  const reactNavTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
 
   SystemUI.setBackgroundColorAsync(theme.colors.background);
 
@@ -110,7 +97,7 @@ const RootLayout = () => {
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
-          <ThemeProvider value={reactNavTheme}>
+          <ThemeProvider value={theme}>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
                 <MainLayout />
