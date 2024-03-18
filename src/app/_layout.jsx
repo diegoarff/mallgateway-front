@@ -11,6 +11,7 @@ import {
 
 import { Slot, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import * as SystemUI from 'expo-system-ui';
 import { useCallback, useEffect, useMemo } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,6 +30,7 @@ import {
 import ROLES from '../utils/roles';
 import Snack from '../components/Snack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useGlobalStore } from '../stores/global';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -86,18 +88,7 @@ const RootLayout = () => {
   const theme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
   const reactNavTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
 
-  const queryClient = new QueryClient({
-    // Put the best options for perfomance
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-      },
-    },
-  });
+  const queryClient = new QueryClient();
 
   const [fontsLoaded, fontError] = useFonts({
     interLight: Inter_300Light,
@@ -110,6 +101,7 @@ const RootLayout = () => {
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
+      await SystemUI.setBackgroundColorAsync(theme.colors.background);
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);

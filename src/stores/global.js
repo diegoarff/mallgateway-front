@@ -3,6 +3,10 @@ import { immer } from 'zustand/middleware/immer';
 
 export const useGlobalStore = create()(
   immer((set) => ({
+    // Root view color
+    rootColor: 'white',
+    setRootColor: (color) => set({ rootColor: color }),
+
     // Snackbar
     snackbar: {
       visible: false,
