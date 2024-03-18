@@ -17,6 +17,7 @@ export const useProcessStoreCategories = () => {
     mutationFn: (categories) => processStoreCategories(categories),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['store-categories'] });
+      showSnackbar('Categorías actualizadas');
     },
     onError: (error) => {
       showSnackbar(error);
