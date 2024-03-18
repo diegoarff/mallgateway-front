@@ -1,8 +1,8 @@
 import { Portal, Snackbar } from 'react-native-paper';
-import { useUiStore } from '../stores/ui';
+import { useGlobalStore } from '../stores/global';
 const Snack = () => {
-  const snackbar = useUiStore((state) => state.snackbar);
-  const hideSnackbar = useUiStore((state) => state.hideSnackbar);
+  const snackbar = useGlobalStore((state) => state.snackbar);
+  const hideSnackbar = useGlobalStore((state) => state.hideSnackbar);
 
   return (
     <Portal>

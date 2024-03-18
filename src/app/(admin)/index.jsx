@@ -1,14 +1,39 @@
-import { View, Text } from 'react-native';
-import { useAuthStore } from '../../stores/auth';
+import { Button, Text } from 'react-native-paper';
+import { useRouter } from 'expo-router';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 const Index = () => {
-  const doLogout = useAuthStore((state) => state.doLogout);
+  const router = useRouter();
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-      <Text>Admin</Text>
-      <Text onPress={doLogout}>Logout</Text>
-    </View>
+    <ScreenWrapper
+      contentContainerStyle={{
+        justifyContent: 'center',
+        gap: 12,
+      }}
+    >
+      <Text variant="headlineMedium" style={{ marginBottom: 20 }}>
+        Panel de administración
+      </Text>
+      <Button mode="contained" onPress={() => router.push('(admin)/stores')}>
+        Tiendas
+      </Button>
+      <Button
+        mode="contained"
+        onPress={() => router.push('(admin)/categories')}
+      >
+        Categorías de tiendas
+      </Button>
+      <Button mode="contained" onPress={() => router.push('(admin)/socials')}>
+        Redes sociales
+      </Button>
+      <Button
+        mode="contained"
+        onPress={() => router.push('(admin)/user-settings')}
+      >
+        Configuración de usuario
+      </Button>
+    </ScreenWrapper>
   );
 };
 

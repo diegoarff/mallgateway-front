@@ -1,17 +1,17 @@
 import api from './axios';
 
-export const register = async (data) => {
+export const getStoreCategories = async () => {
   try {
-    const response = await api.post('/auth/register', data);
+    const response = await api.get('/categories/stores');
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
 };
 
-export const login = async (data) => {
+export const processStoreCategories = async (categories) => {
   try {
-    const response = await api.post('/auth/login', data);
+    const response = await api.patch('/categories/stores', { categories });
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);

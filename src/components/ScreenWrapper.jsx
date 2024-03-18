@@ -1,20 +1,26 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from 'react-native-paper';
 
 const ScreenWrapper = ({
   children,
   withScrollView = true,
+  withInsets = true,
   style,
   contentContainerStyle,
   ...rest
 }) => {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
   const containerStyle = [
     styles.container,
     {
       backgroundColor: theme.colors.background,
-      paddingLeft: 12,
-      paddingRight: 12,
+      paddingTop: withInsets ? insets.top : 0,
+      paddingLeft: 12 + insets.left,
+      paddingRight: 12 + insets.right,
+      paddingBottom: withInsets ? insets.bottom : 0,
     },
   ];
   return (
@@ -22,7 +28,7 @@ const ScreenWrapper = ({
       {withScrollView ? (
         <ScrollView
           {...rest}
-          contentContainerStyle={contentContainerStyle}
+          contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
           keyboardShouldPersistTaps="always"
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
