@@ -6,20 +6,18 @@ import {
   HelperText,
   useTheme,
 } from 'react-native-paper';
-import { useGlobalStore } from '../stores/global';
 import { useEffect, useState } from 'react';
 
-const EditableListDialog = ({ visible, onConfirm, onDismiss }) => {
-  const itemToEdit = useGlobalStore((state) => state.itemToEdit);
-  const [value, setValue] = useState('');
+const EditableListDialog = ({ visible, editItem, onConfirm, onDismiss }) => {
   const theme = useTheme();
+  const [value, setValue] = useState('');
 
   useEffect(() => {
-    setValue(itemToEdit?.name || '');
-  }, [itemToEdit]);
+    setValue(editItem?.name || '');
+  }, [editItem]);
 
   const handleConfirm = () => {
-    onConfirm({ ...itemToEdit, name: value });
+    onConfirm({ ...editItem, name: value });
     onDismiss();
   };
 
@@ -27,7 +25,7 @@ const EditableListDialog = ({ visible, onConfirm, onDismiss }) => {
     <Portal>
       <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>
-          {itemToEdit?.index !== null ? 'Editar' : 'Añadir'}
+          {editItem?.index !== null ? 'Editar' : 'Añadir'}
         </Dialog.Title>
         <Dialog.Content style={{ marginBottom: 20 }}>
           <TextInput

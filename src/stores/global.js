@@ -13,7 +13,7 @@ export const useGlobalStore = create()(
     hideSnackbar: () => set({ snackbar: { visible: false, message: '' } }),
 
     // Editable List
-    itemToEdit: null,
-    setItemToEdit: (item, index) => set({ itemToEdit: { ...item, index } }),
+    listData: [],
+    setListData: (data) => set({ listData: data }),
   }))
 );

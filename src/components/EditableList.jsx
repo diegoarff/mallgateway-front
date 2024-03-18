@@ -1,12 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, FAB, IconButton, List, Surface } from 'react-native-paper';
+import {
+  Button,
+  FAB,
+  IconButton,
+  List,
+  Portal,
+  Surface,
+} from 'react-native-paper';
 import EditableListDialog from './EditableListDialog';
-import { useGlobalStore } from '../stores/global';
 
 const EditableList = ({ items, itemsName, mutation }) => {
   const [data, setData] = useState([]);
-  const setItemToEdit = useGlobalStore((state) => state.setItemToEdit);
+  const [editItem, setEditItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
 
   const nonDeletedData = useMemo(
@@ -18,30 +24,38 @@ const EditableList = ({ items, itemsName, mutation }) => {
     return JSON.stringify(data) === JSON.stringify(items);
   }, [data, items]);
 
-  useEffect(() => {
-    // Reset data when items refetch
+  const getList = useCallback(() => {
     setData(JSON.parse(JSON.stringify(items)));
   }, [items]);
 
+  useEffect(() => {
+    // Reset data when items refetch
+    getList();
+  }, [getList]);
+
   const toggleDialog = (item = null, index = null) => {
     setShowDialog((prev) => !prev);
-    setItemToEdit(item, index);
+    setEditItem({ ...item, index });
   };
 
   const onConfirm = (item) => {
-    const newData = [...data];
-    if (item.index !== null) {
-      newData[item.index] = item;
-    } else {
-      newData.push(item);
-    }
-    setData(newData);
+    setData((prevData) => {
+      const newData = [...prevData];
+      if (item.index !== null) {
+        newData[item.index] = item;
+      } else {
+        newData.push(item);
+      }
+      return newData;
+    });
   };
 
   const handleDelete = (index) => {
-    const newData = [...data];
-    newData[index].deleted = true;
-    setData(newData);
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index].deleted = true;
+      return newData;
+    });
   };
 
   const handleSave = () => {
@@ -49,44 +63,33 @@ const EditableList = ({ items, itemsName, mutation }) => {
   };
 
   return (
-    <>
+    <View style={styles.container}>
+      {/* List */}
       <List.Section style={styles.section}>
+        {/* List header text */}
         <View style={styles.subheader}>
           <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
-          <Button
-            disabled={areEqual}
-            onPress={() => {
-              setData(JSON.parse(JSON.stringify(items)));
-            }}
-          >
-            Valores por defecto
+          <Button disabled={areEqual} onPress={getList}>
+            Cancelar edición
           </Button>
         </View>
+
+        {/* Items */}
         {data.map(
           (item, idx) =>
             !item.deleted && (
-              <Surface key={idx} style={styles.surface} mode="flat">
-                <List.Item
-                  title={item.name}
-                  style={styles.item}
-                  right={() => (
-                    <>
-                      <IconButton
-                        icon="pencil-outline"
-                        onPress={() => toggleDialog(item, idx)}
-                      />
-                      <IconButton
-                        icon="trash-can-outline"
-                        onPress={() => handleDelete(idx)}
-                        style={{ marginRight: -20 }}
-                      />
-                    </>
-                  )}
-                />
-              </Surface>
+              <ListItem
+                key={idx}
+                item={item}
+                index={idx}
+                onEdit={toggleDialog}
+                onDelete={handleDelete}
+              />
             )
         )}
       </List.Section>
+
+      {/* Extra */}
       <Button
         mode="contained"
         style={styles.button}
@@ -96,25 +99,50 @@ const EditableList = ({ items, itemsName, mutation }) => {
       >
         Guardar
       </Button>
-      <FAB
-        icon="plus"
-        label="Añadir"
-        mode="flat"
-        style={styles.fab}
-        onPress={() => toggleDialog()}
-      />
+      <Portal>
+        <FAB
+          icon="plus"
+          label="Añadir"
+          style={styles.fab}
+          onPress={() => toggleDialog()}
+        />
+      </Portal>
       <EditableListDialog
         visible={showDialog}
+        editItem={editItem}
         onConfirm={onConfirm}
         onDismiss={() => setShowDialog(false)}
       />
-    </>
+    </View>
   );
 };
 
 export default EditableList;
 
+const ListItem = ({ item, index, onEdit, onDelete }) => (
+  <Surface style={styles.surface} mode="flat">
+    <List.Item
+      title={item.name}
+      style={styles.item}
+      right={() => (
+        <>
+          <IconButton
+            icon="pencil-outline"
+            onPress={() => onEdit(item, index)}
+          />
+          <IconButton
+            icon="trash-can-outline"
+            onPress={() => onDelete(index)}
+            style={{ marginRight: -20 }}
+          />
+        </>
+      )}
+    />
+  </Surface>
+);
+
 const styles = StyleSheet.create({
+  container: { flex: 1, paddingBottom: 92 },
   surface: {
     paddingHorizontal: 4,
     borderRadius: 12,
@@ -134,7 +162,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    right: 0,
+    right: 12,
     bottom: 16,
   },
 });

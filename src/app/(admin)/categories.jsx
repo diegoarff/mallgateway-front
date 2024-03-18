@@ -23,7 +23,10 @@ const Categories = () => {
 
   return (
     <>
-      <ScreenWrapper withInsets={false}>
+      <ScreenWrapper
+        withInsets={false}
+        contentContainerStyle={{ justifyContent: 'center' }}
+      >
         <Stack.Screen
           options={{
             header: ({ ...props }) => {
