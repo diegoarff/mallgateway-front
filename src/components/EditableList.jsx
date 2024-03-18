@@ -66,12 +66,17 @@ const EditableList = ({ items, itemsName, mutation }) => {
     <View style={styles.container}>
       {/* List */}
       <List.Section style={styles.section}>
-        {/* List header text */}
-        <View style={styles.subheader}>
+        {/* List header */}
+        <View style={styles.row}>
           <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
-          <Button disabled={areEqual} onPress={getList}>
-            Cancelar edición
-          </Button>
+          <View style={styles.row}>
+            <IconButton icon="restore" disabled={areEqual} onPress={getList} />
+            <IconButton
+              icon="content-save-outline"
+              disabled={areEqual}
+              onPress={handleSave}
+            />
+          </View>
         </View>
 
         {/* Items */}
@@ -143,6 +148,10 @@ const ListItem = ({ item, index, onEdit, onDelete }) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingBottom: 92 },
+  subheader: {
+    position: 'absolute',
+    top: 0,
+  },
   surface: {
     paddingHorizontal: 4,
     borderRadius: 12,
@@ -151,7 +160,7 @@ const styles = StyleSheet.create({
   item: {
     paddingVertical: -8,
   },
-  subheader: {
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
