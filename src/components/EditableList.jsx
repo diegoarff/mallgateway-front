@@ -12,12 +12,12 @@ import EditableListDialog from './EditableListDialog';
 import { useGlobalStore } from '../stores/global';
 
 const EditableList = ({ itemsName, mutation }) => {
-  const [editItem, setEditItem] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
 
   const listData = useGlobalStore((state) => state.listData);
-  const setListData = useGlobalStore((state) => state.setListData);
   const isListDataEqual = useGlobalStore((state) => state.isListDataEqual);
+  const deleteListItem = useGlobalStore((state) => state.deleteListItem);
+  const setEditItem = useGlobalStore((state) => state.setEditItem);
 
   const nonDeletedData = useMemo(
     () => listData.filter((item) => !item.deleted),
@@ -27,22 +27,6 @@ const EditableList = ({ itemsName, mutation }) => {
   const toggleDialog = (item = null, index = null) => {
     setShowDialog((prev) => !prev);
     setEditItem({ ...item, index });
-  };
-
-  const onConfirm = (item) => {
-    const newData = [...listData];
-    if (item.index !== null) {
-      newData[item.index] = item;
-    } else {
-      newData.push(item);
-    }
-    setListData(newData);
-  };
-
-  const handleDelete = (index) => {
-    const newData = [...listData];
-    newData[index].deleted = true;
-    setListData(newData, false);
   };
 
   const handleSave = () => {
@@ -65,7 +49,7 @@ const EditableList = ({ itemsName, mutation }) => {
                 item={item}
                 index={idx}
                 onEdit={toggleDialog}
-                onDelete={handleDelete}
+                onDelete={deleteListItem}
               />
             )
         )}
@@ -88,13 +72,11 @@ const EditableList = ({ itemsName, mutation }) => {
           style={styles.fab}
           onPress={() => toggleDialog()}
         />
+        <EditableListDialog
+          visible={showDialog}
+          onDismiss={() => setShowDialog(false)}
+        />
       </Portal>
-      <EditableListDialog
-        visible={showDialog}
-        editItem={editItem}
-        onConfirm={onConfirm}
-        onDismiss={() => setShowDialog(false)}
-      />
     </View>
   );
 };
@@ -138,7 +120,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   button: {
     marginTop: 12,
   },

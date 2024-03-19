@@ -14,11 +14,13 @@ import { useGlobalStore } from '../../stores/global';
 const Categories = () => {
   const { data, error, isError, isPending } = useGetStoreCategories();
   const processCategories = useProcessStoreCategories();
-  const setListData = useGlobalStore((state) => state.setListData);
+  const initializeListData = useGlobalStore(
+    (state) => state.initializeListData
+  );
 
   useEffect(() => {
     if (data) {
-      setListData(data, true);
+      initializeListData(data);
     }
   }, [data]);
 
@@ -43,8 +45,7 @@ export default Categories;
 
 const CategoriesHeader = ({ mutation }) => {
   const listData = useGlobalStore((state) => state.listData);
-  const setListData = useGlobalStore((state) => state.setListData);
-  const initialListData = useGlobalStore((state) => state.initialListData);
+  const undoListChanges = useGlobalStore((state) => state.undoListChanges);
   const isListDataEqual = useGlobalStore((state) => state.isListDataEqual);
 
   const headerActions = [
@@ -52,13 +53,11 @@ const CategoriesHeader = ({ mutation }) => {
       icon: 'restore',
       disabled: isListDataEqual() || mutation.isPending,
       tooltip: 'Deshacer cambios',
-      onPress: () => {
-        setListData(initialListData, true);
-      },
+      onPress: undoListChanges,
     },
     {
       icon: 'content-save-outline',
-      disabled: isListDataEqual(),
+      disabled: isListDataEqual() || mutation.isPending,
       tooltip: 'Guardar cambios',
       onPress: () => {
         mutation.mutate(listData);

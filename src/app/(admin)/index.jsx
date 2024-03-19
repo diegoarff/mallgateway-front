@@ -1,16 +1,10 @@
-import {
-  Appbar,
-  Avatar,
-  Icon,
-  Surface,
-  Text,
-  useTheme,
-} from 'react-native-paper';
+import { Appbar, Avatar, Text, useTheme } from 'react-native-paper';
 import { Stack, useRouter } from 'expo-router';
 import ScreenWrapper from '../../components/ScreenWrapper';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { appSettings } from '../../settings';
 import { useAuthStore } from '../../stores/auth';
+import DashboardItem from '../../components/DashboardItem';
 
 const Index = () => {
   const router = useRouter();
@@ -26,17 +20,17 @@ const Index = () => {
         Panel de administración
       </Text>
 
-      <MenuItem
+      <DashboardItem
         icon="store"
         title="Tiendas"
         onPress={() => router.push('(admin)/stores')}
       />
-      <MenuItem
+      <DashboardItem
         icon="label-outline"
         title="Categorías de tiendas"
         onPress={() => router.push('(admin)/categories')}
       />
-      <MenuItem
+      <DashboardItem
         icon="key-variant"
         title="Configuración de usuario"
         onPress={() => router.push('(admin)/user-settings')}
@@ -69,17 +63,6 @@ const AdminHeader = () => {
   );
 };
 
-const MenuItem = ({ icon, title, onPress }) => {
-  return (
-    <Pressable onPress={onPress}>
-      <Surface mode="flat" style={styles.menuItem}>
-        <Icon source={icon} size={28} />
-        <Text variant="titleMedium">{title}</Text>
-      </Surface>
-    </Pressable>
-  );
-};
-
 export default Index;
 
 const styles = StyleSheet.create({
@@ -87,12 +70,5 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     gap: 12,
   },
-  text: { marginBottom: 12 },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    padding: 24,
-    borderRadius: 12,
-  },
+  text: { marginVertical: 12 },
 });
