@@ -1,9 +1,9 @@
-import { useAuthStore } from '../../stores/auth';
-import { useLogin } from '../../services/hooks/auth';
-import FormInput from '../../components/forms/FormInput';
-import { Button } from 'react-native-paper';
-import { useForm } from 'react-hook-form';
-import ScreenWrapper from '../../components/ScreenWrapper';
+import { useAuthStore } from "../../stores/auth";
+import { useLogin } from "../../services/hooks/auth";
+import FormInput from "../../components/forms/FormInput";
+import { Button } from "react-native-paper";
+import { useForm } from "react-hook-form";
+import ScreenWrapper from "../../components/ScreenWrapper";
 
 const Login = () => {
   const { mutate: login, isPending } = useLogin();
@@ -16,7 +16,7 @@ const Login = () => {
   };
 
   const handleLogin = (role) => {
-    doLogin({ role }, 'token');
+    doLogin({ role }, "token");
   };
 
   return (
@@ -27,8 +27,8 @@ const Login = () => {
         placeholder="Usuario o correo electrónico"
         control={control}
         rules={{
-          required: 'Usuario o correo electrónico es requerido',
-          minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+          required: "Usuario o correo electrónico es requerido",
+          minLength: { value: 2, message: "Mínimo 2 caracteres" },
         }}
       />
       <FormInput
@@ -37,8 +37,8 @@ const Login = () => {
         placeholder="Contraseña"
         control={control}
         rules={{
-          required: 'Contraseña es requerida',
-          minLength: { value: 6, message: 'Mínimo 6 caracteres' },
+          required: "Contraseña es requerida",
+          minLength: { value: 6, message: "Mínimo 6 caracteres" },
         }}
         secureTextEntry
       />
@@ -50,16 +50,16 @@ const Login = () => {
       >
         Iniciar sesión
       </Button>
-      <Button mode="text" onPress={() => handleLogin('guest')}>
+      <Button mode="text" onPress={() => handleLogin("guest")}>
         Continuar como invitado
       </Button>
-      <Button mode="contained" onPress={() => handleLogin('admin')}>
+      <Button mode="contained" onPress={() => handleLogin("admin")}>
         Login as Admin
       </Button>
-      <Button mode="contained" onPress={() => handleLogin('store')}>
+      <Button mode="contained" onPress={() => handleLogin("store")}>
         Login as Store
       </Button>
-      <Button mode="contained" onPress={() => handleLogin('user')}>
+      <Button mode="contained" onPress={() => handleLogin("user")}>
         Login as User
       </Button>
     </ScreenWrapper>

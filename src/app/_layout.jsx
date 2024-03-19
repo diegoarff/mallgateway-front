@@ -1,4 +1,4 @@
-import { View, useColorScheme } from 'react-native';
+import { View, useColorScheme } from "react-native";
 import {
   useFonts,
   Inter_300Light,
@@ -7,25 +7,25 @@ import {
   Inter_600SemiBold,
   Inter_700Bold,
   Inter_900Black,
-} from '@expo-google-fonts/inter';
+} from "@expo-google-fonts/inter";
 
-import { Slot, useRouter, useSegments } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import * as SystemUI from 'expo-system-ui';
-import { useCallback, useEffect, useMemo } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from '../stores/auth';
-import { PaperProvider } from 'react-native-paper';
-import { ThemeProvider } from '@react-navigation/native';
-import ROLES from '../utils/roles';
-import Snack from '../components/Snack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { MallLightTheme, MallDarkTheme } from '../settings';
+import { Slot, useRouter, useSegments } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
+import { useCallback, useEffect, useMemo } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuthStore } from "../stores/auth";
+import { PaperProvider } from "react-native-paper";
+import { ThemeProvider } from "@react-navigation/native";
+import ROLES from "../utils/roles";
+import Snack from "../components/Snack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { MallLightTheme, MallDarkTheme } from "../settings";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'index',
+  initialRouteName: "index",
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -37,17 +37,17 @@ const MainLayout = () => {
 
   const roleRoutes = useMemo(() => {
     return {
-      [ROLES.ADMIN]: '(admin)',
-      [ROLES.STORE]: '(store)',
-      [ROLES.USER]: '(user)',
-      [ROLES.GUEST]: '(user)',
+      [ROLES.ADMIN]: "(admin)",
+      [ROLES.STORE]: "(store)",
+      [ROLES.USER]: "(user)",
+      [ROLES.GUEST]: "(user)",
     };
   }, []);
 
   useEffect(() => {
     if (!user) {
       // Redirect to the login page if the user is not logged in.
-      return router.replace('/(auth)/login');
+      return router.replace("/(auth)/login");
     }
 
     const correspondingRoute = roleRoutes[user.role];
@@ -68,7 +68,7 @@ const MainLayout = () => {
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? MallDarkTheme : MallLightTheme;
+  const theme = colorScheme === "dark" ? MallDarkTheme : MallLightTheme;
 
   SystemUI.setBackgroundColorAsync(theme.colors.background);
 

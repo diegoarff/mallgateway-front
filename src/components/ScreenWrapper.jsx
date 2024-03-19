@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Portal, useTheme } from 'react-native-paper';
+import { ScrollView, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Portal, useTheme } from "react-native-paper";
 
 const ScreenWrapper = ({
   children,

@@ -1,5 +1,5 @@
-import { Portal, Snackbar } from 'react-native-paper';
-import { useGlobalStore } from '../stores/global';
+import { Portal, Snackbar } from "react-native-paper";
+import { useGlobalStore } from "../stores/global";
 const Snack = () => {
   const snackbar = useGlobalStore((state) => state.snackbar);
   const hideSnackbar = useGlobalStore((state) => state.hideSnackbar);

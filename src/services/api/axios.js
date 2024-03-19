@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { useAuthStore } from '../../stores/auth';
+import axios from "axios";
+import { useAuthStore } from "../../stores/auth";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 

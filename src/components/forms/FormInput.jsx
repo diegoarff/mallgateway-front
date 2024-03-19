@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useController } from 'react-hook-form';
-import { HelperText, TextInput } from 'react-native-paper';
+import { useState } from "react";
+import { useController } from "react-hook-form";
+import { HelperText, TextInput } from "react-native-paper";
 
 const FormInput = ({
   control,
   name,
   helperText,
-  icon = '',
+  icon = "",
   rules = {},
   secureTextEntry = false,
   ...rest
@@ -34,14 +34,14 @@ const FormInput = ({
         right={
           secureTextEntry ? (
             <TextInput.Icon
-              icon={secure ? 'eye' : 'eye-off'}
+              icon={secure ? "eye" : "eye-off"}
               onPress={() => setSecure((prev) => !prev)}
             />
           ) : null
         }
         {...rest}
       />
-      <HelperText type={error ? 'error' : 'info'} visible={error || helperText}>
+      <HelperText type={error ? "error" : "info"} visible={error || helperText}>
         {error?.message || helperText}
       </HelperText>
     </>

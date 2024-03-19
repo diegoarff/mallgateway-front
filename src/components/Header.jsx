@@ -1,4 +1,4 @@
-import { Appbar, Tooltip } from 'react-native-paper';
+import { Appbar, Tooltip } from "react-native-paper";
 
 const Header = ({ navigation, back, options, actions }) => {
   return (

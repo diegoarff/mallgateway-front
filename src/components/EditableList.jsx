@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import {
   Button,
   FAB,
@@ -7,9 +7,9 @@ import {
   List,
   Portal,
   Surface,
-} from 'react-native-paper';
-import EditableListDialog from './EditableListDialog';
-import { useGlobalStore } from '../stores/global';
+} from "react-native-paper";
+import EditableListDialog from "./EditableListDialog";
+import { useGlobalStore } from "../stores/global";
 
 const EditableList = ({ itemsName, mutation }) => {
   const [showDialog, setShowDialog] = useState(false);
@@ -116,15 +116,15 @@ const styles = StyleSheet.create({
     paddingVertical: -8,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   button: {
     marginTop: 12,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     bottom: 16,
   },

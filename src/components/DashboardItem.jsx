@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from 'react-native';
-import { Icon, Surface, Text } from 'react-native-paper';
+import { Pressable, StyleSheet } from "react-native";
+import { Icon, Surface, Text } from "react-native-paper";
 
 const DashboardItem = ({ icon, title, onPress }) => {
   return (
@@ -16,8 +16,8 @@ export default DashboardItem;
 
 const styles = StyleSheet.create({
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 16,
     padding: 24,
     borderRadius: 12,

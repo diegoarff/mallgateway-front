@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
-import Header from '../../components/Header';
+import { Stack } from "expo-router";
+import Header from "../../components/Header";
 
 const AdminLayout = () => {
   return (
@@ -14,31 +14,31 @@ const AdminLayout = () => {
       <Stack.Screen
         name="categories"
         options={{
-          headerTitle: 'Categorías de tiendas',
+          headerTitle: "Categorías de tiendas",
         }}
       />
       <Stack.Screen
         name="register-store"
         options={{
-          headerTitle: 'Registrar tienda',
+          headerTitle: "Registrar tienda",
         }}
       />
       <Stack.Screen
         name="stores"
         options={{
-          headerTitle: 'Tiendas',
+          headerTitle: "Tiendas",
         }}
       />
       <Stack.Screen
         name="socials"
         options={{
-          headerTitle: 'Redes sociales',
+          headerTitle: "Redes sociales",
         }}
       />
       <Stack.Screen
         name="user-settings"
         options={{
-          headerTitle: 'Configuración de usuario',
+          headerTitle: "Configuración de usuario",
         }}
       />
     </Stack>

@@ -1,10 +1,10 @@
-import { Appbar, Avatar, Text, useTheme } from 'react-native-paper';
-import { Stack, useRouter } from 'expo-router';
-import ScreenWrapper from '../../components/ScreenWrapper';
-import { StyleSheet } from 'react-native';
-import { appSettings } from '../../settings';
-import { useAuthStore } from '../../stores/auth';
-import DashboardItem from '../../components/DashboardItem';
+import { Appbar, Avatar, Text, useTheme } from "react-native-paper";
+import { Stack, useRouter } from "expo-router";
+import ScreenWrapper from "../../components/ScreenWrapper";
+import { StyleSheet } from "react-native";
+import { appSettings } from "../../settings";
+import { useAuthStore } from "../../stores/auth";
+import DashboardItem from "../../components/DashboardItem";
 
 const Index = () => {
   const router = useRouter();
@@ -23,17 +23,17 @@ const Index = () => {
       <DashboardItem
         icon="store"
         title="Tiendas"
-        onPress={() => router.push('(admin)/stores')}
+        onPress={() => router.push("(admin)/stores")}
       />
       <DashboardItem
         icon="label-outline"
         title="Categorías de tiendas"
-        onPress={() => router.push('(admin)/categories')}
+        onPress={() => router.push("(admin)/categories")}
       />
       <DashboardItem
         icon="key-variant"
         title="Configuración de usuario"
-        onPress={() => router.push('(admin)/user-settings')}
+        onPress={() => router.push("(admin)/user-settings")}
       />
     </ScreenWrapper>
   );

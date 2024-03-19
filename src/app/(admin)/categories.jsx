@@ -1,15 +1,15 @@
-import { Text } from 'react-native-paper';
+import { Text } from "react-native-paper";
 import {
   useGetStoreCategories,
   useProcessStoreCategories,
-} from '../../services/hooks/admin';
-import ScreenWrapper from '../../components/ScreenWrapper';
-import Loader from '../../components/Loader';
-import EditableList from '../../components/EditableList';
-import { Stack } from 'expo-router';
-import Header from '../../components/Header';
-import { useEffect } from 'react';
-import { useGlobalStore } from '../../stores/global';
+} from "../../services/hooks/admin";
+import ScreenWrapper from "../../components/ScreenWrapper";
+import Loader from "../../components/Loader";
+import EditableList from "../../components/EditableList";
+import { Stack } from "expo-router";
+import Header from "../../components/Header";
+import { useEffect } from "react";
+import { useGlobalStore } from "../../stores/global";
 
 const Categories = () => {
   const { data, error, isError, isPending } = useGetStoreCategories();
@@ -27,7 +27,7 @@ const Categories = () => {
   return (
     <ScreenWrapper
       withInsets={false}
-      contentContainerStyle={{ justifyContent: 'center' }}
+      contentContainerStyle={{ justifyContent: "center" }}
     >
       {isPending && <Loader />}
       {isError && <Text>Error: {error.message}</Text>}
@@ -50,15 +50,15 @@ const CategoriesHeader = ({ mutation }) => {
 
   const headerActions = [
     {
-      icon: 'restore',
+      icon: "restore",
       disabled: isListDataEqual() || mutation.isPending,
-      tooltip: 'Deshacer cambios',
+      tooltip: "Deshacer cambios",
       onPress: undoListChanges,
     },
     {
-      icon: 'content-save-outline',
+      icon: "content-save-outline",
       disabled: isListDataEqual() || mutation.isPending,
-      tooltip: 'Guardar cambios',
+      tooltip: "Guardar cambios",
       onPress: () => {
         mutation.mutate(listData);
       },

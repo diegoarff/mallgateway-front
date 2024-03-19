@@ -5,9 +5,9 @@ import {
   TextInput,
   HelperText,
   useTheme,
-} from 'react-native-paper';
-import { useCallback, useEffect, useState } from 'react';
-import { useGlobalStore } from '../stores/global';
+} from "react-native-paper";
+import { useCallback, useEffect, useState } from "react";
+import { useGlobalStore } from "../stores/global";
 
 const EditableListDialog = ({ visible, onDismiss }) => {
   const theme = useTheme();
@@ -15,10 +15,10 @@ const EditableListDialog = ({ visible, onDismiss }) => {
   const editListItem = useGlobalStore((state) => state.editListItem);
   const addListItem = useGlobalStore((state) => state.addListItem);
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   useEffect(() => {
-    setValue(editItem?.name || '');
+    setValue(editItem?.name || "");
   }, [editItem]);
 
   const handleConfirm = useCallback(() => {
@@ -35,7 +35,7 @@ const EditableListDialog = ({ visible, onDismiss }) => {
     <Portal>
       <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>
-          {editItem?.index !== null ? 'Editar' : 'Añadir'}
+          {editItem?.index !== null ? "Editar" : "Añadir"}
         </Dialog.Title>
         <Dialog.Content style={{ marginBottom: 20 }}>
           <TextInput

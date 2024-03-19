@@ -1,8 +1,8 @@
 module.exports = {
   root: true,
-  extends: ['universe/native'],
+  extends: ["universe/native"],
   rules: {
-    'import/order': 'off',
-    'no-unused-vars': 'error',
+    "import/order": "off",
+    "no-unused-vars": "error",
   },
 };
