@@ -31,12 +31,6 @@ const AdminLayout = () => {
         }}
       />
       <Stack.Screen
-        name="socials"
-        options={{
-          headerTitle: "Redes sociales",
-        }}
-      />
-      <Stack.Screen
         name="user-settings"
         options={{
           headerTitle: "Configuración de usuario",

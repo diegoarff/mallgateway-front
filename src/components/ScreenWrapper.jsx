@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Portal, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 const ScreenWrapper = ({
   children,
@@ -24,7 +24,7 @@ const ScreenWrapper = ({
     },
   ];
   return (
-    <Portal.Host>
+    <>
       {withScrollView ? (
         <ScrollView
           {...rest}
@@ -39,7 +39,7 @@ const ScreenWrapper = ({
       ) : (
         <View style={[containerStyle, style]}>{children}</View>
       )}
-    </Portal.Host>
+    </>
   );
 };
 

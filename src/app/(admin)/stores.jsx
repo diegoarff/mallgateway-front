@@ -4,9 +4,12 @@ import Loader from "../../components/Loader";
 import { useGetStores } from "../../services/hooks/stores";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import SearchHeader from "../../components/SearchHeader";
+import { useDebouncedSearch } from "../../hooks/useDebouncedSearch";
 
 const Stores = () => {
   const { data, isPending, isError, error } = useGetStores();
+  const result = useDebouncedSearch(data);
   const router = useRouter();
 
   return (
@@ -15,9 +18,13 @@ const Stores = () => {
       {isError && <Text>Error: {error}</Text>}
       {data && (
         <>
+          <SearchHeader
+            placeholder="Buscar tiendas..."
+            onFilterButtonPress={() => console.log("filter")}
+          />
           <List.Section style={styles.list}>
-            <List.Subheader>{data.length} Tiendas</List.Subheader>
-            {data.map((store) => (
+            <List.Subheader>{result.length} Tiendas</List.Subheader>
+            {result.map((store) => (
               <StoreItem key={store.id} store={store} />
             ))}
           </List.Section>

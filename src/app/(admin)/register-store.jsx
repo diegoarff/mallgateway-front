@@ -6,6 +6,7 @@ import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
+import InfoText from "../../components/InfoText";
 
 const RegisterStore = () => {
   const { control, handleSubmit } = useForm();
@@ -80,6 +81,7 @@ const RegisterStore = () => {
       >
         Registrar
       </Button>
+      <InfoText info="Una vez creada, solo la tienda podrá editar su información" />
     </ScreenWrapper>
   );
 };
@@ -89,5 +91,6 @@ export default RegisterStore;
 const styles = StyleSheet.create({
   button: {
     marginTop: 12,
+    marginBottom: 28,
   },
 });
