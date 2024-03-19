@@ -31,6 +31,7 @@ const FormInput = ({
         onBlur={onBlur}
         error={!!error}
         secureTextEntry={secure}
+        autoCapitalize="none"
         right={
           secureTextEntry ? (
             <TextInput.Icon

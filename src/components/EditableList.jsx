@@ -84,7 +84,7 @@ const EditableList = ({ itemsName, mutation }) => {
 export default EditableList;
 
 const ListItem = ({ item, index, onEdit, onDelete }) => (
-  <Surface style={styles.surface} mode="flat">
+  <Surface style={styles.surface} mode="flat" elevation={2}>
     <List.Item
       title={item.name}
       style={styles.item}

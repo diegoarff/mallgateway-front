@@ -1,5 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getStoreCategories, processStoreCategories } from "../api/admin";
+import {
+  createStore,
+  getStoreCategories,
+  processStoreCategories,
+} from "../api/admin";
 import { useGlobalStore } from "../../stores/global";
 
 export const useGetStoreCategories = () => {
@@ -18,6 +22,22 @@ export const useProcessStoreCategories = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["store-categories"] });
       showSnackbar("Categorías actualizadas");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useCreateStore = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (store) => createStore(store),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      showSnackbar("Tienda creada");
     },
     onError: (error) => {
       showSnackbar(error);

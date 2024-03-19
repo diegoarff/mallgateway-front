@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 const AdminLayout = () => {
   return (
     <Stack
+      initialRouteName="index"
       screenOptions={{
         header: ({ ...props }) => {
           return <Header {...props} />;

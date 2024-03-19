@@ -24,6 +24,7 @@ const Login = () => {
       <FormInput
         mode="outlined"
         name="identifier"
+        label="Usuario o correo electrónico"
         placeholder="Usuario o correo electrónico"
         control={control}
         rules={{
@@ -34,6 +35,7 @@ const Login = () => {
       <FormInput
         mode="outlined"
         name="password"
+        label="Contraseña"
         placeholder="Contraseña"
         control={control}
         rules={{

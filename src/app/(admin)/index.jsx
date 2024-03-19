@@ -1,9 +1,8 @@
-import { Appbar, Avatar, Text, useTheme } from "react-native-paper";
+import { Appbar, Avatar, Text } from "react-native-paper";
 import { Stack, useRouter } from "expo-router";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import { StyleSheet } from "react-native";
 import { appSettings } from "../../settings";
-import { useAuthStore } from "../../stores/auth";
 import DashboardItem from "../../components/DashboardItem";
 
 const Index = () => {
@@ -30,18 +29,12 @@ const Index = () => {
         title="Categorías de tiendas"
         onPress={() => router.push("(admin)/categories")}
       />
-      <DashboardItem
-        icon="key-variant"
-        title="Configuración de usuario"
-        onPress={() => router.push("(admin)/user-settings")}
-      />
     </ScreenWrapper>
   );
 };
 
 const AdminHeader = () => {
-  const theme = useTheme();
-  const doLogout = useAuthStore((state) => state.doLogout);
+  const router = useRouter();
   return (
     <Stack.Screen
       options={{
@@ -51,9 +44,9 @@ const AdminHeader = () => {
               <Avatar.Image source={{ uri: appSettings.mallLogo }} size={40} />
               <Appbar.Content title={appSettings.mallName} />
               <Appbar.Action
-                icon="logout"
-                color={theme.colors.error}
-                onPress={doLogout}
+                icon="account-circle-outline"
+                size={28}
+                onPress={() => router.push("(admin)/user-settings")}
               />
             </Appbar.Header>
           );
