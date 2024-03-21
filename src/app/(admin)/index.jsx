@@ -14,11 +14,6 @@ const Index = () => {
       title: "Categorías de tiendas",
       route: "categories",
     },
-    {
-      icon: "office-building-outline",
-      title: "Centro comercial",
-      route: "mall",
-    },
   ];
 
   return (

@@ -25,12 +25,6 @@ const AdminLayout = () => {
         }}
       />
       <Stack.Screen
-        name="mall"
-        options={{
-          headerTitle: "Centro comercial",
-        }}
-      />
-      <Stack.Screen
         name="register-store"
         options={{
           headerTitle: "Registrar tienda",
