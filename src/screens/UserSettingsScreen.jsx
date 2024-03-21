@@ -5,14 +5,28 @@ import { useForm } from "react-hook-form";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { StyleSheet, View } from "react-native";
 import FormInput from "../components/forms/FormInput";
+import { useEffect } from "react";
 
 const UserSettingsScreen = () => {
   const doLogout = useAuthStore((state) => state.doLogout);
+  const user = useAuthStore((state) => state.user);
   const theme = useTheme();
 
   const { mutate: changePassword, isPending } = useChangePassword();
 
-  const { control, handleSubmit, watch, reset } = useForm();
+  const {
+    control: userControl,
+    handleSubmit: handleUserSubmit,
+    reset: resetUser,
+  } = useForm();
+
+  const {
+    control: passwordControl,
+    handleSubmit: handlePasswordSubmit,
+    reset: passwordReset,
+    watch,
+  } = useForm();
+
   const watchAllFields = watch();
   const isSomeValueEmpty =
     Object.values(watchAllFields).some((x) => x === undefined || x === "") ||
@@ -20,16 +34,70 @@ const UserSettingsScreen = () => {
 
   const passwordSubmitHandler = (data) => {
     changePassword(data);
-    reset({
+    passwordReset({
       oldPassword: "",
       newPassword: "",
       passwordConfirmation: "",
     });
   };
 
+  useEffect(() => {
+    resetUser({
+      username: user.username,
+      email: user.email,
+    });
+  }, [user]);
+
   return (
     <ScreenWrapper withInsets={false} contentContainerStyle={styles.screen}>
-      <View style={styles.passwordForm}>
+      {/* Change user settings */}
+      <View style={styles.form}>
+        <View style={styles.textContainer}>
+          <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
+            Cambiar opciones de usuario
+          </Text>
+          <Text>
+            Para cambiar los datos de su usuario, ajuste a continuación
+          </Text>
+        </View>
+        <View>
+          <FormInput
+            mode="outlined"
+            name="username"
+            label="Usuario"
+            placeholder="Usuario"
+            control={userControl}
+            rules={{
+              required: "Contraseña actual es requerida",
+            }}
+          />
+          <FormInput
+            mode="outlined"
+            name="email"
+            label="Email"
+            placeholder="Email"
+            control={userControl}
+            rules={{
+              required: "Nueva contraseña es requerida",
+              minLength: { value: 6, message: "Mínimo 6 caracteres" },
+              validate: (value) =>
+                value !== watchAllFields.oldPassword ||
+                "La nueva contraseña debe ser diferente a la actual",
+            }}
+          />
+        </View>
+        <Button
+          mode="contained"
+          onPress={handleUserSubmit(passwordSubmitHandler)}
+          loading={isPending}
+          disabled={isSomeValueEmpty || isPending}
+        >
+          Actualizar
+        </Button>
+      </View>
+
+      {/* Change password */}
+      <View style={styles.form}>
         <View style={styles.textContainer}>
           <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
             Cambiar contraseña
@@ -44,7 +112,7 @@ const UserSettingsScreen = () => {
             name="oldPassword"
             label="Contraseña actual"
             placeholder="Contraseña actual"
-            control={control}
+            control={passwordControl}
             rules={{
               required: "Contraseña actual es requerida",
             }}
@@ -55,7 +123,7 @@ const UserSettingsScreen = () => {
             name="newPassword"
             label="Nueva contraseña"
             placeholder="Nueva contraseña"
-            control={control}
+            control={passwordControl}
             rules={{
               required: "Nueva contraseña es requerida",
               minLength: { value: 6, message: "Mínimo 6 caracteres" },
@@ -70,7 +138,7 @@ const UserSettingsScreen = () => {
             name="passwordConfirmation"
             label="Confirmar contraseña"
             placeholder="Confirmar contraseña"
-            control={control}
+            control={passwordControl}
             rules={{
               required: "Confirmar contraseña es requerida",
               minLength: { value: 6, message: "Mínimo 6 caracteres" },
@@ -83,7 +151,7 @@ const UserSettingsScreen = () => {
         </View>
         <Button
           mode="contained"
-          onPress={handleSubmit(passwordSubmitHandler)}
+          onPress={handlePasswordSubmit(passwordSubmitHandler)}
           loading={isPending}
           disabled={isSomeValueEmpty || isPending}
         >
@@ -105,8 +173,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 32,
   },
-  passwordForm: {
+  form: {
     gap: 16,
+    marginBottom: 16,
   },
   textContainer: {
     gap: 4,
