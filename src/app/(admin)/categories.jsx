@@ -1,4 +1,4 @@
-import { Text } from "react-native-paper";
+import { Appbar, Text } from "react-native-paper";
 import {
   useGetStoreCategories,
   useProcessStoreCategories,
@@ -25,53 +25,64 @@ const Categories = () => {
   }, [data]);
 
   return (
-    <ScreenWrapper
-      withInsets={false}
-      contentContainerStyle={{ justifyContent: "center" }}
-    >
-      {isPending && <Loader />}
-      {isError && <Text>Error: {error.message}</Text>}
-      {data && (
-        <>
-          <CategoriesHeader mutation={processCategories} />
-          <EditableList itemsName="categorías" mutation={processCategories} />
-        </>
-      )}
-    </ScreenWrapper>
+    <>
+      <Stack.Screen
+        options={{
+          header: (props) => (
+            // Defined below
+            <CategoriesHeader mutation={processCategories} {...props} />
+          ),
+        }}
+      />
+      <ScreenWrapper
+        withInsets={false}
+        contentContainerStyle={{ justifyContent: "center" }}
+      >
+        {isPending && <Loader />}
+        {isError && <Text>Error: {error.message}</Text>}
+        {data && (
+          <>
+            <EditableList itemsName="categorías" mutation={processCategories} />
+          </>
+        )}
+      </ScreenWrapper>
+    </>
   );
 };
 
 export default Categories;
 
-const CategoriesHeader = ({ mutation }) => {
+const CategoriesHeader = ({ mutation, ...props }) => {
   const listData = useGlobalStore((state) => state.listData);
   const undoListChanges = useGlobalStore((state) => state.undoListChanges);
   const isListDataEqual = useGlobalStore((state) => state.isListDataEqual);
 
   const headerActions = [
     {
-      icon: "restore",
-      disabled: isListDataEqual() || mutation.isPending,
+      component: (
+        <Appbar.Action
+          icon="restore"
+          disabled={isListDataEqual() || mutation.isPending}
+          onPress={undoListChanges}
+          tooltip="Deshacer cambios"
+        />
+      ),
       tooltip: "Deshacer cambios",
-      onPress: undoListChanges,
     },
     {
-      icon: "content-save-outline",
-      disabled: isListDataEqual() || mutation.isPending,
+      component: (
+        <Appbar.Action
+          icon="content-save-outline"
+          disabled={isListDataEqual() || mutation.isPending}
+          onPress={() => {
+            mutation.mutate(listData);
+          }}
+          tooltip="Guardar cambios"
+        />
+      ),
       tooltip: "Guardar cambios",
-      onPress: () => {
-        mutation.mutate(listData);
-      },
     },
   ];
 
-  return (
-    <Stack.Screen
-      options={{
-        header: ({ ...props }) => {
-          return <Header {...props} actions={headerActions} />;
-        },
-      }}
-    />
-  );
+  return <Header {...props} actions={headerActions} />;
 };
