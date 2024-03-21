@@ -1,12 +1,19 @@
 import { Pressable, StyleSheet } from "react-native";
-import { Icon, Surface, Text } from "react-native-paper";
+import { Icon, Surface, Text, useTheme } from "react-native-paper";
 
 const DashboardItem = ({ icon, title, onPress }) => {
+  const theme = useTheme();
+
   return (
     <Pressable onPress={onPress}>
-      <Surface mode="flat" style={styles.menuItem}>
-        <Icon source={icon} size={28} />
-        <Text variant="titleMedium">{title}</Text>
+      <Surface
+        mode="flat"
+        style={[styles.menuItem, { backgroundColor: theme.colors.primary }]}
+      >
+        <Icon source={icon} size={28} color={theme.colors.onPrimary} />
+        <Text variant="titleMedium" style={{ color: theme.colors.onPrimary }}>
+          {title}
+        </Text>
       </Surface>
     </Pressable>
   );

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "../../stores/auth";
 import { useGlobalStore } from "../../stores/global";
-import { login, register } from "../api/auth";
+import { login, register, changePassword } from "../api/auth";
 
 export const useAuthMutation = (fn) => {
   const doLogin = useAuthStore((state) => state.doLogin);
@@ -25,4 +25,18 @@ export const useLogin = () => {
 
 export const useRegister = () => {
   return useAuthMutation(register);
+};
+
+export const useChangePassword = () => {
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (data) => changePassword(data),
+    onSuccess: () => {
+      showSnackbar("Contraseña cambiada con éxito");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
 };

@@ -1,7 +1,7 @@
 import UserSettingsScreen from "../../screens/UserSettingsScreen";
 
-const AdminUserSettings = () => {
+const StoreUserSettings = () => {
   return <UserSettingsScreen />;
 };
 
-export default AdminUserSettings;
+export default StoreUserSettings;

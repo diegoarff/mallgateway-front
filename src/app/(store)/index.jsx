@@ -1,14 +1,36 @@
-import { View, Text } from "react-native";
-import { useAuthStore } from "../../stores/auth";
+import DashboardList from "../../components/DashboardList";
+import MallHeader from "../../components/MallHeader";
+import ScreenWrapper from "../../components/ScreenWrapper";
 
 const Index = () => {
-  const doLogout = useAuthStore((state) => state.doLogout);
+  const items = [
+    {
+      icon: "store-outline",
+      title: "Tienda",
+      route: "store",
+    },
+    {
+      icon: "shopping-outline",
+      title: "Productos",
+      route: "products",
+    },
+    {
+      icon: "label-percent-outline",
+      title: "Promociones",
+      route: "promos",
+    },
+    {
+      icon: "note-text-outline",
+      title: "Reseñas",
+      route: "reviews",
+    },
+  ];
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
-      <Text>Store</Text>
-      <Text onPress={doLogout}>Logout</Text>
-    </View>
+    <ScreenWrapper>
+      <MallHeader from="store" />
+      <DashboardList items={items} />
+    </ScreenWrapper>
   );
 };
 

@@ -1,15 +1,9 @@
 import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  Button,
-  FAB,
-  IconButton,
-  List,
-  Portal,
-  Surface,
-} from "react-native-paper";
+import { Button, FAB, IconButton, List, Portal } from "react-native-paper";
 import EditableListDialog from "./EditableListDialog";
 import { useGlobalStore } from "../stores/global";
+import CustomSurface from "./CustomSurface";
 
 const EditableList = ({ itemsName, mutation }) => {
   const [showDialog, setShowDialog] = useState(false);
@@ -84,7 +78,7 @@ const EditableList = ({ itemsName, mutation }) => {
 export default EditableList;
 
 const ListItem = ({ item, index, onEdit, onDelete }) => (
-  <Surface style={styles.surface} mode="flat" elevation={2}>
+  <CustomSurface>
     <List.Item
       title={item.name}
       style={styles.item}
@@ -102,15 +96,11 @@ const ListItem = ({ item, index, onEdit, onDelete }) => (
         </>
       )}
     />
-  </Surface>
+  </CustomSurface>
 );
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingBottom: 92 },
-  surface: {
-    paddingHorizontal: 4,
-    borderRadius: 12,
-  },
   section: { gap: 12 },
   item: {
     paddingVertical: -8,

@@ -13,21 +13,27 @@ const AdminLayout = () => {
     >
       <Stack.Screen name="index" />
       <Stack.Screen
+        name="stores"
+        options={{
+          headerTitle: "Tiendas",
+        }}
+      />
+      <Stack.Screen
         name="categories"
         options={{
           headerTitle: "Categorías de tiendas",
         }}
       />
       <Stack.Screen
-        name="register-store"
+        name="mall"
         options={{
-          headerTitle: "Registrar tienda",
+          headerTitle: "Centro comercial",
         }}
       />
       <Stack.Screen
-        name="stores"
+        name="register-store"
         options={{
-          headerTitle: "Tiendas",
+          headerTitle: "Registrar tienda",
         }}
       />
       <Stack.Screen
