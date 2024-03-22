@@ -1,12 +1,13 @@
-import { Avatar, FAB, List, Portal, Text } from "react-native-paper";
+import { Appbar, Avatar, FAB, List, Portal, Text } from "react-native-paper";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import Loader from "../../components/Loader";
 import { useGetStores } from "../../services/hooks/stores";
 import { StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
-import SearchHeader from "../../components/SearchHeader";
+import { Stack, useRouter } from "expo-router";
 import { useDebouncedSearch } from "../../hooks/useDebouncedSearch";
 import CustomSurface from "../../components/CustomSurface";
+import Header from "../../components/Header";
+import { useGlobalStore } from "../../stores/global";
 
 const Stores = () => {
   const { data, isPending, isError, error } = useGetStores();
@@ -15,15 +16,17 @@ const Stores = () => {
 
   return (
     <Portal.Host>
+      <Stack.Screen
+        options={{
+          // Defined below
+          header: (props) => <StoresHeader {...props} />,
+        }}
+      />
       <ScreenWrapper withInsets={false}>
         {isPending && <Loader />}
         {isError && <Text>Error: {error}</Text>}
         {data && (
           <>
-            <SearchHeader
-              placeholder="Buscar tiendas..."
-              onFilterButtonPress={() => console.log("filter")}
-            />
             <List.Section style={styles.list}>
               <List.Subheader>{result.length} Tiendas</List.Subheader>
               {result.map((store) => (
@@ -45,6 +48,8 @@ const Stores = () => {
   );
 };
 
+export default Stores;
+
 const StoreItem = ({ store }) => {
   return (
     <CustomSurface style={styles.surface}>
@@ -57,7 +62,34 @@ const StoreItem = ({ store }) => {
   );
 };
 
-export default Stores;
+const StoresHeader = ({ ...props }) => {
+  const searchQuery = useGlobalStore((state) => state.searchQuery);
+  const setSearchQuery = useGlobalStore((state) => state.setSearchQuery);
+
+  const headerActions = [
+    {
+      tooltip: "Filtrar",
+      component: (
+        <Appbar.Action
+          icon="filter-variant"
+          size={28}
+          onPress={() => console.log("filter")}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <Header
+      {...props}
+      withSearchbar
+      searchValue={searchQuery}
+      onSearchChange={setSearchQuery}
+      searchbarPlaceholder="Buscar tiendas..."
+      actions={headerActions}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
   list: {

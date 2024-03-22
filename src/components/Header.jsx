@@ -1,11 +1,65 @@
-import { Appbar, Tooltip } from "react-native-paper";
+import { useEffect, useState } from "react";
+import { Appbar, Searchbar, Tooltip, useTheme } from "react-native-paper";
 
-const Header = ({ navigation, back, options, title, left, actions, style }) => {
+const Header = ({
+  navigation,
+  back,
+  options,
+  title,
+  left,
+  actions,
+  withSearchbar,
+  searchValue,
+  searchbarPlaceholder,
+  onSearchChange,
+  style,
+}) => {
+  const theme = useTheme();
+  const [searchVisible, setSearchVisible] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setSearchVisible(false);
+    };
+  }, []);
+
   return (
     <Appbar.Header style={style}>
-      {!back && left}
-      {back && <Appbar.BackAction onPress={navigation.goBack} />}
-      <Appbar.Content title={title || options.headerTitle} />
+      {!searchVisible &&
+        (back ? <Appbar.BackAction onPress={navigation.goBack} /> : left)}
+
+      <Appbar.Content
+        title={
+          searchVisible ? (
+            <Searchbar
+              placeholder={searchbarPlaceholder}
+              value={searchValue}
+              onChangeText={onSearchChange}
+              icon="arrow-left"
+              style={{
+                backgroundColor: theme.colors.background,
+                marginLeft: -12,
+              }}
+              autoCorrect={false}
+              autoComplete="off"
+              autoFocus
+              placeholderTextColor={theme.colors.outline}
+              onIconPress={() => setSearchVisible(false)}
+            />
+          ) : (
+            title || options.headerTitle
+          )
+        }
+      />
+
+      {withSearchbar && !searchVisible && (
+        <Tooltip title="Buscar">
+          <Appbar.Action
+            icon="magnify"
+            onPress={() => setSearchVisible(true)}
+          />
+        </Tooltip>
+      )}
       {actions &&
         actions.map((action, i) => (
           <Tooltip key={i} title={action.tooltip}>

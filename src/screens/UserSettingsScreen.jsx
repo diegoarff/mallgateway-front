@@ -42,10 +42,12 @@ const UserSettingsScreen = () => {
   };
 
   useEffect(() => {
-    resetUser({
-      username: user.username,
-      email: user.email,
-    });
+    if (user) {
+      resetUser({
+        username: user.username,
+        email: user.email,
+      });
+    }
   }, [user]);
 
   return (
