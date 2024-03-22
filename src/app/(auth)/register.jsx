@@ -1,26 +1,19 @@
-import { useAuthStore } from "../../stores/auth";
-import { useLogin } from "../../services/hooks/auth";
-import FormInput from "../../components/forms/FormInput";
-import { Button, Text, useTheme } from "react-native-paper";
-import { useForm } from "react-hook-form";
-import ScreenWrapper from "../../components/ScreenWrapper";
 import { View } from "react-native";
+import { useRegister } from "../../services/hooks/auth";
+import { useForm } from "react-hook-form";
+import { Text, Button, useTheme } from "react-native-paper";
+import ScreenWrapper from "../../components/ScreenWrapper";
+import FormInput from "../../components/forms/FormInput";
 import { Link } from "expo-router";
 
-const Login = () => {
-  const { mutate: login, isPending } = useLogin();
+const Register = () => {
+  const { mutate: register, isPending } = useRegister();
   const { control, handleSubmit } = useForm();
 
   const theme = useTheme();
 
-  const doLogin = useAuthStore((state) => state.doLogin);
-
-  const loginHandler = (data) => {
-    login(data);
-  };
-
-  const handleLogin = (role) => {
-    doLogin({ role }, "token");
+  const registerHandler = (data) => {
+    register(data);
   };
 
   return (
@@ -42,7 +35,7 @@ const Login = () => {
             marginBottom: 8,
           }}
         >
-          Iniciar sesión
+          Registro
         </Text>
         <Text
           variant="bodyMedium"
@@ -50,7 +43,7 @@ const Login = () => {
             textAlign: "center",
           }}
         >
-          Ingresa tus datos para acceder a tu cuenta
+          Crea una cuenta para empezar a usar la aplicación
         </Text>
       </View>
 
@@ -63,13 +56,28 @@ const Login = () => {
       >
         <FormInput
           mode="outlined"
-          name="identifier"
-          label="Usuario o correo electrónico"
-          placeholder="Usuario o correo electrónico"
+          name="username"
+          label="Usuario"
+          placeholder="Usuario"
           control={control}
           rules={{
-            required: "Usuario o correo electrónico es requerido",
+            required: "Usuario es requerido",
             minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          }}
+        />
+        <FormInput
+          mode="outlined"
+          name="email"
+          label="Correo"
+          placeholder="Correo"
+          control={control}
+          rules={{
+            required: "Correo es requerido",
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Correo inválido",
+            },
           }}
         />
         <FormInput
@@ -88,47 +96,24 @@ const Login = () => {
 
       <Button
         mode="contained"
-        onPress={handleSubmit(loginHandler)}
+        onPress={handleSubmit(registerHandler)}
         loading={isPending}
       >
-        Iniciar sesión
+        Registrarse
       </Button>
 
       <Text style={{ textAlign: "center", marginTop: 20 }}>
-        ¿No tienes cuenta?{" "}
+        ¿Ya tienes una cuenta?{" "}
         <Text style={{ color: theme.colors.primary, fontWeight: "bold" }}>
-          <Link href="/register">Regístrate</Link>
+          <Link href="/login">Inicia sesión</Link>
         </Text>
       </Text>
 
       {/* <Button mode="text" onPress={() => handleLogin("guest")}>
         Continuar como invitado
       </Button> */}
-
-      {/* DEV PURPOSE ONLY - DELETE AFTER */}
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 16,
-          justifyContent: "center",
-          position: "absolute",
-          bottom: 20,
-          width: "100%",
-          backgroundColor: "red",
-        }}
-      >
-        <Button mode="contained" onPress={() => handleLogin("admin")}>
-          Admin
-        </Button>
-        <Button mode="contained" onPress={() => handleLogin("store")}>
-          Store
-        </Button>
-        <Button mode="contained" onPress={() => handleLogin("user")}>
-          User
-        </Button>
-      </View>
     </ScreenWrapper>
   );
 };
 
-export default Login;
+export default Register;
