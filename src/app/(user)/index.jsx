@@ -1,13 +1,12 @@
-import { View, Text } from "react-native";
-import { useAuthStore } from "../../stores/auth";
+import { Redirect } from "expo-router";
+import { View } from "react-native";
+import { useTheme } from "react-native-paper";
 
 const Index = () => {
-  const doLogout = useAuthStore((state) => state.doLogout);
-
+  const theme = useTheme();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
-      <Text>User</Text>
-      <Text onPress={doLogout}>Logout</Text>
+    <View style={{ flex: 1, backgroundColor: theme.colors.surface }}>
+      <Redirect href="home" />
     </View>
   );
 };

@@ -101,9 +101,9 @@ const Login = () => {
         </Text>
       </Text>
 
-      {/* <Button mode="text" onPress={() => handleLogin("guest")}>
+      <Button mode="text" onPress={() => handleLogin("guest")}>
         Continuar como invitado
-      </Button> */}
+      </Button>
 
       {/* DEV PURPOSE ONLY - DELETE AFTER */}
       <View

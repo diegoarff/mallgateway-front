@@ -10,6 +10,7 @@ const Snack = () => {
         visible={snackbar.visible}
         onDismiss={hideSnackbar}
         onIconPress={hideSnackbar}
+        duration={2000}
       >
         {snackbar.message}
       </Snackbar>

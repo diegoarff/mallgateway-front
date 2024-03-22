@@ -39,8 +39,8 @@ const MainLayout = () => {
     return {
       [ROLES.ADMIN]: "admin",
       [ROLES.STORE]: "store",
-      [ROLES.USER]: "(user)",
-      [ROLES.GUEST]: "(user)",
+      [ROLES.USER]: "",
+      [ROLES.GUEST]: "",
     };
   }, []);
 
