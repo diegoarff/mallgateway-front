@@ -13,7 +13,7 @@ const _layout = () => {
     >
       <Stack.Screen name="index" />
       <Stack.Screen
-        name="store"
+        name="store-settings"
         options={{
           headerTitle: "Tienda",
         }}

@@ -1,14 +1,14 @@
-import ScreenWrapper from "../../components/ScreenWrapper";
+import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useForm } from "react-hook-form";
-import { useCreateStore } from "../../services/hooks/admin";
-import FormInput from "../../components/forms/FormInput";
+import { useCreateStore } from "../../../services/hooks/admin";
+import FormInput from "../../../components/forms/FormInput";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import InfoText from "../../components/InfoText";
+import InfoText from "../../../components/InfoText";
 
-const RegisterStore = () => {
+const StoresRegister = () => {
   const { control, handleSubmit } = useForm();
   const router = useRouter();
   const { mutate: createStore, isPending, isSuccess } = useCreateStore();
@@ -86,7 +86,7 @@ const RegisterStore = () => {
   );
 };
 
-export default RegisterStore;
+export default StoresRegister;
 
 const styles = StyleSheet.create({
   button: {

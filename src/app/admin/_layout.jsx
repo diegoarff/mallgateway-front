@@ -15,7 +15,7 @@ const AdminLayout = () => {
       <Stack.Screen
         name="stores"
         options={{
-          headerTitle: "Tiendas",
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -24,12 +24,7 @@ const AdminLayout = () => {
           headerTitle: "Categorías de tiendas",
         }}
       />
-      <Stack.Screen
-        name="register-store"
-        options={{
-          headerTitle: "Registrar tienda",
-        }}
-      />
+
       <Stack.Screen
         name="user-settings"
         options={{

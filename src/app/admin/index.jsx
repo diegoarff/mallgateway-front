@@ -10,12 +10,12 @@ const Index = () => {
     {
       icon: "store-outline",
       title: "Tiendas",
-      route: "stores",
+      route: "admin/stores",
     },
     {
       icon: "label-outline",
       title: "Categorías de tiendas",
-      route: "categories",
+      route: "admin/categories",
     },
   ];
 
@@ -43,7 +43,7 @@ const AdminHeader = ({ ...props }) => {
       component: (
         <Appbar.Action
           icon="account-circle-outline"
-          onPress={() => router.push("(admin)/user-settings")}
+          onPress={() => router.push("admin/user-settings")}
         />
       ),
       tooltip: "Configuración de usuario",

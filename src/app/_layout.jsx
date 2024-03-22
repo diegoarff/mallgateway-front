@@ -37,8 +37,8 @@ const MainLayout = () => {
 
   const roleRoutes = useMemo(() => {
     return {
-      [ROLES.ADMIN]: "(admin)",
-      [ROLES.STORE]: "(store)",
+      [ROLES.ADMIN]: "admin",
+      [ROLES.STORE]: "store",
       [ROLES.USER]: "(user)",
       [ROLES.GUEST]: "(user)",
     };
@@ -47,7 +47,7 @@ const MainLayout = () => {
   useEffect(() => {
     if (!user) {
       // Redirect to the login page if the user is not logged in.
-      return router.replace("/(auth)/login");
+      return router.replace("(auth)/login");
     }
 
     const correspondingRoute = roleRoutes[user.role];

@@ -1,13 +1,13 @@
 import { Appbar, Avatar, FAB, List, Portal, Text } from "react-native-paper";
-import ScreenWrapper from "../../components/ScreenWrapper";
-import Loader from "../../components/Loader";
-import { useGetStores } from "../../services/hooks/stores";
+import ScreenWrapper from "../../../components/ScreenWrapper";
+import Loader from "../../../components/Loader";
+import { useGetStores } from "../../../services/hooks/stores";
 import { StyleSheet } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { useDebouncedSearch } from "../../hooks/useDebouncedSearch";
-import CustomSurface from "../../components/CustomSurface";
-import Header from "../../components/Header";
-import { useGlobalStore } from "../../stores/global";
+import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
+import CustomSurface from "../../../components/CustomSurface";
+import Header from "../../../components/Header";
+import { useGlobalStore } from "../../../stores/global";
 
 const Stores = () => {
   const { data, isPending, isError, error } = useGetStores();
@@ -38,7 +38,7 @@ const Stores = () => {
                 icon="plus"
                 style={styles.fab}
                 label="Registrar"
-                onPress={() => router.push("(admin)/register-store")}
+                onPress={() => router.push("admin/stores/register")}
               />
             </Portal>
           </>

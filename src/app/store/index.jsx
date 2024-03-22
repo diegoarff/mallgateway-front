@@ -10,22 +10,22 @@ const Index = () => {
     {
       icon: "store-outline",
       title: "Tienda",
-      route: "store",
+      route: "store/store-settings",
     },
     {
       icon: "shopping-outline",
       title: "Productos",
-      route: "products",
+      route: "store/products",
     },
     {
       icon: "label-percent-outline",
       title: "Promociones",
-      route: "promos",
+      route: "store/promos",
     },
     {
       icon: "note-text-outline",
       title: "Reseñas",
-      route: "reviews",
+      route: "store/reviews",
     },
   ];
 
@@ -53,7 +53,7 @@ const StoreHeader = ({ ...props }) => {
       component: (
         <Appbar.Action
           icon="account-circle-outline"
-          onPress={() => router.push("(admin)/user-settings")}
+          onPress={() => router.push("store/user-settings")}
         />
       ),
       tooltip: "Configuración de usuario",

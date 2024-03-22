@@ -40,8 +40,6 @@ const Header = ({
                 backgroundColor: theme.colors.background,
                 marginLeft: -12,
               }}
-              autoCorrect={false}
-              autoComplete="off"
               autoFocus
               placeholderTextColor={theme.colors.outline}
               onIconPress={() => setSearchVisible(false)}
