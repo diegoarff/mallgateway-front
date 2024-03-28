@@ -4,6 +4,7 @@ import { Button, FAB, IconButton, List, Portal } from "react-native-paper";
 import EditableListDialog from "./EditableListDialog";
 import { useGlobalStore } from "../stores/global";
 import CustomSurface from "./CustomSurface";
+import { FlashList } from "@shopify/flash-list";
 
 const EditableList = ({ itemsName, mutation }) => {
   const [showDialog, setShowDialog] = useState(false);
@@ -35,18 +36,22 @@ const EditableList = ({ itemsName, mutation }) => {
         <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
 
         {/* Items */}
-        {listData.map(
-          (item, idx) =>
-            !item.deleted && (
-              <ListItem
-                key={idx}
-                item={item}
-                index={idx}
-                onEdit={toggleDialog}
-                onDelete={deleteListItem}
-              />
-            )
-        )}
+        <View style={styles.listContainer}>
+          <FlashList
+            data={listData}
+            renderItem={({ item, index }) =>
+              !item.deleted && (
+                <ListItem
+                  item={item}
+                  index={index}
+                  onEdit={toggleDialog}
+                  onDelete={deleteListItem}
+                />
+              )
+            }
+            estimatedItemSize={20}
+          />
+        </View>
       </List.Section>
 
       {/* Extra */}
@@ -80,7 +85,7 @@ const EditableList = ({ itemsName, mutation }) => {
 export default EditableList;
 
 const ListItem = ({ item, index, onEdit, onDelete }) => (
-  <CustomSurface>
+  <CustomSurface style={styles.surface}>
     <List.Item
       title={item.name}
       style={styles.item}
@@ -104,6 +109,9 @@ const ListItem = ({ item, index, onEdit, onDelete }) => (
 const styles = StyleSheet.create({
   container: { flex: 1, paddingBottom: 92 },
   section: { gap: 12 },
+  surface: {
+    marginBottom: 12,
+  },
   item: {
     paddingVertical: -8,
   },
@@ -119,5 +127,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: 16,
+  },
+  listContainer: {
+    flex: 1,
+    minHeight: 200,
   },
 });
