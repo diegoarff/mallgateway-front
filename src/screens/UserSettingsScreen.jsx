@@ -4,7 +4,7 @@ import { useChangePassword } from "../services/hooks/auth";
 import { useForm } from "react-hook-form";
 import ScreenWrapper from "../components/ScreenWrapper";
 import { StyleSheet, View } from "react-native";
-import FormInput from "../components/forms/FormInput";
+import FormInput from "../components/FormInput";
 import { useEffect } from "react";
 
 const UserSettingsScreen = () => {

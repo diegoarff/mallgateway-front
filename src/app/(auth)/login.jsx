@@ -1,6 +1,6 @@
 import { useAuthStore } from "../../stores/auth";
 import { useLogin } from "../../services/hooks/auth";
-import FormInput from "../../components/forms/FormInput";
+import FormInput from "../../components/FormInput";
 import { Button, Text, useTheme } from "react-native-paper";
 import { useForm } from "react-hook-form";
 import ScreenWrapper from "../../components/ScreenWrapper";

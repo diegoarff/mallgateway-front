@@ -9,6 +9,7 @@ const FormInput = ({
   icon = "",
   rules = {},
   secureTextEntry = false,
+  defaultValue = "",
   ...rest
 }) => {
   const {
@@ -18,6 +19,7 @@ const FormInput = ({
     control,
     name,
     rules,
+    defaultValue,
   });
 
   const [secure, setSecure] = useState(secureTextEntry);

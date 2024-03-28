@@ -1,7 +1,7 @@
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useForm } from "react-hook-form";
 import { useCreateStore } from "../../../services/hooks/admin";
-import FormInput from "../../../components/forms/FormInput";
+import FormInput from "../../../components/FormInput";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { useRouter } from "expo-router";

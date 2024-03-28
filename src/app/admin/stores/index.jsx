@@ -30,7 +30,7 @@ const Stores = () => {
             <List.Section style={styles.list}>
               <List.Subheader>{result.length} Tiendas</List.Subheader>
               {result.map((store) => (
-                <StoreItem key={store.id} store={store} />
+                <StoreItem key={store._id} store={store} />
               ))}
             </List.Section>
             <Portal>

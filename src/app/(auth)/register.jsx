@@ -3,7 +3,7 @@ import { useRegister } from "../../services/hooks/auth";
 import { useForm } from "react-hook-form";
 import { Text, Button, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../components/ScreenWrapper";
-import FormInput from "../../components/forms/FormInput";
+import FormInput from "../../components/FormInput";
 import { Link } from "expo-router";
 
 const Register = () => {

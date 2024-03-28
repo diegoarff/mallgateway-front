@@ -40,7 +40,7 @@ const UserTabLayout = () => {
           height: 72,
           borderTopWidth: 0,
         },
-        tabBarInactiveTintColor: theme.colors.onSurface,
+        tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
         tabBarLabelPosition: "below-icon",
         tabBarItemStyle: {
           paddingVertical: 12,

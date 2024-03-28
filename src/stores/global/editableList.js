@@ -19,7 +19,7 @@ export const createEditableListSlice = (set, get) => ({
   },
   addListItem: (item) => {
     set((state) => {
-      state.listData.push(item);
+      state.listData.unshift(item);
     });
   },
   editListItem: (item) => {
