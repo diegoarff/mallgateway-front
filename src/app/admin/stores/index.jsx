@@ -1,18 +1,23 @@
-import { Appbar, Avatar, FAB, List, Portal, Text } from "react-native-paper";
+import { Appbar, Avatar, FAB, List, Portal } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import Loader from "../../../components/Loader";
 import { useGetStores } from "../../../services/hooks/stores";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
 import CustomSurface from "../../../components/CustomSurface";
 import Header from "../../../components/Header";
 import { useGlobalStore } from "../../../stores/global";
+import { FlashList } from "@shopify/flash-list";
+import ErrorScreen from "../../../components/ErrorScreen";
 
 const Stores = () => {
-  const { data, isPending, isError, error } = useGetStores();
+  const { data, status, error } = useGetStores();
   const result = useDebouncedSearch(data);
   const router = useRouter();
+
+  if (status === "pending") return <Loader />;
+  if (status === "error") return <ErrorScreen error={error} />;
 
   return (
     <Portal.Host>
@@ -22,27 +27,28 @@ const Stores = () => {
           header: (props) => <StoresHeader {...props} />,
         }}
       />
+
       <ScreenWrapper withInsets={false}>
-        {isPending && <Loader />}
-        {isError && <Text>Error: {error}</Text>}
-        {data && (
-          <>
-            <List.Section style={styles.list}>
-              <List.Subheader>{result.length} Tiendas</List.Subheader>
-              {result.map((store) => (
-                <StoreItem key={store._id} store={store} />
-              ))}
-            </List.Section>
-            <Portal>
-              <FAB
-                icon="plus"
-                style={styles.fab}
-                label="Registrar"
-                onPress={() => router.push("admin/stores/register")}
-              />
-            </Portal>
-          </>
-        )}
+        <List.Section style={styles.list}>
+          <List.Subheader>{result.length} Tiendas</List.Subheader>
+          <View style={{ flex: 1, minHeight: 200 }}>
+            <FlashList
+              data={result}
+              renderItem={({ item }) => <StoreItem store={item} />}
+              keyExtractor={(item) => item._id}
+              estimatedItemSize={50}
+            />
+          </View>
+        </List.Section>
+
+        <Portal>
+          <FAB
+            icon="plus"
+            style={styles.fab}
+            label="Registrar"
+            onPress={() => router.push("admin/stores/register")}
+          />
+        </Portal>
       </ScreenWrapper>
     </Portal.Host>
   );
@@ -94,7 +100,7 @@ const StoresHeader = ({ ...props }) => {
 const styles = StyleSheet.create({
   list: {
     gap: 12,
-    paddingBottom: 80,
+    paddingBottom: 68,
   },
   fab: {
     position: "absolute",
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
   surface: {
     paddingHorizontal: 16,
     paddingVertical: 8,
+    marginBottom: 12,
     flexDirection: "row",
     gap: 12,
     alignItems: "center",

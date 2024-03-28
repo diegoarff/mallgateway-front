@@ -1,4 +1,4 @@
-import { Appbar, Text } from "react-native-paper";
+import { Appbar } from "react-native-paper";
 import {
   useGetStoreCategories,
   useProcessStoreCategories,
@@ -10,9 +10,10 @@ import { Stack } from "expo-router";
 import Header from "../../components/Header";
 import { useEffect } from "react";
 import { useGlobalStore } from "../../stores/global";
+import ErrorScreen from "../../components/ErrorScreen";
 
 const Categories = () => {
-  const { data, error, isError, isPending } = useGetStoreCategories();
+  const { data, error, status } = useGetStoreCategories();
   const processCategories = useProcessStoreCategories();
   const initializeListData = useGlobalStore(
     (state) => state.initializeListData
@@ -24,6 +25,9 @@ const Categories = () => {
     }
   }, [data]);
 
+  if (status === "pending") return <Loader />;
+  if (status === "error") return <ErrorScreen error={error} />;
+
   return (
     <>
       <Stack.Screen
@@ -34,17 +38,12 @@ const Categories = () => {
           ),
         }}
       />
+
       <ScreenWrapper
         withInsets={false}
         contentContainerStyle={{ justifyContent: "center" }}
       >
-        {isPending && <Loader />}
-        {isError && <Text>Error: {error.message}</Text>}
-        {data && (
-          <>
-            <EditableList itemsName="categorías" mutation={processCategories} />
-          </>
-        )}
+        <EditableList itemsName="categorías" mutation={processCategories} />
       </ScreenWrapper>
     </>
   );

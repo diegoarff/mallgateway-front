@@ -1,15 +1,15 @@
-import { ActivityIndicator } from "react-native-paper";
+import { Text } from "react-native-paper";
 import ScreenWrapper from "./ScreenWrapper";
 
-const Loader = () => {
+const ErrorScreen = ({ error }) => {
   return (
     <ScreenWrapper
       withInsets={false}
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
-      <ActivityIndicator animating size="large" />
+      <Text>{error.message}</Text>
     </ScreenWrapper>
   );
 };
 
-export default Loader;
+export default ErrorScreen;
