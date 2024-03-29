@@ -4,13 +4,11 @@ import {
   Portal,
   TextInput,
   HelperText,
-  useTheme,
 } from "react-native-paper";
 import { useCallback, useEffect, useState } from "react";
 import { useGlobalStore } from "../stores/global";
 
 const EditableListDialog = ({ visible, onDismiss }) => {
-  const theme = useTheme();
   const editItem = useGlobalStore((state) => state.editItem);
   const editListItem = useGlobalStore((state) => state.editListItem);
   const addListItem = useGlobalStore((state) => state.addListItem);
@@ -50,9 +48,7 @@ const EditableListDialog = ({ visible, onDismiss }) => {
           <HelperText>* requerido</HelperText>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={onDismiss} textColor={theme.colors.secondary}>
-            Cancelar
-          </Button>
+          <Button onPress={onDismiss}>Cancelar</Button>
           <Button onPress={handleConfirm} disabled={!value}>
             Confirmar
           </Button>

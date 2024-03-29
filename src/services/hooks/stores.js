@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createStore,
+  deleteStore,
   getStoreCategories,
   getStores,
   processStoreCategories,
@@ -23,6 +24,22 @@ export const useCreateStore = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       showSnackbar("Tienda creada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useDeleteStore = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (storeId) => deleteStore(storeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      showSnackbar("Tienda eliminada");
     },
     onError: (error) => {
       showSnackbar(error);

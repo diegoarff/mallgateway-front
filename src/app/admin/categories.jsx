@@ -2,7 +2,7 @@ import { Appbar } from "react-native-paper";
 import {
   useGetStoreCategories,
   useProcessStoreCategories,
-} from "../../services/hooks/admin";
+} from "../../services/hooks/stores";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import Loader from "../../components/Loader";
 import EditableList from "../../components/EditableList";

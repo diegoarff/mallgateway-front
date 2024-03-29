@@ -3,9 +3,9 @@ import { Surface } from "react-native-paper";
 const CustomSurface = ({ children, style, ...props }) => {
   return (
     <Surface
-      style={[{ paddingHorizontal: 4, borderRadius: 12 }, style]}
+      style={[{ borderRadius: 12 }, style]}
       mode="flat"
-      elevation={5}
+      elevation={2}
       {...props}
     >
       {children}

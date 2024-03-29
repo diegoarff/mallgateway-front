@@ -1,6 +1,6 @@
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useForm } from "react-hook-form";
-import { useCreateStore } from "../../../services/hooks/admin";
+import { useCreateStore } from "../../../services/hooks/stores";
 import FormInput from "../../../components/FormInput";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";

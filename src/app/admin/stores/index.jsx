@@ -1,8 +1,17 @@
-import { Appbar, Avatar, FAB, List, Portal } from "react-native-paper";
+import {
+  Appbar,
+  Button,
+  Dialog,
+  FAB,
+  IconButton,
+  List,
+  Portal,
+  Text,
+} from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import Loader from "../../../components/Loader";
-import { useGetStores } from "../../../services/hooks/stores";
-import { StyleSheet, View } from "react-native";
+import { useDeleteStore, useGetStores } from "../../../services/hooks/stores";
+import { Image, StyleSheet, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
 import CustomSurface from "../../../components/CustomSurface";
@@ -10,17 +19,58 @@ import Header from "../../../components/Header";
 import { useGlobalStore } from "../../../stores/global";
 import { FlashList } from "@shopify/flash-list";
 import ErrorScreen from "../../../components/ErrorScreen";
+import { useState } from "react";
 
 const Stores = () => {
+  const router = useRouter();
+
   const { data, status, error } = useGetStores();
   const result = useDebouncedSearch(data);
-  const router = useRouter();
+
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [storeIdToDelete, setStoreIdToDelete] = useState(null);
+  const { mutate: deleteStore, isPending } = useDeleteStore();
+
+  const hideDialog = () => {
+    setDialogVisible(false);
+    setStoreIdToDelete(null);
+  };
+
+  const showDialog = (storeId) => {
+    setStoreIdToDelete(storeId);
+    setDialogVisible(true);
+  };
+
+  const renderItem = (store) => {
+    return (
+      <CustomSurface style={{ marginBottom: 12 }}>
+        <List.Item
+          title={<Text variant="bodyLarge">{store.name}</Text>}
+          description={store.description}
+          left={(props) => (
+            <Image
+              source={{ uri: store.logo }}
+              style={[props.style, styles.storeImage]}
+            />
+          )}
+          right={(props) => (
+            <IconButton
+              icon="trash-can-outline"
+              {...props}
+              disabled={isPending}
+              onPress={() => showDialog(store._id)}
+            />
+          )}
+        />
+      </CustomSurface>
+    );
+  };
 
   if (status === "pending") return <Loader />;
   if (status === "error") return <ErrorScreen error={error} />;
 
   return (
-    <Portal.Host>
+    <>
       <Stack.Screen
         options={{
           // Defined below
@@ -34,7 +84,7 @@ const Stores = () => {
           <View style={{ flex: 1, minHeight: 200 }}>
             <FlashList
               data={result}
-              renderItem={({ item }) => <StoreItem store={item} />}
+              renderItem={({ item }) => renderItem(item)}
               keyExtractor={(item) => item._id}
               estimatedItemSize={50}
             />
@@ -42,31 +92,51 @@ const Stores = () => {
         </List.Section>
 
         <Portal>
-          <FAB
-            icon="plus"
-            style={styles.fab}
-            label="Registrar"
-            onPress={() => router.push("admin/stores/register")}
-          />
+          <Dialog
+            visible={dialogVisible}
+            onDismiss={hideDialog}
+            dismissable={!isPending}
+          >
+            <Dialog.Icon icon="alert" />
+            <Dialog.Title style={{ textAlign: "center" }}>
+              Eliminar tienda
+            </Dialog.Title>
+            <Dialog.Content>
+              <Text variant="bodyMedium">
+                ¿Estás seguro de que quieres eliminar esta tienda?
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={hideDialog}>Cancelar</Button>
+              <Button
+                disabled={isPending}
+                onPress={() => {
+                  deleteStore(storeIdToDelete);
+                  hideDialog();
+                }}
+              >
+                Eliminar
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
         </Portal>
+
+        <Portal.Host>
+          <Portal>
+            <FAB
+              icon="plus"
+              style={styles.fab}
+              label="Registrar"
+              onPress={() => router.push("admin/stores/register")}
+            />
+          </Portal>
+        </Portal.Host>
       </ScreenWrapper>
-    </Portal.Host>
+    </>
   );
 };
 
 export default Stores;
-
-const StoreItem = ({ store }) => {
-  return (
-    <CustomSurface style={styles.surface}>
-      <List.Item
-        title={store.name}
-        description={store.description}
-        left={() => <Avatar.Image source={{ uri: store.logo }} size={48} />}
-      />
-    </CustomSurface>
-  );
-};
 
 const StoresHeader = ({ ...props }) => {
   const searchQuery = useGlobalStore((state) => state.searchQuery);
@@ -107,12 +177,9 @@ const styles = StyleSheet.create({
     right: 12,
     bottom: 16,
   },
-  surface: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginBottom: 12,
-    flexDirection: "row",
-    gap: 12,
-    alignItems: "center",
+  storeImage: {
+    width: 72,
+    aspectRatio: 1,
+    borderRadius: 12,
   },
 });

@@ -18,6 +18,15 @@ export const createStore = async (store) => {
   }
 };
 
+export const deleteStore = async (storeId) => {
+  try {
+    const response = await api.delete(`/stores/${storeId}`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const getStoreCategories = async () => {
   try {
     const response = await api.get("/stores/categories");
