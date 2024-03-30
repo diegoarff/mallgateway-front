@@ -1,16 +1,21 @@
 import { Stack, useRouter } from "expo-router";
 import DashboardList from "../../components/DashboardList";
 import ScreenWrapper from "../../components/ScreenWrapper";
-import { Appbar, Avatar, Text } from "react-native-paper";
+import Loader from "../../components/Loader";
+import ErrorScreen from "../../components/ErrorScreen";
+import { Appbar, Avatar, List, Text } from "react-native-paper";
 import Header from "../../components/Header";
 import { appSettings } from "../../settings";
+import { useGetOwnedStore } from "../../services/hooks/stores";
 
 const Index = () => {
+  const { data, status, error } = useGetOwnedStore();
+
   const items = [
     {
       icon: "store-outline",
-      title: "Tienda",
-      route: "store/store-settings",
+      title: "Información de tienda",
+      route: "store/info",
     },
     {
       icon: "shopping-outline",
@@ -29,6 +34,9 @@ const Index = () => {
     },
   ];
 
+  if (status === "pending") return <Loader />;
+  if (status === "error") return <ErrorScreen error={error} />;
+
   return (
     <>
       <Stack.Screen
@@ -37,6 +45,11 @@ const Index = () => {
         }}
       />
       <ScreenWrapper>
+        <List.Item
+          title={data.name}
+          description={data.description}
+          left={() => <Avatar.Image source={{ uri: data.logo }} />}
+        />
         <DashboardList items={items} />
       </ScreenWrapper>
     </>

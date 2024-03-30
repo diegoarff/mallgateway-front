@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    right: 12,
+    right: 0,
     bottom: 16,
   },
   storeImage: {

@@ -1,8 +1,8 @@
 import { MD3LightTheme, MD3DarkTheme } from "react-native-paper";
 
 export const appSettings = {
-  mallName: "Grand Plaza", // Replace with actual mall name
-  mallLogo: "https://via.placeholder.com/150", // Replace with actual logo
+  mallName: "Galerias Mall", // Replace with actual mall name
+  mallLogo: "https://pbs.twimg.com/media/DvckbsyWsAAwOs2.jpg", // Replace with actual logo
   mallLogoLight: "https://via.placeholder.com/150", // Replace with actual logo
   mallLogoDark: "https://via.placeholder.com/150", // Replace with actual logo
   mallFacade: "https://via.placeholder.com/150", // Replace with actual facade

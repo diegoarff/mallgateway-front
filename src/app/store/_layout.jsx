@@ -12,12 +12,40 @@ const _layout = () => {
       }}
     >
       <Stack.Screen name="index" />
+
+      {/* Info */}
       <Stack.Screen
-        name="store-settings"
+        name="info/index"
         options={{
-          headerTitle: "Tienda",
+          headerTitle: "Información de tienda",
         }}
       />
+      <Stack.Screen
+        name="info/general"
+        options={{
+          headerTitle: "Información general",
+        }}
+      />
+      <Stack.Screen
+        name="info/schedule"
+        options={{
+          headerTitle: "Horarios",
+        }}
+      />
+      <Stack.Screen
+        name="info/contacts"
+        options={{
+          headerTitle: "Contactos",
+        }}
+      />
+      <Stack.Screen
+        name="info/location"
+        options={{
+          headerTitle: "Ubicación",
+        }}
+      />
+
+      {/* Products */}
       <Stack.Screen
         name="products"
         options={{

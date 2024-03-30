@@ -2,11 +2,19 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createStore,
   deleteStore,
+  getOwnedStore,
   getStoreCategories,
   getStores,
   processStoreCategories,
 } from "../api/stores";
 import { useGlobalStore } from "../../stores/global";
+
+export const useGetOwnedStore = () => {
+  return useQuery({
+    queryKey: ["owned-store"],
+    queryFn: getOwnedStore,
+  });
+};
 
 export const useGetStores = () => {
   return useQuery({

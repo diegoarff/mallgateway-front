@@ -8,10 +8,16 @@ const DashboardItem = ({ icon, title, onPress }) => {
     <Pressable onPress={onPress}>
       <Surface
         mode="flat"
-        style={[styles.menuItem, { backgroundColor: theme.colors.primary }]}
+        style={[
+          styles.menuItem,
+          { backgroundColor: theme.colors.secondaryContainer },
+        ]}
       >
-        <Icon source={icon} size={28} color={theme.colors.onPrimary} />
-        <Text variant="titleMedium" style={{ color: theme.colors.onPrimary }}>
+        <Icon source={icon} size={28} color={theme.colors.primary} />
+        <Text
+          variant="titleMedium"
+          style={{ color: theme.colors.onSecondaryContainer }}
+        >
           {title}
         </Text>
       </Surface>
