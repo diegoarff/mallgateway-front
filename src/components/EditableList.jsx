@@ -1,9 +1,15 @@
 import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, FAB, IconButton, List, Portal } from "react-native-paper";
+import {
+  Button,
+  FAB,
+  IconButton,
+  List,
+  Portal,
+  Surface,
+} from "react-native-paper";
 import EditableListDialog from "./EditableListDialog";
 import { useGlobalStore } from "../stores/global";
-import CustomSurface from "./CustomSurface";
 import { FlashList } from "@shopify/flash-list";
 
 const EditableList = ({ itemsName, mutation }) => {
@@ -28,36 +34,45 @@ const EditableList = ({ itemsName, mutation }) => {
     mutation.mutate(listData);
   };
 
+  const renderItem = (item, index) => (
+    <Surface mode="flat" elevation={2} style={styles.listItemSurface}>
+      <List.Item
+        title={item.name}
+        style={styles.listItem}
+        right={() => (
+          <View style={styles.iconContainer}>
+            <IconButton
+              icon="pencil-outline"
+              onPress={() => toggleDialog(item, index)}
+            />
+            <IconButton
+              icon="trash-can-outline"
+              onPress={() => deleteListItem(index)}
+              style={styles.deleteIcon}
+            />
+          </View>
+        )}
+      />
+    </Surface>
+  );
+
   return (
     <View style={styles.container}>
-      {/* List */}
       <List.Section style={styles.section}>
-        {/* List header */}
         <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
-
-        {/* Items */}
         <View style={styles.listContainer}>
           <FlashList
             data={listData}
             renderItem={({ item, index }) =>
-              !item.deleted && (
-                <ListItem
-                  item={item}
-                  index={index}
-                  onEdit={toggleDialog}
-                  onDelete={deleteListItem}
-                />
-              )
+              !item.deleted && renderItem(item, index)
             }
             estimatedItemSize={20}
           />
         </View>
       </List.Section>
-
-      {/* Extra */}
       <Button
         mode="contained"
-        style={styles.button}
+        style={styles.saveButton}
         disabled={isListDataEqual() || mutation.isPending}
         loading={mutation.isPending}
         onPress={handleSave}
@@ -69,7 +84,7 @@ const EditableList = ({ itemsName, mutation }) => {
           <FAB
             icon="plus"
             label="Añadir"
-            style={styles.fab}
+            style={styles.addButton}
             onPress={() => toggleDialog()}
           />
         </Portal>
@@ -84,52 +99,34 @@ const EditableList = ({ itemsName, mutation }) => {
 
 export default EditableList;
 
-const ListItem = ({ item, index, onEdit, onDelete }) => (
-  <CustomSurface style={styles.surface}>
-    <List.Item
-      title={item.name}
-      style={styles.item}
-      right={() => (
-        <>
-          <IconButton
-            icon="pencil-outline"
-            onPress={() => onEdit(item, index)}
-          />
-          <IconButton
-            icon="trash-can-outline"
-            onPress={() => onDelete(index)}
-            style={{ marginRight: -20 }}
-          />
-        </>
-      )}
-    />
-  </CustomSurface>
-);
-
 const styles = StyleSheet.create({
   container: { flex: 1, paddingBottom: 92 },
   section: { gap: 12 },
-  surface: {
+  listItemSurface: {
     marginBottom: 12,
+    borderRadius: 12,
   },
-  item: {
+  listItem: {
     paddingVertical: -8,
   },
-  row: {
+  iconContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  button: {
+  saveButton: {
     marginTop: 12,
   },
-  fab: {
+  addButton: {
     position: "absolute",
     right: 0,
     bottom: 16,
   },
   listContainer: {
     flex: 1,
-    minHeight: 200,
+    minHeight: 3,
+  },
+  deleteIcon: {
+    marginRight: -20,
   },
 });

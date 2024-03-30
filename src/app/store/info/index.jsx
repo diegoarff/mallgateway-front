@@ -1,49 +1,14 @@
-import {
-  Chip,
-  Icon,
-  IconButton,
-  List,
-  Surface,
-  Text,
-  useTheme,
-} from "react-native-paper";
+import { Chip, List, Text } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useGlobalStore } from "../../../stores/global";
 import { Image, StyleSheet, View } from "react-native";
-import { DAYS } from "../../../utils/constants";
 import { useRouter } from "expo-router";
-
-const currentDay = new Date().getDay();
-
-const SectionHeader = ({ title, onIconPress }) => (
-  <View style={styles.sectionHeaderContainer}>
-    <Text variant="titleMedium">{title}</Text>
-    <IconButton
-      icon="pencil"
-      mode="contained"
-      size={18}
-      onPress={onIconPress}
-    />
-  </View>
-);
-
-const ContactItem = ({ iconSource, title, content }) => {
-  const theme = useTheme();
-  return (
-    <View style={styles.contactItemContainer}>
-      <Icon source={iconSource} size={18} color={theme.colors.primary} />
-      <View>
-        <Text variant="bodyLarge">{title}</Text>
-        <Text variant="bodyMedium" style={{ color: theme.colors.secondary }}>
-          {content}
-        </Text>
-      </View>
-    </View>
-  );
-};
+import Schedule from "../../../components/store/Schedule";
+import Contacts from "../../../components/store/Contacts";
+import SectionHeader from "../../../components/store/SectionHeader";
+import ReferencePoint from "../../../components/store/ReferencePoint";
 
 const Index = () => {
-  const theme = useTheme();
   const router = useRouter();
   const store = useGlobalStore((state) => state.store);
 
@@ -56,6 +21,7 @@ const Index = () => {
       <List.Section>
         <SectionHeader
           title="Información general"
+          icon="pencil"
           onIconPress={() => {
             router.push("store/info/general");
           }}
@@ -88,82 +54,37 @@ const Index = () => {
         </View>
       </List.Section>
 
-      {/* Schedules */}
+      {/* Schedule */}
       <List.Section>
         <SectionHeader
           title="Horarios"
+          icon="pencil"
           onIconPress={() => {
             router.push("store/info/schedule");
           }}
         />
 
-        <View>
-          {store.schedule.map((schedule) => (
-            <View
-              key={schedule._id}
-              style={[
-                styles.scheduleContainer,
-                currentDay === schedule.day && {
-                  backgroundColor: theme.colors.elevation.level3,
-                },
-              ]}
-            >
-              <Text>{DAYS[schedule.day]}</Text>
-
-              {schedule.active ? (
-                <View style={styles.scheduleTimeContainer}>
-                  <Text>{schedule.open}</Text>
-                  <Text>-</Text>
-                  <Text>{schedule.close}</Text>
-                </View>
-              ) : (
-                <Text style={{ color: theme.colors.secondary }}>Cerrado</Text>
-              )}
-            </View>
-          ))}
-        </View>
+        <Schedule store={store} />
       </List.Section>
 
       {/* Contacts */}
       <List.Section>
         <SectionHeader
           title="Contactos"
+          icon="pencil"
           onIconPress={() => {
             router.push("store/info/contacts");
           }}
         />
 
-        <View style={styles.contactsContainer}>
-          {store.phone && (
-            <ContactItem
-              iconSource="phone"
-              title="Teléfono"
-              content={store.phone}
-            />
-          )}
-          {store.website && (
-            <ContactItem
-              iconSource="web"
-              title="Sitio web"
-              content={store.website}
-            />
-          )}
-          {store.socials.length > 0 &&
-            store.socials.map((social) => (
-              <ContactItem
-                key={social._id}
-                iconSource={social.social.icon}
-                title={social.social.name}
-                content={social.url}
-              />
-            ))}
-        </View>
+        <Contacts store={store} />
       </List.Section>
 
       {/* Location */}
       <List.Section>
         <SectionHeader
           title="Ubicación"
+          icon="pencil"
           onIconPress={() => {
             router.push("store/info/location");
           }}
@@ -183,24 +104,7 @@ const Index = () => {
           <View style={styles.addressContainer}>
             <Text variant="bodyLarge">Puntos de referencia</Text>
             {store.addresses.map((address) => (
-              <Surface
-                key={address._id}
-                mode="flat"
-                elevation={3}
-                style={styles.addressSurface}
-              >
-                <View style={styles.addressInfoContainer}>
-                  <Icon
-                    source="map-marker"
-                    size={18}
-                    color={theme.colors.primary}
-                  />
-                  <Text variant="labelLarge" style={{ fontSize: 15 }}>
-                    {address.title}
-                  </Text>
-                </View>
-                <Text variant="bodyMedium">{address.description}</Text>
-              </Surface>
+              <ReferencePoint key={address._id} reference={address} />
             ))}
           </View>
         </View>
@@ -215,17 +119,6 @@ const styles = StyleSheet.create({
   screenWrapper: {
     gap: 12,
     paddingBottom: 12,
-  },
-  sectionHeaderContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-  contactItemContainer: {
-    flexDirection: "row",
-    gap: 12,
-    alignItems: "center",
   },
   generalInfoContainer: {
     alignItems: "center",
@@ -246,21 +139,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
   },
-  scheduleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-  },
-  scheduleTimeContainer: {
-    flexDirection: "row",
-    gap: 8,
-  },
-  contactsContainer: {
-    gap: 8,
-    paddingHorizontal: 4,
-  },
   locationContainer: {
     gap: 20,
   },
@@ -274,16 +152,5 @@ const styles = StyleSheet.create({
   },
   addressContainer: {
     gap: 12,
-  },
-  addressSurface: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    gap: 4,
-  },
-  addressInfoContainer: {
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "center",
   },
 });

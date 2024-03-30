@@ -6,6 +6,7 @@ import {
   IconButton,
   List,
   Portal,
+  Surface,
   Text,
 } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
@@ -14,7 +15,6 @@ import { useDeleteStore, useGetStores } from "../../../services/hooks/stores";
 import { Image, StyleSheet, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
-import CustomSurface from "../../../components/CustomSurface";
 import Header from "../../../components/Header";
 import { useGlobalStore } from "../../../stores/global";
 import { FlashList } from "@shopify/flash-list";
@@ -43,7 +43,11 @@ const Stores = () => {
 
   const renderItem = (store) => {
     return (
-      <CustomSurface style={{ marginBottom: 12 }}>
+      <Surface
+        mode="flat"
+        elevation={2}
+        style={{ marginBottom: 12, borderRadius: 12 }}
+      >
         <List.Item
           title={<Text variant="bodyLarge">{store.name}</Text>}
           description={store.description}
@@ -62,7 +66,7 @@ const Stores = () => {
             />
           )}
         />
-      </CustomSurface>
+      </Surface>
     );
   };
 

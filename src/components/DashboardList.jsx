@@ -1,10 +1,11 @@
-import { StyleSheet, View } from "react-native";
-import DashboardItem from "./DashboardItem";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Text } from "react-native-paper";
+import { Icon, Surface, Text, useTheme } from "react-native-paper";
 
 const DashboardList = ({ items }) => {
+  const theme = useTheme();
   const router = useRouter();
+
   return (
     <View>
       <Text variant="titleLarge" style={styles.text}>
@@ -13,12 +14,23 @@ const DashboardList = ({ items }) => {
 
       <View style={styles.itemsContainer}>
         {items.map((item, idx) => (
-          <DashboardItem
-            key={idx}
-            icon={item.icon}
-            title={item.title}
-            onPress={() => router.push(item.route)}
-          />
+          <Pressable key={idx} onPress={() => router.push(item.route)}>
+            <Surface
+              mode="flat"
+              style={[
+                styles.menuItem,
+                { backgroundColor: theme.colors.secondaryContainer },
+              ]}
+            >
+              <Icon source={item.icon} size={28} color={theme.colors.primary} />
+              <Text
+                variant="titleMedium"
+                style={{ color: theme.colors.onSecondaryContainer }}
+              >
+                {item.title}
+              </Text>
+            </Surface>
+          </Pressable>
         ))}
       </View>
     </View>
@@ -28,8 +40,18 @@ const DashboardList = ({ items }) => {
 export default DashboardList;
 
 const styles = StyleSheet.create({
-  text: { marginTop: 16, marginBottom: 28 },
+  text: {
+    marginTop: 16,
+    marginBottom: 28,
+  },
   itemsContainer: {
     gap: 12,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    padding: 24,
+    borderRadius: 12,
   },
 });

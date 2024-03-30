@@ -29,6 +29,15 @@ export const createStore = async (store) => {
   }
 };
 
+export const updateStore = async (store) => {
+  try {
+    const response = await api.put("/stores", store);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const deleteStore = async (storeId) => {
   try {
     const response = await api.delete(`/stores/${storeId}`);

@@ -6,6 +6,7 @@ import {
   getStoreCategories,
   getStores,
   processStoreCategories,
+  updateStore,
 } from "../api/stores";
 import { useGlobalStore } from "../../stores/global";
 
@@ -32,6 +33,22 @@ export const useCreateStore = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       showSnackbar("Tienda creada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useUpdateStore = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (store) => updateStore(store),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["owned-store"] });
+      showSnackbar("Tienda actualizada");
     },
     onError: (error) => {
       showSnackbar(error);
