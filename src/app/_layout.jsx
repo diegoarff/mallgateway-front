@@ -18,7 +18,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthStore } from "../stores/auth";
 import { PaperProvider } from "react-native-paper";
 import { ThemeProvider } from "@react-navigation/native";
-import ROLES from "../utils/roles";
+import { ROLES } from "../utils/constants";
 import Snack from "../components/Snack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MallLightTheme, MallDarkTheme } from "../settings";

@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
 import { useAuthStore } from "../../../stores/auth";
-import ROLES from "../../../utils/roles";
+import { ROLES } from "../../../utils/constants";
 import Header from "../../../components/Header";
 import { View } from "react-native";
 

@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { useAuthStore } from "../../../../stores/auth";
-import ROLES from "../../../../utils/roles";
+import { ROLES } from "../../../../utils/constants";
 import { useRouter } from "expo-router";
 
 const Home = () => {
