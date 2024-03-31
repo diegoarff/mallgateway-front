@@ -12,7 +12,7 @@ import {
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import Loader from "../../../components/Loader";
 import { useDeleteStore, useGetStores } from "../../../services/hooks/stores";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
 import Header from "../../../components/Header";
@@ -43,30 +43,32 @@ const Stores = () => {
 
   const renderItem = (store) => {
     return (
-      <Surface
-        mode="flat"
-        elevation={2}
-        style={{ marginBottom: 12, borderRadius: 12 }}
-      >
-        <List.Item
-          title={<Text variant="bodyLarge">{store.name}</Text>}
-          description={store.description}
-          left={(props) => (
-            <Image
-              source={{ uri: store.logo }}
-              style={[props.style, styles.storeImage]}
-            />
-          )}
-          right={(props) => (
-            <IconButton
-              icon="trash-can-outline"
-              {...props}
-              disabled={isPending}
-              onPress={() => showDialog(store._id)}
-            />
-          )}
-        />
-      </Surface>
+      <Pressable onPress={() => router.push(`admin/stores/${store._id}`)}>
+        <Surface
+          mode="flat"
+          elevation={2}
+          style={{ marginBottom: 12, borderRadius: 12 }}
+        >
+          <List.Item
+            title={<Text variant="bodyLarge">{store.name}</Text>}
+            description={store.description}
+            left={(props) => (
+              <Image
+                source={{ uri: store.logo }}
+                style={[props.style, styles.storeImage]}
+              />
+            )}
+            right={(props) => (
+              <IconButton
+                icon="trash-can-outline"
+                {...props}
+                disabled={isPending}
+                onPress={() => showDialog(store._id)}
+              />
+            )}
+          />
+        </Surface>
+      </Pressable>
     );
   };
 

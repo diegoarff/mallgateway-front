@@ -13,6 +13,10 @@ const AdminStoresLayout = () => {
     >
       <Stack.Screen name="index" options={{ headerTitle: "Tiendas" }} />
       <Stack.Screen
+        name="[id]"
+        options={{ headerTitle: "Información de tienda" }}
+      />
+      <Stack.Screen
         name="register"
         options={{ headerTitle: "Registrar tienda" }}
       />

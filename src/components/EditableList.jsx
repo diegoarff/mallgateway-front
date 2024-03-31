@@ -12,6 +12,7 @@ import EditableListDialog from "./EditableListDialog";
 import { useGlobalStore } from "../stores/global";
 import { FlashList } from "@shopify/flash-list";
 
+// TODO: Handle state here
 const EditableList = ({ itemsName, mutation }) => {
   const [showDialog, setShowDialog] = useState(false);
 

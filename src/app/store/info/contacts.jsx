@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import ScreenWrapper from "../../../components/ScreenWrapper";
+import { Text } from "react-native-paper";
 
 const Contact = () => {
   return (
-    <View>
+    <ScreenWrapper withInsets={false}>
       <Text>Contact</Text>
-    </View>
+    </ScreenWrapper>
   );
 };
 

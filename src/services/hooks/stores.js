@@ -3,6 +3,7 @@ import {
   createStore,
   deleteStore,
   getOwnedStore,
+  getStore,
   getStoreCategories,
   getStores,
   processStoreCategories,
@@ -21,6 +22,13 @@ export const useGetStores = () => {
   return useQuery({
     queryKey: ["stores"],
     queryFn: getStores,
+  });
+};
+
+export const useGetStore = (storeId) => {
+  return useQuery({
+    queryKey: ["stores", storeId],
+    queryFn: () => getStore(storeId),
   });
 };
 

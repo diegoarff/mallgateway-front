@@ -20,6 +20,15 @@ export const getStores = async () => {
   }
 };
 
+export const getStore = async (storeId) => {
+  try {
+    const response = await api.get(`/stores/${storeId}`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const createStore = async (store) => {
   try {
     const response = await api.post("/stores", store);
