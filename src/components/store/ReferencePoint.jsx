@@ -1,16 +1,15 @@
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import {
   Button,
-  Dialog,
   Icon,
   IconButton,
   List,
-  Portal,
   Surface,
   Text,
   useTheme,
 } from "react-native-paper";
+import DialogWithScroll from "../DialogWithScroll";
 
 const ReferencePoint = ({
   reference,
@@ -54,26 +53,19 @@ const ReferencePoint = ({
         />
       </Surface>
 
-      <Portal>
-        <Dialog
-          visible={dialogVisible}
-          onDismiss={() => setDialogVisible(false)}
-          style={{ maxHeight: 0.8 * Dimensions.get("window").height }}
-        >
-          <Dialog.Title>Punto de referencia</Dialog.Title>
-          <Dialog.ScrollArea>
-            <ScrollView contentContainerStyle={styles.dialogScrollArea}>
-              <Text variant="labelLarge" style={styles.dialogContentTitle}>
-                {reference.title}
-              </Text>
-              <Text variant="bodyMedium">{reference.description}</Text>
-            </ScrollView>
-          </Dialog.ScrollArea>
-          <Dialog.Actions>
-            <Button onPress={() => setDialogVisible(false)}>Cerrar</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      <DialogWithScroll
+        visible={dialogVisible}
+        onDismiss={() => setDialogVisible(false)}
+        title="Punto de referencia"
+        actions={
+          <Button onPress={() => setDialogVisible(false)}>Cerrar</Button>
+        }
+      >
+        <Text variant="labelLarge" style={styles.dialogContentTitle}>
+          {reference.title}
+        </Text>
+        <Text variant="bodyMedium">{reference.description}</Text>
+      </DialogWithScroll>
     </>
   );
 };

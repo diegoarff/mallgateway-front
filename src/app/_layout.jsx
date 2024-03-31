@@ -22,6 +22,9 @@ import { ROLES } from "../utils/constants";
 import Snack from "../components/Snack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MallLightTheme, MallDarkTheme } from "../settings";
+import { es, registerTranslation } from "react-native-paper-dates";
+
+registerTranslation("es", es);
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.

@@ -4,7 +4,14 @@ import { Text, IconButton } from "react-native-paper";
 const SectionHeader = ({ title, icon, onIconPress }) => (
   <View style={styles.sectionHeaderContainer}>
     <Text variant="titleMedium">{title}</Text>
-    <IconButton icon={icon} mode="contained" size={18} onPress={onIconPress} />
+    {icon && (
+      <IconButton
+        icon={icon}
+        mode="contained"
+        size={18}
+        onPress={onIconPress}
+      />
+    )}
   </View>
 );
 
