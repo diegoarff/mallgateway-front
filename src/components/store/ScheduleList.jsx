@@ -4,7 +4,7 @@ import { DAYS } from "../../utils/constants";
 
 const currentDay = new Date().getDay();
 
-const Schedule = ({ store }) => {
+const ScheduleList = ({ store }) => {
   const theme = useTheme();
 
   return (
@@ -36,7 +36,7 @@ const Schedule = ({ store }) => {
   );
 };
 
-export default Schedule;
+export default ScheduleList;
 
 const styles = StyleSheet.create({
   scheduleContainer: {

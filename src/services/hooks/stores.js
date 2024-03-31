@@ -3,6 +3,7 @@ import {
   createStore,
   deleteStore,
   getOwnedStore,
+  getSocials,
   getStore,
   getStoreCategories,
   getStores,
@@ -100,5 +101,12 @@ export const useProcessStoreCategories = () => {
     onError: (error) => {
       showSnackbar(error);
     },
+  });
+};
+
+export const useGetSocials = () => {
+  return useQuery({
+    queryKey: ["socials"],
+    queryFn: getSocials,
   });
 };

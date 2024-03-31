@@ -3,8 +3,8 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import { Chip, List, Text } from "react-native-paper";
 import SectionHeader from "../components/store/SectionHeader";
 import { Image, StyleSheet, View } from "react-native";
-import Schedule from "../components/store/Schedule";
-import Contacts from "../components/store/Contacts";
+import ScheduleList from "../components/store/ScheduleList";
+import ContactList from "../components/store/ContactList";
 import ReferencePoint from "../components/store/ReferencePoint";
 
 const StoreInfoScreen = ({ store }) => {
@@ -65,7 +65,7 @@ const StoreInfoScreen = ({ store }) => {
           }}
         />
 
-        <Schedule store={store} />
+        <ScheduleList store={store} />
       </List.Section>
 
       {/* Contacts */}
@@ -79,7 +79,7 @@ const StoreInfoScreen = ({ store }) => {
             }}
           />
 
-          <Contacts store={store} />
+          <ContactList store={store} />
         </List.Section>
       )}
 

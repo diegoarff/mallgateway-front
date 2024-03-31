@@ -73,3 +73,12 @@ export const processStoreCategories = async (categories) => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const getSocials = async () => {
+  try {
+    const response = await api.get("/stores/socials");
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

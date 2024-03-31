@@ -6,10 +6,10 @@ const FormInput = ({
   control,
   name,
   helperText,
-  icon = "",
   rules = {},
   secureTextEntry = false,
   defaultValue = "",
+  right = null,
   ...rest
 }) => {
   const {
@@ -40,7 +40,9 @@ const FormInput = ({
               icon={secure ? "eye" : "eye-off"}
               onPress={() => setSecure((prev) => !prev)}
             />
-          ) : null
+          ) : (
+            right
+          )
         }
         {...rest}
       />

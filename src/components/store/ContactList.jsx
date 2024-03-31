@@ -16,7 +16,7 @@ const ContactItem = ({ iconSource, title, content }) => {
   );
 };
 
-const Contacts = ({ store }) => {
+const ContactList = ({ store }) => {
   return (
     <View style={styles.contactsContainer}>
       {store.phone && (
@@ -46,7 +46,7 @@ const Contacts = ({ store }) => {
   );
 };
 
-export default Contacts;
+export default ContactList;
 
 const styles = StyleSheet.create({
   contactItemContainer: {
