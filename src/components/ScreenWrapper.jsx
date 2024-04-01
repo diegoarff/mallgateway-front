@@ -6,6 +6,7 @@ const ScreenWrapper = ({
   children,
   withScrollView = true,
   withInsets = true,
+  withBottomAction = false,
   style,
   contentContainerStyle,
   ...rest
@@ -22,17 +23,25 @@ const ScreenWrapper = ({
       paddingRight: 12 + insets.right,
       paddingBottom: withInsets ? insets.bottom : 0,
     },
+    style,
   ];
+
+  const contentStyle = [
+    { flexGrow: 1 },
+    withBottomAction && { paddingBottom: 80 },
+    contentContainerStyle,
+  ];
+
   return (
     <>
       {withScrollView ? (
         <ScrollView
           {...rest}
-          contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
+          contentContainerStyle={contentStyle}
           keyboardShouldPersistTaps="always"
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
-          style={[containerStyle, style]}
+          style={containerStyle}
         >
           {children}
         </ScrollView>

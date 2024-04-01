@@ -90,6 +90,7 @@ const Login = () => {
         mode="contained"
         onPress={handleSubmit(loginHandler)}
         loading={isPending}
+        disabled={isPending}
       >
         Iniciar sesión
       </Button>

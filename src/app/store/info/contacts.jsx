@@ -19,6 +19,7 @@ import SectionHeader from "../../../components/store/SectionHeader";
 import Loader from "../../../components/Loader";
 import { Stack } from "expo-router";
 import Header from "../../../components/Header";
+import BottomAction from "../../../components/store/BottomAction";
 
 const Contacts = () => {
   const theme = useTheme();
@@ -113,7 +114,7 @@ const Contacts = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false}>
+      <ScreenWrapper withInsets={false} withBottomAction>
         <View>
           <SectionHeader title="General" />
           <FormInput
@@ -172,25 +173,15 @@ const Contacts = () => {
           ) : (
             <Text
               variant="labelLarge"
-              style={[
-                styles.noSocialsText,
-                { color: theme.colors.onSurfaceVariant },
-              ]}
+              style={{
+                color: theme.colors.onSurfaceVariant,
+                textAlign: "center",
+              }}
             >
               No existen redes sociales
             </Text>
           )}
         </View>
-
-        <Button
-          mode="contained"
-          onPress={handleSubmit(handleUpdate)}
-          loading={isPending}
-          disabled={isPending || areContactsEqual}
-          style={styles.updateButton}
-        >
-          Actualizar contactos
-        </Button>
 
         <AddSocialDialog
           visible={addDialogVisible}
@@ -198,6 +189,17 @@ const Contacts = () => {
           setSocials={setSocials}
         />
       </ScreenWrapper>
+
+      <BottomAction>
+        <Button
+          mode="contained"
+          onPress={handleSubmit(handleUpdate)}
+          loading={isPending}
+          disabled={isPending || areContactsEqual}
+        >
+          Actualizar
+        </Button>
+      </BottomAction>
     </>
   );
 };
@@ -257,8 +259,5 @@ const styles = StyleSheet.create({
   },
   noSocialsText: {
     textAlign: "center",
-  },
-  updateButton: {
-    marginTop: 16,
   },
 });

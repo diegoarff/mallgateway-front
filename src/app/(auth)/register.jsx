@@ -98,6 +98,7 @@ const Register = () => {
         mode="contained"
         onPress={handleSubmit(registerHandler)}
         loading={isPending}
+        disabled={isPending}
       >
         Registrarse
       </Button>

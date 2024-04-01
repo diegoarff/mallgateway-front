@@ -15,6 +15,7 @@ import ImagePicker from "../../../components/store/ImagePicker";
 import SectionHeader from "../../../components/store/SectionHeader";
 import DialogWithScroll from "../../../components/DialogWithScroll";
 import Loader from "../../../components/Loader";
+import BottomAction from "../../../components/store/BottomAction";
 
 const General = () => {
   const store = useGlobalStore((state) => state.store);
@@ -94,6 +95,7 @@ const General = () => {
 
       <ScreenWrapper
         withInsets={false}
+        withBottomAction
         contentContainerStyle={{
           gap: 18,
         }}
@@ -156,6 +158,15 @@ const General = () => {
           />
         </View>
 
+        <CategoriesDialog
+          visible={categoriesDialogVisible}
+          setVisible={setCategoriesDialogVisible}
+          categories={categories}
+          setCategories={setCategories}
+        />
+      </ScreenWrapper>
+
+      <BottomAction>
         <Button
           mode="contained"
           onPress={handleSubmit(handleUpdateStore)}
@@ -164,14 +175,7 @@ const General = () => {
         >
           Actualizar
         </Button>
-      </ScreenWrapper>
-
-      <CategoriesDialog
-        visible={categoriesDialogVisible}
-        setVisible={setCategoriesDialogVisible}
-        categories={categories}
-        setCategories={setCategories}
-      />
+      </BottomAction>
     </>
   );
 };

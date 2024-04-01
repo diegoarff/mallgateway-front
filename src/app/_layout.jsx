@@ -63,8 +63,8 @@ const MainLayout = () => {
 
   return (
     <>
-      <Slot />
       <Snack />
+      <Slot />
     </>
   );
 };

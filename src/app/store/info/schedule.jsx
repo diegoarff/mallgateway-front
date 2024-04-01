@@ -9,6 +9,7 @@ import { Stack } from "expo-router";
 import Header from "../../../components/Header";
 import InfoText from "../../../components/InfoText";
 import { useUpdateStore } from "../../../services/hooks/stores";
+import BottomAction from "../../../components/store/BottomAction";
 
 const OPEN = "open";
 const CLOSE = "close";
@@ -140,20 +141,12 @@ const Schedule = () => {
 
       <ScreenWrapper
         withInsets={false}
+        withBottomAction
         contentContainerStyle={styles.screenWrapper}
       >
         <View style={styles.scheduleContainer}>
           {schedule.map((day) => renderDay(day))}
         </View>
-
-        <Button
-          mode="contained"
-          onPress={handleUpdate}
-          loading={isPending}
-          disabled={isPending || isScheduleEqual}
-        >
-          Actualizar horario
-        </Button>
 
         <InfoText info="El formato utilizado es de 24 horas" />
 
@@ -169,6 +162,17 @@ const Schedule = () => {
           locale="es"
         />
       </ScreenWrapper>
+
+      <BottomAction>
+        <Button
+          mode="contained"
+          onPress={handleUpdate}
+          loading={isPending}
+          disabled={isPending || isScheduleEqual}
+        >
+          Actualizar
+        </Button>
+      </BottomAction>
     </>
   );
 };

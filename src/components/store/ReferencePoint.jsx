@@ -13,7 +13,7 @@ import DialogWithScroll from "../DialogWithScroll";
 
 const ReferencePoint = ({
   reference,
-  onItemPress,
+  onPress,
   deleteIcon = false,
   onDeleteIconPress,
 }) => {
@@ -39,7 +39,7 @@ const ReferencePoint = ({
           description={reference.description}
           descriptionNumberOfLines={3}
           onPress={() =>
-            onItemPress ? onItemPress(reference) : setDialogVisible(true)
+            onPress ? onPress(reference) : setDialogVisible(true)
           }
           right={(props) =>
             deleteIcon ? (
