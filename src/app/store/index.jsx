@@ -13,22 +13,22 @@ const Index = () => {
 
   const items = [
     {
-      icon: "store-outline",
+      icon: "store",
       title: "Información de tienda",
       route: "store/info",
     },
     {
-      icon: "shopping-outline",
+      icon: "shopping",
       title: "Productos",
       route: "store/products",
     },
     {
-      icon: "label-percent-outline",
+      icon: "label-percent",
       title: "Promociones",
       route: "store/promos",
     },
     {
-      icon: "note-text-outline",
+      icon: "note-text",
       title: "Reseñas",
       route: "store/reviews",
     },

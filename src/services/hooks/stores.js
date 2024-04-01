@@ -3,6 +3,10 @@ import {
   createStore,
   deleteStore,
   getOwnedStore,
+  getProductCategories,
+  processProductCategories,
+  getProductVariants,
+  processProductVariants,
   getSocials,
   getStore,
   getStoreCategories,
@@ -97,6 +101,52 @@ export const useProcessStoreCategories = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["store-categories"] });
       showSnackbar("Categorías actualizadas");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useGetProductCategories = (storeId) => {
+  return useQuery({
+    queryKey: ["product-categories", storeId],
+    queryFn: () => getProductCategories(storeId),
+  });
+};
+
+export const useProcessProductCategories = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (categories) => processProductCategories(categories),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["product-categories"] });
+      showSnackbar("Categorías de productos actualizadas");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useGetProductVariants = (storeId) => {
+  return useQuery({
+    queryKey: ["product-variants", storeId],
+    queryFn: () => getProductVariants(storeId),
+  });
+};
+
+export const useProcessProductVariants = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (variants) => processProductVariants(variants),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["product-variants"] });
+      showSnackbar("Variantes de productos actualizadas");
     },
     onError: (error) => {
       showSnackbar(error);

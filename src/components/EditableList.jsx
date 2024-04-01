@@ -7,6 +7,8 @@ import {
   List,
   Portal,
   Surface,
+  Text,
+  useTheme,
 } from "react-native-paper";
 import EditableListDialog from "./EditableListDialog";
 import { useGlobalStore } from "../stores/global";
@@ -14,6 +16,7 @@ import { FlashList } from "@shopify/flash-list";
 
 // TODO: Handle state here
 const EditableList = ({ itemsName, mutation }) => {
+  const theme = useTheme();
   const [showDialog, setShowDialog] = useState(false);
 
   const listData = useGlobalStore((state) => state.listData);
@@ -62,13 +65,25 @@ const EditableList = ({ itemsName, mutation }) => {
       <List.Section style={styles.section}>
         <List.Subheader>{`${nonDeletedData.length} ${itemsName}`}</List.Subheader>
         <View style={styles.listContainer}>
-          <FlashList
-            data={listData}
-            renderItem={({ item, index }) =>
-              !item.deleted && renderItem(item, index)
-            }
-            estimatedItemSize={20}
-          />
+          {listData.length > 0 ? (
+            <FlashList
+              data={listData}
+              renderItem={({ item, index }) =>
+                !item.deleted && renderItem(item, index)
+              }
+              estimatedItemSize={20}
+            />
+          ) : (
+            <Text
+              variant="labelLarge"
+              style={{
+                color: theme.colors.onSurfaceVariant,
+                textAlign: "center",
+              }}
+            >
+              No existen {itemsName}
+            </Text>
+          )}
         </View>
       </List.Section>
       <Button

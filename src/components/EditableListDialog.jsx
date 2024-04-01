@@ -42,7 +42,7 @@ const EditableListDialog = ({ visible, onDismiss }) => {
           <TextInput
             mode="outlined"
             label="Nombre"
-            defaultValue={value}
+            value={value}
             onChangeText={setValue}
             autoComplete="off"
             autoCorrect={false}

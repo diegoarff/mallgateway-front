@@ -116,7 +116,7 @@ const General = () => {
         <View>
           <SectionHeader
             title="Categorías"
-            icon="filter-variant"
+            icon="tune-variant"
             onIconPress={() => setCategoriesDialogVisible(true)}
           />
           <View style={styles.categoriesContainer}>

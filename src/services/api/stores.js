@@ -74,6 +74,44 @@ export const processStoreCategories = async (categories) => {
   }
 };
 
+export const getProductCategories = async (storeId) => {
+  try {
+    const response = await api.get(`/stores/${storeId}/products/categories`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const processProductCategories = async (categories) => {
+  try {
+    const response = await api.patch("/stores/products/categories", {
+      categories,
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const getProductVariants = async (storeId) => {
+  try {
+    const response = await api.get(`/stores/${storeId}/products/variants`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const processProductVariants = async (variants) => {
+  try {
+    const response = await api.patch("/stores/products/variants", { variants });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const getSocials = async () => {
   try {
     const response = await api.get("/stores/socials");

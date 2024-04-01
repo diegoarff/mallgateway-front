@@ -47,11 +47,24 @@ const _layout = () => {
 
       {/* Products */}
       <Stack.Screen
-        name="products"
+        name="products/index"
         options={{
           headerTitle: "Productos",
         }}
       />
+      <Stack.Screen
+        name="products/categories"
+        options={{
+          headerTitle: "Categorías de productos",
+        }}
+      />
+      <Stack.Screen
+        name="products/variants"
+        options={{
+          headerTitle: "Variantes de productos",
+        }}
+      />
+
       <Stack.Screen
         name="promos"
         options={{
