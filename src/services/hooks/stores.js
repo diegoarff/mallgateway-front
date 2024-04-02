@@ -13,6 +13,8 @@ import {
   getStores,
   processStoreCategories,
   updateStore,
+  getStoreFeedback,
+  getStoreProductsFeedback,
 } from "../api/stores";
 import { useGlobalStore } from "../../stores/global";
 
@@ -158,5 +160,19 @@ export const useGetSocials = () => {
   return useQuery({
     queryKey: ["socials"],
     queryFn: getSocials,
+  });
+};
+
+export const useGetStoreFeedback = () => {
+  return useQuery({
+    queryKey: ["store-feedback"],
+    queryFn: getStoreFeedback,
+  });
+};
+
+export const useGetStoreProductsFeedback = () => {
+  return useQuery({
+    queryKey: ["store-products-feedback"],
+    queryFn: getStoreProductsFeedback,
   });
 };

@@ -120,3 +120,21 @@ export const getSocials = async () => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const getStoreFeedback = async () => {
+  try {
+    const response = await api.get("/stores/feedback");
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const getStoreProductsFeedback = async () => {
+  try {
+    const response = await api.get("/stores/products/feedback");
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
