@@ -1,18 +1,30 @@
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Icon, useTheme, Text } from "react-native-paper";
+import * as Linking from "expo-linking";
 
 const ContactItem = ({ iconSource, title, content }) => {
   const theme = useTheme();
   return (
-    <View style={styles.contactItemContainer}>
-      <Icon source={iconSource} size={18} color={theme.colors.primary} />
-      <View>
-        <Text variant="bodyLarge">{title}</Text>
-        <Text variant="bodyMedium" style={{ color: theme.colors.secondary }}>
-          {content}
-        </Text>
+    <Pressable
+      onPress={
+        iconSource === "phone"
+          ? () => Linking.openURL(`tel:${content}`)
+          : () =>
+              Linking.openURL(
+                content.startsWith("http") ? content : `http://${content}`
+              )
+      }
+    >
+      <View style={styles.contactItemContainer}>
+        <Icon source={iconSource} size={18} color={theme.colors.primary} />
+        <View>
+          <Text variant="bodyLarge">{title}</Text>
+          <Text variant="bodyMedium" style={{ color: theme.colors.secondary }}>
+            {content}
+          </Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
