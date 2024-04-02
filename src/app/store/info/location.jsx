@@ -19,6 +19,7 @@ import ReferencePoint from "../../../components/store/ReferencePoint";
 import { useUpdateStore } from "../../../services/hooks/stores";
 import { Stack } from "expo-router";
 import Header from "../../../components/Header";
+import useFirebaseImages from "../../../hooks/useFirebaseImages";
 
 const Location = () => {
   const theme = useTheme();
@@ -31,6 +32,12 @@ const Location = () => {
   );
   const [editAddress, setEditAddress] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+
+  const {
+    loading: isImageLoading,
+    uploadImages,
+    deleteImage,
+  } = useFirebaseImages();
 
   const reset = () => {
     setFacadeImg(store.facade);
@@ -54,8 +61,10 @@ const Location = () => {
     });
   };
 
-  const handleUpdate = () => {
-    updateStore({ facade: facadeImg, addresses });
+  const handleUpdate = async () => {
+    const urls = await uploadImages(facadeImg);
+    await deleteImage(store.facade);
+    updateStore({ facade: urls[0], addresses });
   };
 
   useEffect(() => {
@@ -67,7 +76,7 @@ const Location = () => {
       component: (
         <Appbar.Action
           icon="restore"
-          disabled={isPending || isEqual}
+          disabled={isPending || isEqual || isImageLoading}
           onPress={reset}
           tooltip="Deshacer cambios"
         />
@@ -78,7 +87,7 @@ const Location = () => {
       component: (
         <Appbar.Action
           icon="content-save-outline"
-          disabled={isPending || isEqual}
+          disabled={isPending || isEqual || isImageLoading}
           onPress={handleUpdate}
           tooltip="Guardar cambios"
         />
@@ -156,8 +165,8 @@ const Location = () => {
       <BottomAction>
         <Button
           mode="contained"
-          loading={isPending}
-          disabled={isPending || isEqual}
+          loading={isPending || isImageLoading}
+          disabled={isPending || isEqual || isImageLoading}
           onPress={handleUpdate}
         >
           Actualizar
@@ -226,7 +235,10 @@ const AddressDialog = ({ visible, onDismiss, setAddresses, editAddress }) => {
               control={control}
               multiline
               rules={{ required: "Descripción es requerida" }}
-              style={{ backgroundColor: theme.colors.elevation.level3 }}
+              style={{
+                backgroundColor: theme.colors.elevation.level3,
+                maxHeight: 200,
+              }}
             />
           </View>
         </Dialog.Content>

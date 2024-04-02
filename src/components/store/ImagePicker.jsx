@@ -1,7 +1,20 @@
 import { Image, StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
+import useImagePicker from "../../hooks/useImagePicker";
+import { useEffect } from "react";
 
 const ImagePicker = ({ image, setImage, aspect, buttonLabel }) => {
+  const { images, pickImage } = useImagePicker({
+    aspect,
+    allowsEditing: true,
+  });
+
+  useEffect(() => {
+    if (images.length) {
+      setImage(images[0].uri);
+    }
+  }, [images]);
+
   return (
     <View style={styles.imageContainer}>
       <Image
@@ -12,7 +25,7 @@ const ImagePicker = ({ image, setImage, aspect, buttonLabel }) => {
         icon="pencil"
         mode="contained"
         size={18}
-        onPress={() => {}}
+        onPress={pickImage}
         style={styles.editButton}
       >
         {buttonLabel || "Editar"}

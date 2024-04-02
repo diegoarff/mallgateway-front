@@ -16,20 +16,32 @@ import SectionHeader from "../../../components/store/SectionHeader";
 import DialogWithScroll from "../../../components/DialogWithScroll";
 import Loader from "../../../components/Loader";
 import BottomAction from "../../../components/store/BottomAction";
+import useFirebaseImages from "../../../hooks/useFirebaseImages";
 
 const General = () => {
   const store = useGlobalStore((state) => state.store);
   const { mutate: updateStore, isPending } = useUpdateStore();
 
-  // TODO: handle image upload
   const [logoImg, setLogoImg] = useState(store.logo);
   const [categories, setCategories] = useState([...store.categories]);
   const [categoriesDialogVisible, setCategoriesDialogVisible] = useState(false);
 
+  const {
+    loading: isImageLoading,
+    uploadImages,
+    deleteImage,
+  } = useFirebaseImages();
+
   const { control, handleSubmit, reset, watch } = useForm();
 
-  const handleUpdateStore = (data) => {
-    updateStore({ ...data, categories: categories.map((cat) => cat._id) });
+  const handleUpdateStore = async (data) => {
+    const urls = await uploadImages(logoImg);
+    await deleteImage(store.logo);
+    updateStore({
+      ...data,
+      categories: categories.map((cat) => cat._id),
+      logo: urls[0],
+    });
   };
 
   const formValues = watch();
@@ -39,9 +51,10 @@ const General = () => {
     return (
       JSON.stringify(formValues) ===
         JSON.stringify(initialFormValues.current) &&
-      JSON.stringify(categories) === JSON.stringify(store.categories)
+      JSON.stringify(categories) === JSON.stringify(store.categories) &&
+      logoImg === store.logo
     );
-  }, [formValues, categories, store]);
+  }, [formValues, categories, store, logoImg]);
 
   const resetForm = () => {
     if (store) {
@@ -53,6 +66,7 @@ const General = () => {
       initialFormValues.current = initialValues;
 
       setCategories([...store.categories]);
+      setLogoImg(store.logo);
     }
   };
 
@@ -65,7 +79,7 @@ const General = () => {
       component: (
         <Appbar.Action
           icon="restore"
-          disabled={isFormEqual || isPending}
+          disabled={isFormEqual || isPending || isImageLoading}
           onPress={resetForm}
           tooltip="Deshacer cambios"
         />
@@ -76,7 +90,7 @@ const General = () => {
       component: (
         <Appbar.Action
           icon="content-save-outline"
-          disabled={isFormEqual || isPending}
+          disabled={isFormEqual || isPending || isImageLoading}
           onPress={handleSubmit(handleUpdateStore)}
           tooltip="Guardar cambios"
         />
@@ -170,8 +184,8 @@ const General = () => {
         <Button
           mode="contained"
           onPress={handleSubmit(handleUpdateStore)}
-          loading={isPending}
-          disabled={isPending || isFormEqual}
+          loading={isPending || isImageLoading}
+          disabled={isFormEqual || isPending || isImageLoading}
         >
           Actualizar
         </Button>

@@ -23,6 +23,7 @@ import Snack from "../components/Snack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MallLightTheme, MallDarkTheme } from "../settings";
 import { es, registerTranslation } from "react-native-paper-dates";
+import "../settings/firebase";
 
 registerTranslation("es", es);
 
