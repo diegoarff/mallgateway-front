@@ -39,10 +39,7 @@ const Categories = () => {
         }}
       />
 
-      <ScreenWrapper
-        withInsets={false}
-        contentContainerStyle={{ justifyContent: "center" }}
-      >
+      <ScreenWrapper withInsets={false}>
         <EditableList itemsName="categorías" mutation={processCategories} />
       </ScreenWrapper>
     </>

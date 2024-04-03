@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   productName: {
-    marginTop: 8,
+    marginTop: 4,
   },
   image: {
     width: "100%",

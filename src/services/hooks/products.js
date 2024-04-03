@@ -1,6 +1,31 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProduct, getProduct, getSimilarProducts } from "../api/products";
+import {
+  useQuery,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  deleteProduct,
+  getProduct,
+  getProducts,
+  getSimilarProducts,
+} from "../api/products";
 import { useGlobalStore } from "../../stores/global";
+
+export const useGetProducts = (params) => {
+  return useInfiniteQuery({
+    queryKey: ["products", params],
+    queryFn: ({ pageParam }) => getProducts({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.page < lastPage?.totalPages) {
+        return lastPage.page + 1;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
 
 export const useGetProduct = (productId) => {
   return useQuery({

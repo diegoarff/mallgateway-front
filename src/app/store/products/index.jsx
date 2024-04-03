@@ -1,16 +1,60 @@
-import { StyleSheet, View } from "react-native";
-import { Button, Icon, Text, useTheme } from "react-native-paper";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Button, Divider, FAB, Icon, Text, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
+import Header from "../../../components/Header";
+import { useGetProducts } from "../../../services/hooks/products";
+import { useGlobalStore } from "../../../stores/global";
+import { useDebounce } from "../../../hooks/useDebounce";
+import ProductItem from "../../../components/ProductItem";
+import Loader from "../../../components/Loader";
 
 const StoreProducts = () => {
   const router = useRouter();
   const theme = useTheme();
+  const store = useGlobalStore((state) => state.store);
+
+  const [searchText, setSearchText] = useState("");
+  const debounceSearch = useDebounce(searchText, 500);
+
+  const {
+    data,
+    isPending,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetProducts({
+    search: debounceSearch,
+    store: store.id,
+  });
+
+  const loadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   return (
     <>
-      <ScreenWrapper withInsets={false}>
-        <View style={{ flexDirection: "row", gap: 12 }}>
+      <Stack.Screen
+        options={{
+          header: (props) => (
+            <Header
+              {...props}
+              withSearchbar
+              searchValue={searchText}
+              onSearchChange={setSearchText}
+              searchbarPlaceholder="Buscar productos"
+            />
+          ),
+        }}
+      />
+
+      <ScreenWrapper withInsets={false} withScrollView={false}>
+        <View style={styles.buttonsContainer}>
           <Button
             icon={() => (
               <Icon
@@ -21,8 +65,6 @@ const StoreProducts = () => {
             )}
             mode="contained-tonal"
             onPress={() => router.push("store/products/categories")}
-            style={styles.button}
-            contentStyle={styles.buttonContentStyle}
           >
             Categorías
           </Button>
@@ -32,15 +74,35 @@ const StoreProducts = () => {
             )}
             mode="contained-tonal"
             onPress={() => router.push("store/products/variants")}
-            style={styles.button}
-            contentStyle={styles.buttonContentStyle}
           >
             Variantes
           </Button>
+          <Divider style={styles.divider} bold />
         </View>
-        <View>
-          <Text>StoreProducts</Text>
-        </View>
+
+        {isPending && <Loader />}
+        {isError && <Text>{error.message}</Text>}
+        {data && (
+          <FlatList
+            data={data.pages.flatMap((page) => page.results)}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <ProductItem product={item} />}
+            numColumns={2}
+            contentContainerStyle={styles.flatListContentContainer}
+            columnWrapperStyle={styles.columnWrapper}
+            onEndReachedThreshold={0.5}
+            onEndReached={loadMore}
+            ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+
+        <FAB
+          icon="plus"
+          label="Añadir"
+          style={styles.fab}
+          onPress={() => router.push("store/products/new")}
+        />
       </ScreenWrapper>
     </>
   );
@@ -49,11 +111,29 @@ const StoreProducts = () => {
 export default StoreProducts;
 
 const styles = StyleSheet.create({
-  button: {
-    borderRadius: 50,
-    flexGrow: 1,
+  buttonsContainer: {
+    flexDirection: "row",
+    gap: 12,
+    paddingBottom: 10,
+    position: "relative",
   },
-  buttonContentStyle: {
-    paddingVertical: 8,
+  divider: {
+    position: "absolute",
+    left: -16,
+    right: -16,
+    bottom: 0,
+  },
+  flatListContentContainer: {
+    paddingBottom: 80,
+    paddingTop: 10,
+    gap: 16,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+  },
+  fab: {
+    position: "absolute",
+    right: 12,
+    bottom: 16,
   },
 });

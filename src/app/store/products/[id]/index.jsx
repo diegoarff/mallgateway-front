@@ -1,10 +1,10 @@
-import { Appbar, Button, Dialog, Portal, Text } from "react-native-paper";
-import ScreenWrapper from "../../../components/ScreenWrapper";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import Header from "../../../components/Header";
-import ProductDetailScreen from "../../../screens/ProductDetailScreen";
 import { useState } from "react";
-import { useDeleteProduct } from "../../../services/hooks/products";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Appbar, Button, Dialog, Portal, Text } from "react-native-paper";
+import ScreenWrapper from "../../../../components/ScreenWrapper";
+import Header from "../../../../components/Header";
+import ProductDetailScreen from "../../../../screens/ProductDetailScreen";
+import { useDeleteProduct } from "../../../../services/hooks/products";
 
 const StoreProductDetail = () => {
   const router = useRouter();

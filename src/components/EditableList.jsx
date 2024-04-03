@@ -5,7 +5,6 @@ import {
   FAB,
   IconButton,
   List,
-  Portal,
   Surface,
   Text,
   useTheme,
@@ -86,6 +85,7 @@ const EditableList = ({ itemsName, mutation }) => {
           )}
         </View>
       </List.Section>
+
       <Button
         mode="contained"
         style={styles.saveButton}
@@ -95,16 +95,14 @@ const EditableList = ({ itemsName, mutation }) => {
       >
         Guardar
       </Button>
-      <Portal.Host>
-        <Portal>
-          <FAB
-            icon="plus"
-            label="Añadir"
-            style={styles.addButton}
-            onPress={() => toggleDialog()}
-          />
-        </Portal>
-      </Portal.Host>
+
+      <FAB
+        icon="plus"
+        label="Añadir"
+        style={styles.addButton}
+        onPress={() => toggleDialog()}
+      />
+
       <EditableListDialog
         visible={showDialog}
         onDismiss={() => setShowDialog(false)}

@@ -64,6 +64,24 @@ const _layout = () => {
           headerTitle: "Variantes de productos",
         }}
       />
+      <Stack.Screen
+        name="products/new"
+        options={{
+          headerTitle: "Nuevo producto",
+        }}
+      />
+      <Stack.Screen
+        name="products/[id]/index"
+        options={{
+          headerTitle: "",
+        }}
+      />
+      <Stack.Screen
+        name="products/[id]/edit"
+        options={{
+          headerTitle: "Editar producto",
+        }}
+      />
 
       {/* Promos */}
       <Stack.Screen
