@@ -3,7 +3,7 @@ import { Button, Icon, Text, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { useRouter } from "expo-router";
 
-const Products = () => {
+const StoreProducts = () => {
   const router = useRouter();
   const theme = useTheme();
 
@@ -39,14 +39,14 @@ const Products = () => {
           </Button>
         </View>
         <View>
-          <Text>Products</Text>
+          <Text>StoreProducts</Text>
         </View>
       </ScreenWrapper>
     </>
   );
 };
 
-export default Products;
+export default StoreProducts;
 
 const styles = StyleSheet.create({
   button: {

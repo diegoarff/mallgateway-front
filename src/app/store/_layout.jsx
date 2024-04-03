@@ -65,12 +65,14 @@ const _layout = () => {
         }}
       />
 
+      {/* Promos */}
       <Stack.Screen
-        name="promos"
+        name="promos/index"
         options={{
           headerTitle: "Promociones",
         }}
       />
+
       <Stack.Screen
         name="reviews"
         options={{

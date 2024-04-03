@@ -61,7 +61,7 @@ export const useUpdateStore = () => {
 
   return useMutation({
     mutationFn: (store) => updateStore(store),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["owned-store"] });
       showSnackbar("Tienda actualizada");
     },

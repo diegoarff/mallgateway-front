@@ -88,7 +88,6 @@ const Contacts = () => {
           icon="restore"
           disabled={areContactsEqual || isPending}
           onPress={resetForm}
-          tooltip="Deshacer cambios"
         />
       ),
       tooltip: "Deshacer cambios",
@@ -99,7 +98,6 @@ const Contacts = () => {
           icon="content-save-outline"
           disabled={areContactsEqual || isPending}
           onPress={handleSubmit(handleUpdate)}
-          tooltip="Guardar cambios"
         />
       ),
       tooltip: "Guardar cambios",

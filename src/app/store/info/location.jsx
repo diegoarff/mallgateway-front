@@ -78,7 +78,6 @@ const Location = () => {
           icon="restore"
           disabled={isPending || isEqual || isImageLoading}
           onPress={reset}
-          tooltip="Deshacer cambios"
         />
       ),
       tooltip: "Deshacer cambios",
@@ -89,7 +88,6 @@ const Location = () => {
           icon="content-save-outline"
           disabled={isPending || isEqual || isImageLoading}
           onPress={handleUpdate}
-          tooltip="Guardar cambios"
         />
       ),
       tooltip: "Guardar cambios",

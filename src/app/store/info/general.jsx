@@ -81,7 +81,6 @@ const General = () => {
           icon="restore"
           disabled={isFormEqual || isPending || isImageLoading}
           onPress={resetForm}
-          tooltip="Deshacer cambios"
         />
       ),
       tooltip: "Deshacer cambios",
@@ -92,7 +91,6 @@ const General = () => {
           icon="content-save-outline"
           disabled={isFormEqual || isPending || isImageLoading}
           onPress={handleSubmit(handleUpdateStore)}
-          tooltip="Guardar cambios"
         />
       ),
       tooltip: "Guardar cambios",

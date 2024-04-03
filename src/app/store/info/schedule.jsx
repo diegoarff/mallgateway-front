@@ -113,7 +113,6 @@ const Schedule = () => {
           icon="restore"
           disabled={isScheduleEqual || isPending}
           onPress={undoChanges}
-          tooltip="Deshacer cambios"
         />
       ),
       tooltip: "Deshacer cambios",
@@ -124,7 +123,6 @@ const Schedule = () => {
           icon="content-save-outline"
           disabled={isScheduleEqual || isPending}
           onPress={handleUpdate}
-          tooltip="Guardar cambios"
         />
       ),
       tooltip: "Guardar cambios",

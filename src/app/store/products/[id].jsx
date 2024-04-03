@@ -1,13 +1,81 @@
-import { Text } from "react-native-paper";
+import { Appbar, Button, Dialog, Portal, Text } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import Header from "../../../components/Header";
+import ProductDetailScreen from "../../../screens/ProductDetailScreen";
+import { useState } from "react";
+import { useDeleteProduct } from "../../../services/hooks/products";
 
 const StoreProductDetail = () => {
+  const router = useRouter();
   const { id } = useLocalSearchParams();
+
+  const { mutate: deleteProduct, isPending } = useDeleteProduct();
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+
+  const handleDeleteProduct = () => {
+    deleteProduct(id);
+    router.back();
+  };
+
+  const headerActions = [
+    {
+      component: (
+        <Appbar.Action
+          icon="pencil-outline"
+          disabled={isPending}
+          onPress={() => router.back()}
+        />
+      ),
+      tooltip: "Editar producto",
+    },
+    {
+      component: (
+        <Appbar.Action
+          icon="trash-can-outline"
+          disabled={isPending}
+          onPress={() => setDeleteDialogVisible(true)}
+        />
+      ),
+      tooltip: "Eliminar producto",
+    },
+  ];
+
   return (
-    <ScreenWrapper withInsets={false}>
-      <Text>Product: {id}</Text>
-    </ScreenWrapper>
+    <>
+      <Stack.Screen
+        options={{
+          header: (props) => <Header {...props} actions={headerActions} />,
+        }}
+      />
+      <ScreenWrapper
+        withInsets={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
+        <ProductDetailScreen />
+      </ScreenWrapper>
+
+      {/* Delete product dialog */}
+      <Portal>
+        <Dialog
+          visible={deleteDialogVisible}
+          onDismiss={() => setDeleteDialogVisible(false)}
+        >
+          <Dialog.Title>Eliminar producto</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">
+              ¿Está seguro que desea eliminar este producto?
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setDeleteDialogVisible(false)}>
+              Cancelar
+            </Button>
+            <Button onPress={handleDeleteProduct}>Eliminar</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
   );
 };
 

@@ -64,7 +64,6 @@ const ProductVariantsHeader = ({ mutation, ...props }) => {
           icon="restore"
           disabled={isListDataEqual() || mutation.isPending}
           onPress={undoListChanges}
-          tooltip="Deshacer cambios"
         />
       ),
       tooltip: "Deshacer cambios",
@@ -77,7 +76,6 @@ const ProductVariantsHeader = ({ mutation, ...props }) => {
           onPress={() => {
             mutation.mutate(listData);
           }}
-          tooltip="Guardar cambios"
         />
       ),
       tooltip: "Guardar cambios",

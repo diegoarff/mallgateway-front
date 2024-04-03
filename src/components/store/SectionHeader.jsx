@@ -6,7 +6,7 @@ import { ROLES } from "../../utils/constants";
 const SectionHeader = ({ title, icon, onIconPress }) => (
   <View style={styles.sectionHeaderContainer}>
     <Text variant="titleMedium">{title}</Text>
-    <WithRole role={ROLES.STORE}>
+    <WithRole roles={[ROLES.STORE]}>
       {icon && (
         <IconButton
           icon={icon}
