@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Button, Divider, FAB, Icon, Text, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Header from "../../../components/Header";
 import { useGetProducts } from "../../../services/hooks/products";
 import { useGlobalStore } from "../../../stores/global";
@@ -16,7 +16,7 @@ const StoreProducts = () => {
   const store = useGlobalStore((state) => state.store);
 
   const [searchText, setSearchText] = useState("");
-  const debounceSearch = useDebounce(searchText, 500);
+  const debouncedSearch = useDebounce(searchText, 500);
 
   const {
     data,
@@ -27,7 +27,7 @@ const StoreProducts = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useGetProducts({
-    search: debounceSearch,
+    search: debouncedSearch,
     store: store.id,
   });
 
@@ -36,6 +36,11 @@ const StoreProducts = () => {
       fetchNextPage();
     }
   };
+
+  const products = useMemo(() => {
+    if (!data) return [];
+    return data.pages.flatMap((page) => page.results);
+  }, [data]);
 
   return (
     <>
@@ -84,7 +89,7 @@ const StoreProducts = () => {
         {isError && <Text>{error.message}</Text>}
         {data && (
           <FlatList
-            data={data.pages.flatMap((page) => page.results)}
+            data={products}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => <ProductItem product={item} />}
             numColumns={2}
@@ -124,8 +129,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   flatListContentContainer: {
+    paddingTop: 16,
     paddingBottom: 80,
-    paddingTop: 10,
     gap: 16,
   },
   columnWrapper: {

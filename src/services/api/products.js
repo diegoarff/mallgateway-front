@@ -9,6 +9,15 @@ export const getProducts = async (params) => {
   }
 };
 
+export const getProductsFromFollowed = async (params) => {
+  try {
+    const response = await api.get("/products/followed", { params });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const getProduct = async (productId) => {
   try {
     const response = await api.get(`/products/${productId}`);

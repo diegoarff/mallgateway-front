@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   createStore,
   deleteStore,
@@ -25,10 +30,18 @@ export const useGetOwnedStore = () => {
   });
 };
 
-export const useGetStores = () => {
-  return useQuery({
-    queryKey: ["stores"],
-    queryFn: getStores,
+export const useGetStores = (params) => {
+  return useInfiniteQuery({
+    queryKey: ["stores", params],
+    queryFn: ({ pageParam }) => getStores({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.page < lastPage?.totalPages) {
+        return lastPage.page + 1;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 

@@ -14,18 +14,28 @@ import Loader from "../../../components/Loader";
 import { useDeleteStore, useGetStores } from "../../../services/hooks/stores";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { useDebouncedSearch } from "../../../hooks/useDebouncedSearch";
 import Header from "../../../components/Header";
-import { useGlobalStore } from "../../../stores/global";
 import { FlashList } from "@shopify/flash-list";
 import ErrorScreen from "../../../components/ErrorScreen";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useDebounce } from "../../../hooks/useDebounce";
 
 const Stores = () => {
   const router = useRouter();
 
-  const { data, status, error } = useGetStores();
-  const result = useDebouncedSearch(data);
+  const [searchText, setSearchText] = useState("");
+  const debouncedSearch = useDebounce(searchText, 500);
+
+  const {
+    data,
+    status,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetStores({
+    search: debouncedSearch,
+  });
 
   const [dialogVisible, setDialogVisible] = useState(false);
   const [storeIdToDelete, setStoreIdToDelete] = useState(null);
@@ -40,6 +50,17 @@ const Stores = () => {
     setStoreIdToDelete(storeId);
     setDialogVisible(true);
   };
+
+  const loadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const stores = useMemo(() => {
+    if (!data) return [];
+    return data.pages.flatMap((page) => page.results);
+  }, [data]);
 
   const renderItem = (store) => {
     return (
@@ -72,6 +93,19 @@ const Stores = () => {
     );
   };
 
+  const headerActions = [
+    {
+      tooltip: "Filtrar",
+      component: (
+        <Appbar.Action
+          icon="filter-variant"
+          size={28}
+          onPress={() => console.log("filter")}
+        />
+      ),
+    },
+  ];
+
   if (status === "pending") return <Loader />;
   if (status === "error") return <ErrorScreen error={error} />;
 
@@ -79,20 +113,31 @@ const Stores = () => {
     <>
       <Stack.Screen
         options={{
-          // Defined below
-          header: (props) => <StoresHeader {...props} />,
+          header: (props) => (
+            <Header
+              {...props}
+              withSearchbar
+              searchValue={searchText}
+              onSearchChange={setSearchText}
+              searchbarPlaceholder="Buscar tiendas..."
+              actions={headerActions}
+            />
+          ),
         }}
       />
 
       <ScreenWrapper withInsets={false}>
         <List.Section style={styles.list}>
-          <List.Subheader>{result.length} Tiendas</List.Subheader>
           <View style={{ flex: 1, minHeight: 200 }}>
             <FlashList
-              data={result}
+              data={stores}
               renderItem={({ item }) => renderItem(item)}
               keyExtractor={(item) => item._id}
               estimatedItemSize={50}
+              onEndReached={loadMore}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         </List.Section>
@@ -143,35 +188,6 @@ const Stores = () => {
 };
 
 export default Stores;
-
-const StoresHeader = ({ ...props }) => {
-  const searchQuery = useGlobalStore((state) => state.searchQuery);
-  const setSearchQuery = useGlobalStore((state) => state.setSearchQuery);
-
-  const headerActions = [
-    {
-      tooltip: "Filtrar",
-      component: (
-        <Appbar.Action
-          icon="filter-variant"
-          size={28}
-          onPress={() => console.log("filter")}
-        />
-      ),
-    },
-  ];
-
-  return (
-    <Header
-      {...props}
-      withSearchbar
-      searchValue={searchQuery}
-      onSearchChange={setSearchQuery}
-      searchbarPlaceholder="Buscar tiendas..."
-      actions={headerActions}
-    />
-  );
-};
 
 const styles = StyleSheet.create({
   list: {

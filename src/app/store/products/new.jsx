@@ -1,11 +1,10 @@
-import { View, Text } from "react-native";
-import React from "react";
+import ProductManageScreen from "../../../screens/ProductManageScreen";
 
 const StoreNewProduct = () => {
   return (
-    <View>
-      <Text>StoreNewProduct</Text>
-    </View>
+    <>
+      <ProductManageScreen />
+    </>
   );
 };
 

@@ -105,29 +105,6 @@ const Login = () => {
       <Button mode="text" onPress={() => handleLogin("guest")}>
         Continuar como invitado
       </Button>
-
-      {/* DEV PURPOSE ONLY - DELETE AFTER */}
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 16,
-          justifyContent: "center",
-          position: "absolute",
-          bottom: 20,
-          width: "100%",
-          backgroundColor: "red",
-        }}
-      >
-        <Button mode="contained" onPress={() => handleLogin("admin")}>
-          Admin
-        </Button>
-        <Button mode="contained" onPress={() => handleLogin("store")}>
-          Store
-        </Button>
-        <Button mode="contained" onPress={() => handleLogin("user")}>
-          User
-        </Button>
-      </View>
     </ScreenWrapper>
   );
 };

@@ -11,9 +11,9 @@ export const getOwnedStore = async () => {
   }
 };
 
-export const getStores = async () => {
+export const getStores = async (params) => {
   try {
-    const response = await api.get("/stores");
+    const response = await api.get("/stores", { params });
     return response.data.data;
   } catch (error) {
     throw new Error(error.response.data.message);
