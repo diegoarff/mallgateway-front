@@ -6,9 +6,9 @@ import { useMemo, useState } from "react";
 import Header from "../../../components/Header";
 import { useGetProducts } from "../../../services/hooks/products";
 import { useGlobalStore } from "../../../stores/global";
-import { useDebounce } from "../../../hooks/useDebounce";
 import ProductItem from "../../../components/ProductItem";
 import Loader from "../../../components/Loader";
+import { useDebounce } from "../../../hooks/useDebounce";
 
 const StoreProducts = () => {
   const router = useRouter();

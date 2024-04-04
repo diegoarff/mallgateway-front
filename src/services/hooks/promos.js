@@ -1,5 +1,14 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPromos, getPromosFromFollowed } from "../api/promos";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  getPromos,
+  getPromosFromFollowed,
+  handlePromoActive,
+} from "../api/promos";
+import { useGlobalStore } from "../../stores/global";
 
 export const useGetPromos = (params) => {
   return useInfiniteQuery({
@@ -29,5 +38,21 @@ export const useGetPromosFromFollowed = (params) => {
       return undefined;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+
+export const useHandlePromoActive = (promoId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: () => handlePromoActive(promoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["promos"] });
+      showSnackbar("Promo actualizada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
   });
 };
