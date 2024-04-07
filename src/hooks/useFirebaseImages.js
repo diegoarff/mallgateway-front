@@ -8,6 +8,9 @@ import { storage } from "../settings/firebase";
 import { useState } from "react";
 import { useGlobalStore } from "../stores/global";
 
+const isValidStorageUrl = (url) =>
+  url.startsWith(`https://firebasestorage.googleapis.com/`);
+
 const useFirebaseImages = () => {
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +24,11 @@ const useFirebaseImages = () => {
       const imagesToUpload = Array.isArray(images) ? images : [images];
 
       for (const image of imagesToUpload) {
+        if (isValidStorageUrl(image)) {
+          uploadedUrls.push(image);
+          continue;
+        }
+
         const response = await fetch(image);
         const blob = await response.blob();
 
@@ -43,22 +51,27 @@ const useFirebaseImages = () => {
     }
   };
 
-  const deleteImage = async (downloadUrl) => {
-    const isValidStorageUrl = downloadUrl.startsWith(
-      `https://firebasestorage.googleapis.com/`
-    );
-
-    if (!isValidStorageUrl) return;
+  const deleteImages = async (downloadUrls) => {
+    const urlsToDelete = Array.isArray(downloadUrls)
+      ? downloadUrls
+      : [downloadUrls];
 
     try {
-      const fileRef = ref(storage, downloadUrl);
-      await deleteObject(fileRef);
+      setLoading(true);
+      for (const url of urlsToDelete) {
+        if (!isValidStorageUrl(url)) continue;
+
+        const fileRef = ref(storage, url);
+        await deleteObject(fileRef);
+      }
     } catch (error) {
       showSnackbar(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { loading, uploadImages, deleteImage };
+  return { loading, uploadImages, deleteImages };
 };
 
 export default useFirebaseImages;

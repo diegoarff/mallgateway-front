@@ -27,6 +27,24 @@ export const getProduct = async (productId) => {
   }
 };
 
+export const createProduct = async (product) => {
+  try {
+    const response = await api.post("/products", product);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const updateProduct = async (productId, product) => {
+  try {
+    const response = await api.put(`/products/${productId}`, product);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const getSimilarProducts = async (productId) => {
   try {
     const response = await api.get(`/products/${productId}/similar`);

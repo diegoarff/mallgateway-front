@@ -29,14 +29,14 @@ const General = () => {
   const {
     loading: isImageLoading,
     uploadImages,
-    deleteImage,
+    deleteImages,
   } = useFirebaseImages();
 
   const { control, handleSubmit, reset, watch } = useForm();
 
   const handleUpdateStore = async (data) => {
     const urls = await uploadImages(logoImg);
-    await deleteImage(store.logo);
+    await deleteImages(store.logo);
     updateStore({
       ...data,
       categories: categories.map((cat) => cat._id),
@@ -150,7 +150,6 @@ const General = () => {
             mode="outlined"
             name="name"
             label="Nombre de la tienda"
-            placeholder="Nombre de la tienda"
             control={control}
             rules={{
               required: "Nombre de la tienda es requerido",
@@ -161,7 +160,6 @@ const General = () => {
             name="description"
             label="Descripción de la tienda"
             multiline
-            placeholder="Descripción de la tienda"
             control={control}
             rules={{
               required: "Descripción de la tienda es requerida",
@@ -250,8 +248,5 @@ const styles = StyleSheet.create({
     gap: 8,
     flexWrap: "wrap",
     justifyContent: "center",
-  },
-  dialogScrollArea: {
-    paddingVertical: 16,
   },
 });

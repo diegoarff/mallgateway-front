@@ -24,7 +24,7 @@ const StoreProductDetail = () => {
         <Appbar.Action
           icon="pencil-outline"
           disabled={isPending}
-          onPress={() => router.back()}
+          onPress={() => router.push(`/store/products/${id}/edit`)}
         />
       ),
       tooltip: "Editar producto",

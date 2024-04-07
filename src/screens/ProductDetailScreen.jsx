@@ -87,7 +87,7 @@ const ProductDetailScreen = ({ fromUser }) => {
           >
             $
             {hasPromo
-              ? product.price * (product.promo.value / 100)
+              ? product.price - product.price * (product.promo.value / 100)
               : product.price}
           </Text>
           {hasPromo && (
@@ -182,14 +182,16 @@ const ProductDetailScreen = ({ fromUser }) => {
         </Pressable>
 
         {/* Categories */}
-        <View style={{ gap: 8 }}>
-          <Text variant="titleMedium">Categorías</Text>
-          <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
-            {product.categories.map((category, idx) => (
-              <Chip key={idx}>{category.name}</Chip>
-            ))}
+        {product.categories.length > 0 && (
+          <View style={{ gap: 8 }}>
+            <Text variant="titleMedium">Categorías</Text>
+            <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+              {product.categories.map((category, idx) => (
+                <Chip key={idx}>{category.name}</Chip>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
 
         {fromUser && (
           <>

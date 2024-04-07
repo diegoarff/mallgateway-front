@@ -40,7 +40,7 @@ const ProductItem = ({ product }) => {
           >
             $
             {hasPromo
-              ? product.price * (product.promo.value / 100)
+              ? product.price - product.price * (product.promo.value / 100)
               : product.price}
           </Text>
           {hasPromo && (

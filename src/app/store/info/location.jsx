@@ -36,7 +36,7 @@ const Location = () => {
   const {
     loading: isImageLoading,
     uploadImages,
-    deleteImage,
+    deleteImages,
   } = useFirebaseImages();
 
   const reset = () => {
@@ -63,7 +63,7 @@ const Location = () => {
 
   const handleUpdate = async () => {
     const urls = await uploadImages(facadeImg);
-    await deleteImage(store.facade);
+    await deleteImages(store.facade);
     updateStore({ facade: urls[0], addresses });
   };
 

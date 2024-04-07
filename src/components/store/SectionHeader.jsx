@@ -3,7 +3,7 @@ import { Text, IconButton } from "react-native-paper";
 import WithRole from "../WithRole";
 import { ROLES } from "../../utils/constants";
 
-const SectionHeader = ({ title, icon, onIconPress }) => (
+const SectionHeader = ({ title, icon, onIconPress, iconDisabled }) => (
   <View style={styles.sectionHeaderContainer}>
     <Text variant="titleMedium">{title}</Text>
     <WithRole roles={[ROLES.STORE]}>
@@ -13,6 +13,7 @@ const SectionHeader = ({ title, icon, onIconPress }) => (
           mode="contained"
           size={18}
           onPress={onIconPress}
+          disabled={iconDisabled}
         />
       )}
     </WithRole>

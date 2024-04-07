@@ -10,6 +10,8 @@ import {
   getProducts,
   getProductsFromFollowed,
   getSimilarProducts,
+  createProduct,
+  updateProduct,
 } from "../api/products";
 import { useGlobalStore } from "../../stores/global";
 
@@ -72,6 +74,45 @@ export const useDeleteProduct = () => {
         queryKey: ["store-products-feedback"],
       });
       showSnackbar("Producto eliminado con éxito");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useCreateProduct = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (product) => createProduct(product),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["store-products-feedback"],
+      });
+      showSnackbar("Producto creado con éxito");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useUpdateProduct = (productId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (product) => updateProduct(productId, product),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      showSnackbar("Producto actualizado con éxito");
     },
     onError: (error) => {
       showSnackbar(error);
