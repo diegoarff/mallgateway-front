@@ -8,7 +8,6 @@ import { useDeleteProduct } from "../../../../services/hooks/products";
 const StoreProductDetail = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
-  console.log("🚀 ~ StoreProductDetail ~ id:", id);
 
   const { mutate: deleteProduct, isPending } = useDeleteProduct(id);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);

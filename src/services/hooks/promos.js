@@ -64,7 +64,6 @@ export const useHandlePromoActive = (promoId) => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
       });
-      showSnackbar("Promo actualizada");
     },
     onError: (error) => {
       showSnackbar(error);

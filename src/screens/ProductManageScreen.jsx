@@ -54,9 +54,13 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
   const [variantsDialogVisible, setVariantsDialogVisible] = useState(false);
 
   const initialState = useRef(JSON.parse(JSON.stringify(product)));
-  const imagesToDelete = useRef([]);
 
   const { control, handleSubmit, reset, watch } = useForm();
+  const formValues = watch();
+  const initialFormValues = useRef();
+
+  const imagesToDelete = useRef([]);
+
   const router = useRouter();
 
   const { images, pickImage } = useImagePicker({
@@ -72,11 +76,13 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
 
   useEffect(() => {
     if (editProduct) {
-      reset({
+      const initialValues = {
         name: editProduct.name,
         description: editProduct.description,
         price: editProduct.price.toString(),
-      });
+      };
+      reset(initialValues);
+      initialFormValues.current = initialValues;
     }
   }, []);
 
@@ -89,8 +95,18 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
     }
   }, [images]);
 
+  const noImages = product.images.length === 0 && images.length === 0;
+
+  const isProductEqual = useMemo(() => {
+    return (
+      JSON.stringify(product) === JSON.stringify(initialState.current) &&
+      JSON.stringify(formValues) === JSON.stringify(initialFormValues.current)
+    );
+  }, [product, initialState.current, formValues, initialFormValues.current]);
+
   const handleMutation = async (data) => {
     const urls = await uploadImages(product.images);
+    await deleteImages(imagesToDelete.current);
     mutation.mutate({
       ...data,
       price: parseFloat(data.price),
@@ -102,34 +118,12 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
         values: v.values,
       })),
     });
-    await deleteImages(imagesToDelete.current);
     router.back();
   };
 
-  const watchAllFields = watch();
-
-  const basicInfoEqual = useMemo(() => {
-    return (
-      watchAllFields.name === product.name &&
-      watchAllFields.description === product.description &&
-      watchAllFields.price === product.price.toString()
-    );
-  }, [watchAllFields, product]);
-
-  const isProductInvalid = useMemo(() => {
-    return (
-      JSON.stringify(product) === JSON.stringify(initialState.current) ||
-      Object.values(watchAllFields).some((value) => value === "")
-    );
-  }, [product, initialState.current, watchAllFields]);
-
   const resetValues = () => {
     setProduct(JSON.parse(JSON.stringify(initialState.current)));
-    reset({
-      name: initialState.current.name,
-      description: initialState.current.description,
-      price: initialState.current.price.toString(),
-    });
+    reset(initialFormValues.current);
   };
 
   const handleStockChange = (value) => {
@@ -207,7 +201,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
       component: (
         <Appbar.Action
           icon="restore"
-          disabled={isProductInvalid || mutation.isPending || areImagesLoading}
+          disabled={isProductEqual || mutation.isPending || areImagesLoading}
           onPress={resetValues}
         />
       ),
@@ -218,8 +212,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
         <Appbar.Action
           icon="content-save-outline"
           disabled={
-            (isProductInvalid || mutation.isPending || areImagesLoading) &&
-            basicInfoEqual
+            isProductEqual || mutation.isPending || areImagesLoading || noImages
           }
           onPress={handleSubmit(handleMutation)}
         />
@@ -347,7 +340,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
             </View>
           ) : (
             <Text variant="bodyMedium" style={{ textAlign: "center" }}>
-              No hay imágenes seleccionadas
+              No hay imágenes seleccionadas.{"\n"}Por favor, añada al menos una.
             </Text>
           )}
         </View>
@@ -372,14 +365,14 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
           title="Variantes"
         />
       </ScreenWrapper>
+
       <BottomAction>
         <Button
           mode="contained"
           onPress={handleSubmit(handleMutation)}
           loading={mutation.isPending || areImagesLoading}
           disabled={
-            (isProductInvalid || mutation.isPending || areImagesLoading) &&
-            basicInfoEqual
+            isProductEqual || mutation.isPending || areImagesLoading || noImages
           }
         >
           {editProduct ? "Guardar cambios" : "Añadir producto"}

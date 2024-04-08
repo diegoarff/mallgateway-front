@@ -1,12 +1,10 @@
-import { View, Text } from "react-native";
-import React from "react";
+import PromoManageScreen from "../../../screens/PromoManageScreen";
+import { useCreateProduct } from "../../../services/hooks/products";
 
 const StoreNewPromo = () => {
-  return (
-    <View>
-      <Text>StoreNewPromo</Text>
-    </View>
-  );
+  const createPromo = useCreateProduct();
+
+  return <PromoManageScreen mutation={createPromo} />;
 };
 
 export default StoreNewPromo;
