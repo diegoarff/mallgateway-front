@@ -89,9 +89,11 @@ const Home = () => {
           {productIsPending && <Loader />}
           {productIsError && <Text>{productError.message}</Text>}
           {productData && <ProductList products={products} />}
-          <Button mode="contained" onPress={redirectProducts}>
-            Ver más
-          </Button>
+          {products.length > 0 && (
+            <Button mode="contained" onPress={redirectProducts}>
+              Ver más
+            </Button>
+          )}
         </View>
 
         <View style={styles.gap}>
@@ -109,9 +111,11 @@ const Home = () => {
           {promoIsPending && <Loader />}
           {promoIsError && <Text>{promoError.message}</Text>}
           {promoData && <PromoList promos={promos} />}
-          <Button mode="contained" onPress={redirectPromos}>
-            Ver más
-          </Button>
+          {promos.length > 0 && (
+            <Button mode="contained" onPress={redirectPromos}>
+              Ver más
+            </Button>
+          )}
         </View>
       </ScreenWrapper>
     </View>

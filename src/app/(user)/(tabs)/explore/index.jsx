@@ -91,9 +91,11 @@ const Explore = () => {
           {productIsPending && <Loader />}
           {productIsError && <Text>{productError.message}</Text>}
           {productData && <ProductList products={products} />}
-          <Button mode="contained" onPress={redirectProducts}>
-            Ver más
-          </Button>
+          {products.length > 0 && (
+            <Button mode="contained" onPress={redirectProducts}>
+              Ver más
+            </Button>
+          )}
         </View>
       </ScreenWrapper>
     </>

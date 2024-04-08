@@ -18,37 +18,6 @@ import StoreList from "../../../components/StoreList";
 const Profile = () => {
   const user = useAuthStore((state) => state.user);
 
-  if (user?.role === ROLES.USER) return <AuthProfile />; // Defined below
-  if (user?.role === ROLES.GUEST) return <GuestProfile />; // Defined below
-
-  return null;
-};
-
-export default Profile;
-
-const GuestProfile = () => {
-  const doLogout = useAuthStore((state) => state.doLogout);
-
-  return (
-    <ScreenWrapper
-      withInsets={false}
-      contentContainerStyle={{
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 16,
-      }}
-    >
-      <Text variant="bodyLarge">Para ver tu perfil debes iniciar sesión</Text>
-      <Button mode="contained" onPress={doLogout}>
-        Ir a inicio de sesión
-      </Button>
-    </ScreenWrapper>
-  );
-};
-
-const AuthProfile = () => {
-  const user = useAuthStore((state) => state.user);
-  const router = useRouter();
   return (
     <>
       <Stack.Screen
@@ -71,31 +40,62 @@ const AuthProfile = () => {
           ),
         }}
       />
-
       <ScreenWrapper withInsets={false} withScrollView={false}>
-        <View style={{ marginBottom: 8 }}>
-          <Text variant="titleMedium">Cuenta</Text>
-          <List.Item
-            title={user?.username}
-            description={user?.email}
-            right={() => <List.Icon icon="arrow-right" />}
-            contentStyle={{ paddingLeft: 0 }}
-            onPress={() => router.push("user-settings")}
-          />
-        </View>
-
-        <Text variant="titleMedium">Intereses</Text>
-        <TabsProvider defaultIndex={0}>
-          <Tabs>
-            <TabScreen label="Productos">
-              <FollowedProducts />
-            </TabScreen>
-            <TabScreen label="Tiendas">
-              <FollowedStores />
-            </TabScreen>
-          </Tabs>
-        </TabsProvider>
+        {user?.role === ROLES.USER ? <AuthProfile /> : <GuestProfile />}
       </ScreenWrapper>
+    </>
+  );
+};
+
+export default Profile;
+
+const GuestProfile = () => {
+  const doLogout = useAuthStore((state) => state.doLogout);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
+      <Text variant="bodyLarge">Para ver tu perfil debes iniciar sesión</Text>
+      <Button mode="contained" onPress={doLogout}>
+        Ir a inicio de sesión
+      </Button>
+    </View>
+  );
+};
+
+const AuthProfile = () => {
+  const user = useAuthStore((state) => state.user);
+  const router = useRouter();
+  return (
+    <>
+      <View style={{ marginBottom: 8 }}>
+        <Text variant="titleMedium">Cuenta</Text>
+        <List.Item
+          title={user?.username}
+          description={user?.email}
+          right={() => <List.Icon icon="arrow-right" />}
+          contentStyle={{ paddingLeft: 0 }}
+          onPress={() => router.push("user-settings")}
+        />
+      </View>
+
+      <Text variant="titleMedium">Intereses</Text>
+      <TabsProvider defaultIndex={0}>
+        <Tabs>
+          <TabScreen label="Productos">
+            <FollowedProducts />
+          </TabScreen>
+          <TabScreen label="Tiendas">
+            <FollowedStores />
+          </TabScreen>
+        </Tabs>
+      </TabsProvider>
     </>
   );
 };

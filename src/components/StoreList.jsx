@@ -1,5 +1,5 @@
-import { FlatList, StyleSheet, Text } from "react-native";
-import React from "react";
+import { FlatList, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 import StoreItem from "./StoreItem";
 import Loader from "./Loader";
 
