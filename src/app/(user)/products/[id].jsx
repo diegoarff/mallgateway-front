@@ -1,8 +1,8 @@
 import { useLocalSearchParams, Stack } from "expo-router";
-import PromoDetailScreen from "../../../screens/PromoDetailScreen";
 import Header from "../../../components/Header";
+import ProductDetailScreen from "../../../screens/ProductDetailScreen";
 
-const PromoDetail = () => {
+const ProductDetail = () => {
   const { id } = useLocalSearchParams();
   return (
     <>
@@ -11,9 +11,9 @@ const PromoDetail = () => {
           header: (props) => <Header {...props} />,
         }}
       />
-      <PromoDetailScreen id={id} />
+      <ProductDetailScreen id={id} />
     </>
   );
 };
 
-export default PromoDetail;
+export default ProductDetail;

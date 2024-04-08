@@ -199,6 +199,8 @@ export const useFollowStore = (storeId) => {
     mutationFn: () => followStore(storeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.invalidateQueries({ queryKey: ["products", "followed"] });
+      queryClient.invalidateQueries({ queryKey: ["promos", "followed"] });
     },
     onError: (error) => {
       showSnackbar(error);

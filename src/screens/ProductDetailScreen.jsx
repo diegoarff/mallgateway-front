@@ -114,18 +114,16 @@ const ProductDetailScreen = ({ id }) => {
       </View>
 
       {/* Variants */}
-      <View>
-        {product.variants.length > 0 && (
-          <>
-            {product.variants.map((variant) => (
-              <View key={variant._id} style={styles.littleGap}>
-                <Text variant="titleMedium">{variant.variant.name}</Text>
-                <ChipList items={variant.values} />
-              </View>
-            ))}
-          </>
-        )}
-      </View>
+      {product.variants.length > 0 && (
+        <View style={styles.littleGap}>
+          {product.variants.map((variant) => (
+            <View key={variant._id} style={styles.littleGap}>
+              <Text variant="titleMedium">{variant.variant.name}</Text>
+              <ChipList items={variant.values} />
+            </View>
+          ))}
+        </View>
+      )}
 
       {/* Description */}
       <View style={styles.littleGap}>
