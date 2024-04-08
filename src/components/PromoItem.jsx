@@ -36,6 +36,18 @@ const PromoItem = ({ promo }) => {
   return (
     <Pressable onPress={handleRedirect}>
       <Surface mode="flat" elevation={2} style={styles.container}>
+        <WithRole roles={[ROLES.USER, ROLES.GUEST]}>
+          <Pressable onPress={() => router.push(`stores/${promo.store.id}`)}>
+            <View style={styles.row}>
+              <Image
+                source={{ uri: promo.store.logo }}
+                style={styles.storeImage}
+              />
+              <Text variant="labelLarge">{promo.store.name}</Text>
+            </View>
+          </Pressable>
+        </WithRole>
+
         <View style={styles.itemHeader}>
           <Text variant="titleMedium" numberOfLines={3} style={styles.title}>
             {promo.name}
@@ -48,6 +60,10 @@ const PromoItem = ({ promo }) => {
               disabled={isPending}
             />
           </WithRole>
+
+          <WithRole roles={[ROLES.USER, ROLES.GUEST]}>
+            <Chip icon="percent">{promo.value}</Chip>
+          </WithRole>
         </View>
 
         {promo.description && (
@@ -58,12 +74,14 @@ const PromoItem = ({ promo }) => {
           </Pressable>
         )}
 
-        <View style={styles.chipContainer}>
-          <Chip icon="percent">{promo.value}</Chip>
-          <Chip icon={isForProducts ? "shopping" : "tag-multiple"}>
-            {isForProducts ? "Productos" : "Categorías"}
-          </Chip>
-        </View>
+        <WithRole roles={[ROLES.STORE]}>
+          <View style={styles.row}>
+            <Chip icon="percent">{promo.value}</Chip>
+            <Chip icon={isForProducts ? "shopping" : "tag-multiple"}>
+              {isForProducts ? "Productos" : "Categorías"}
+            </Chip>
+          </View>
+        </WithRole>
 
         {promo.image && (
           <Image source={{ uri: promo.image }} style={styles.image} />
@@ -90,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: -12,
   },
-  chipContainer: {
+  row: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
@@ -99,5 +117,10 @@ const styles = StyleSheet.create({
     width: "100%",
     aspectRatio: 16 / 9,
     borderRadius: 16,
+  },
+  storeImage: {
+    height: 52,
+    aspectRatio: 1,
+    borderRadius: 8,
   },
 });

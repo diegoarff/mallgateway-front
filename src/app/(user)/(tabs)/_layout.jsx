@@ -53,9 +53,9 @@ const UserTabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="home/index"
+        name="home"
         options={{
-          headerTitle: "Inicio",
+          headerShown: false,
           tabBarLabel: "Inicio",
           tabBarIcon: (props) => renderIcon(props, "home"),
           href: user?.role === ROLES.USER ? "" : null,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Appbar, Searchbar, Tooltip, useTheme } from "react-native-paper";
+import { Appbar, Searchbar, Tooltip, useTheme, Text } from "react-native-paper";
 
 const Header = ({
   navigation,
@@ -45,7 +45,15 @@ const Header = ({
               onIconPress={() => setSearchVisible(false)}
             />
           ) : (
-            title || options.headerTitle
+            <Text
+              variant="titleLarge"
+              numberOfLines={1}
+              style={{
+                paddingRight: 16,
+              }}
+            >
+              {title || options.headerTitle}
+            </Text>
           )
         }
       />

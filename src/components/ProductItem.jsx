@@ -4,12 +4,15 @@ import WithRole from "./WithRole";
 import { ROLES } from "../utils/constants";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../stores/auth";
+import { useFollowProduct } from "../services/hooks/products";
 
 const ProductItem = ({ product }) => {
   const theme = useTheme();
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const hasPromo = product.promo && product.promo.value > 0;
+
+  const { mutate: followProduct, isPending } = useFollowProduct(product._id);
 
   const handleRedirect = () => {
     const id = product._id || product.id;
@@ -84,7 +87,11 @@ const ProductItem = ({ product }) => {
               product.interest ? theme.colors.primary : "rgba(0, 0, 0, 0.1)"
             }
             size={20}
-            onPress={() => {}}
+            onPress={() => {
+              if (!isPending) {
+                followProduct();
+              }
+            }}
             style={styles.likeButton}
           />
         </WithRole>

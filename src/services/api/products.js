@@ -62,3 +62,12 @@ export const deleteProduct = async (productId) => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const followProduct = async (productId) => {
+  try {
+    const response = await api.post(`/products/${productId}/interest`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

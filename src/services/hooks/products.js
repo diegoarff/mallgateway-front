@@ -12,6 +12,7 @@ import {
   getSimilarProducts,
   createProduct,
   updateProduct,
+  followProduct,
 } from "../api/products";
 import { useGlobalStore } from "../../stores/global";
 
@@ -113,6 +114,23 @@ export const useUpdateProduct = (productId) => {
         queryKey: ["store-products-feedback"],
       });
       showSnackbar("Producto actualizado con éxito");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useFollowProduct = (productId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: () => followProduct(productId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
     },
     onError: (error) => {
       showSnackbar(error);
