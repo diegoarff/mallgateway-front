@@ -226,8 +226,8 @@ const AddSocialDialog = ({ visible, onDismiss, setSocials }) => {
               {data.map((social) => (
                 <Chip
                   key={social._id}
-                  onPress={() => setSelectedSocial(social)}
                   showSelectedOverlay
+                  onPress={() => setSelectedSocial(social)}
                   selected={selectedSocial?._id === social._id}
                   icon={selectedSocial?._id !== social._id && social.icon}
                 >

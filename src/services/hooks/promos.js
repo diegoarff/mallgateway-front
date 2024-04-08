@@ -1,12 +1,17 @@
 import {
+  useQuery,
   useInfiniteQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
 import {
   getPromos,
+  getPromo,
   getPromosFromFollowed,
   handlePromoActive,
+  createPromo,
+  updatePromo,
+  deletePromo,
 } from "../api/promos";
 import { useGlobalStore } from "../../stores/global";
 
@@ -22,6 +27,13 @@ export const useGetPromos = (params) => {
       return undefined;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+
+export const useGetPromo = (promoId) => {
+  return useQuery({
+    queryKey: ["promos", promoId],
+    queryFn: () => getPromo(promoId),
   });
 };
 
@@ -49,7 +61,67 @@ export const useHandlePromoActive = (promoId) => {
     mutationFn: () => handlePromoActive(promoId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["promos"] });
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
       showSnackbar("Promo actualizada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useCreatePromo = () => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (promo) => createPromo(promo),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["promos"] });
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      showSnackbar("Promo creada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useUpdatePromo = (promoId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (promo) => updatePromo(promoId, promo),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["promos"] });
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      showSnackbar("Promo actualizada");
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useDeletePromo = (promoId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: () => deletePromo(promoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["promos"] });
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      showSnackbar("Promo eliminada");
     },
     onError: (error) => {
       showSnackbar(error);

@@ -27,6 +27,33 @@ export const getPromo = async (promoId) => {
   }
 };
 
+export const createPromo = async (promo) => {
+  try {
+    const response = await api.post("/promos", promo);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const updatePromo = async (promoId, promo) => {
+  try {
+    const response = await api.put(`/promos/${promoId}`, promo);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const deletePromo = async (promoId) => {
+  try {
+    const response = await api.delete(`/promos/${promoId}`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const handlePromoActive = async (promoId) => {
   try {
     const response = await api.post(`/promos/${promoId}/active`);

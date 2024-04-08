@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
 import ScreenWrapper from "../components/ScreenWrapper";
-import { Chip, List, Text } from "react-native-paper";
+import { List, Text } from "react-native-paper";
 import SectionHeader from "../components/store/SectionHeader";
 import { Image, StyleSheet, View } from "react-native";
 import ScheduleList from "../components/store/ScheduleList";
 import ContactList from "../components/store/ContactList";
 import ReferencePoint from "../components/store/ReferencePoint";
+import ChipList from "../components/ChipList";
 
 const StoreInfoScreen = ({ store }) => {
   const router = useRouter();
@@ -44,13 +45,12 @@ const StoreInfoScreen = ({ store }) => {
           </View>
 
           {store.categories.length > 0 && (
-            <View style={styles.categoriesContainer}>
-              {store.categories.map((category) => (
-                <Chip key={category._id} icon="tag">
-                  {category.name}
-                </Chip>
-              ))}
-            </View>
+            <ChipList
+              items={store.categories}
+              icon="tag"
+              titleKey="name"
+              centered
+            />
           )}
         </View>
       </List.Section>
@@ -137,12 +137,6 @@ const styles = StyleSheet.create({
   storeNameContainer: {
     alignItems: "center",
     gap: 2,
-  },
-  categoriesContainer: {
-    flexDirection: "row",
-    gap: 8,
-    flexWrap: "wrap",
-    justifyContent: "center",
   },
   locationContainer: {
     gap: 20,

@@ -17,6 +17,7 @@ import DialogWithScroll from "../../../components/DialogWithScroll";
 import Loader from "../../../components/Loader";
 import BottomAction from "../../../components/store/BottomAction";
 import useFirebaseImages from "../../../hooks/useFirebaseImages";
+import ChipList from "../../../components/ChipList";
 
 const General = () => {
   const store = useGlobalStore((state) => state.store);
@@ -131,17 +132,13 @@ const General = () => {
             icon="tune-variant"
             onIconPress={() => setCategoriesDialogVisible(true)}
           />
-          <View style={styles.categoriesContainer}>
-            {categories.length > 0 ? (
-              categories.map((category) => (
-                <Chip key={category._id} icon="tag">
-                  {category.name}
-                </Chip>
-              ))
-            ) : (
-              <Text>No hay categorías seleccionadas</Text>
-            )}
-          </View>
+          {categories.length > 0 ? (
+            <ChipList items={categories} icon="tag" titleKey="name" centered />
+          ) : (
+            <Text style={{ textAlign: "center" }}>
+              No hay categorías seleccionadas
+            </Text>
+          )}
         </View>
 
         <View>

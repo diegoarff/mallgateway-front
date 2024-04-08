@@ -138,3 +138,12 @@ export const getStoreProductsFeedback = async () => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const followStore = async (storeId) => {
+  try {
+    const response = await api.post(`/stores/${storeId}/interest`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

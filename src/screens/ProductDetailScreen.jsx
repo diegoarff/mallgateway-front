@@ -1,14 +1,6 @@
-import { useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, Pressable, Image, ScrollView } from "react-native";
-import {
-  Button,
-  Chip,
-  Icon,
-  Surface,
-  Text,
-  useTheme,
-} from "react-native-paper";
+import { useRouter } from "expo-router";
+import { View, Pressable, Image, ScrollView, StyleSheet } from "react-native";
+import { Icon, Text, useTheme } from "react-native-paper";
 import { useAuthStore } from "../stores/auth";
 import {
   useGetProduct,
@@ -16,8 +8,13 @@ import {
 } from "../services/hooks/products";
 import Loader from "../components/Loader";
 import ErrorScreen from "../components/ErrorScreen";
-import DialogWithScroll from "../components/DialogWithScroll";
-import ProductItem from "../components/ProductItem";
+import WithRole from "../components/WithRole";
+import { ROLES } from "../utils/constants";
+import DescriptionPressable from "../components/DescriptionPressable";
+import ProductList from "../components/ProductList";
+import StoreItem from "../components/StoreItem";
+import ChipList from "../components/ChipList";
+import ScreenWrapper from "../components/ScreenWrapper";
 
 const AVAILABILITY = {
   available: "Disponible",
@@ -25,15 +22,12 @@ const AVAILABILITY = {
   unavailable: "Agotado",
 };
 
-// TODO: Improve styling
-const ProductDetailScreen = ({ fromUser }) => {
-  const { id } = useLocalSearchParams();
+const ProductDetailScreen = ({ id }) => {
   const router = useRouter();
   const theme = useTheme();
   const user = useAuthStore((state) => state.user);
 
   const { data: product, status, error } = useGetProduct(id);
-  const [descriptionOpen, setDescriptionOpen] = useState(false);
 
   if (status === "pending") return <Loader />;
   if (status === "error") return <ErrorScreen error={error} />;
@@ -44,46 +38,45 @@ const ProductDetailScreen = ({ fromUser }) => {
     if (user.role === "store") {
       router.push(`store/promos/${product.promo._id}`);
     } else if (user.role === "user") {
-      router.push(`user/promos/${product.promo._id}`);
+      router.push(`promos/${product.promo._id}`);
     }
   };
 
+  const styles = getStyles(theme);
+
   return (
-    <>
+    <ScreenWrapper
+      withInsets={false}
+      contentContainerStyle={{ paddingBottom: 20, gap: 16 }}
+    >
       {/* Images */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 12 }}
-        style={{ maxHeight: 360, minHeight: 360, marginBottom: 16 }}
+        contentContainerStyle={styles.littleGap}
+        style={styles.imageScrollView}
       >
         {product.images.map((image, idx) => (
-          <Image
-            key={idx}
-            source={{ uri: image }}
-            style={{ aspectRatio: 1, borderRadius: 32 }}
-          />
+          <Image key={idx} source={{ uri: image }} style={styles.image} />
         ))}
       </ScrollView>
 
-      <View style={{ gap: 6, marginBottom: 12 }}>
+      <View style={styles.littleGap}>
         {/* Product Info */}
-        <Text
-          variant="titleLarge"
-          numberOfLines={2}
-          style={{ fontWeight: "bold" }}
-        >
+        <Text variant="titleLarge" numberOfLines={2} style={styles.productName}>
           {product.name}
         </Text>
 
         {/* Price */}
-        <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
+        <View style={styles.rowContainer}>
           <Text
             variant="titleMedium"
-            style={{
-              color: hasPromo ? theme.colors.primary : theme.colors.onSurface,
-              fontSize: 18,
-            }}
+            style={[
+              styles.price,
+              {
+                color: hasPromo ? theme.colors.primary : theme.colors.onSurface,
+              },
+            ]}
           >
             $
             {hasPromo
@@ -93,32 +86,14 @@ const ProductDetailScreen = ({ fromUser }) => {
           {hasPromo && (
             <Pressable
               onPress={handlePromoRedirect}
-              style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
+              style={styles.rowContainer}
             >
-              <Text
-                variant="titleMedium"
-                style={{
-                  textDecorationLine: "line-through",
-                  color: theme.colors.onSurfaceDisabled,
-                  fontSize: 18,
-                }}
-              >
+              <Text variant="titleMedium" style={styles.promoPrice}>
                 ${product.price}
               </Text>
 
-              <View
-                style={{
-                  paddingHorizontal: 8,
-                  backgroundColor: theme.colors.primaryContainer,
-                  borderRadius: 50,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  variant="labelLarge"
-                  style={{ color: theme.colors.primary }}
-                >
+              <View style={styles.promoTag}>
+                <Text variant="labelLarge" style={styles.promoText}>
                   {product.promo.value}
                 </Text>
                 <Icon
@@ -130,127 +105,54 @@ const ProductDetailScreen = ({ fromUser }) => {
             </Pressable>
           )}
 
-          <View
-            style={{
-              paddingHorizontal: 8,
-              paddingVertical: 2.2,
-              backgroundColor: theme.colors.surfaceDisabled,
-              borderRadius: 50,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              variant="labelMedium"
-              style={{ color: theme.colors.onSurfaceVariant }}
-            >
+          <View style={styles.availabilityTag}>
+            <Text variant="labelMedium" style={styles.availabilityText}>
               {AVAILABILITY[product.availability]}
             </Text>
           </View>
         </View>
       </View>
 
-      <View style={{ gap: 14 }}>
-        {/* Variants */}
+      {/* Variants */}
+      <View>
         {product.variants.length > 0 && (
           <>
             {product.variants.map((variant) => (
-              <View key={variant._id} style={{ gap: 8 }}>
+              <View key={variant._id} style={styles.littleGap}>
                 <Text variant="titleMedium">{variant.variant.name}</Text>
-
-                <View
-                  style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}
-                >
-                  {variant.values.map((value, idx) => (
-                    <Chip key={idx}>{value}</Chip>
-                  ))}
-                </View>
+                <ChipList items={variant.values} />
               </View>
             ))}
           </>
         )}
-
-        {/* Description */}
-        <Pressable
-          onPress={() => setDescriptionOpen(!descriptionOpen)}
-          style={{ gap: 4 }}
-        >
-          <Text variant="titleMedium">Descripción</Text>
-          <Text variant="bodyMedium" numberOfLines={3}>
-            {product.description}
-          </Text>
-        </Pressable>
-
-        {/* Categories */}
-        {product.categories.length > 0 && (
-          <View style={{ gap: 8 }}>
-            <Text variant="titleMedium">Categorías</Text>
-            <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
-              {product.categories.map((category, idx) => (
-                <Chip key={idx}>{category.name}</Chip>
-              ))}
-            </View>
-          </View>
-        )}
-
-        {fromUser && (
-          <>
-            <Pressable style={{ gap: 8 }}>
-              <Text variant="titleMedium">Tienda</Text>
-              <Surface
-                mode="flat"
-                elevation={3}
-                style={{
-                  gap: 16,
-                  padding: 16,
-                  borderRadius: 18,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 12,
-                  }}
-                >
-                  <Image
-                    source={{ uri: product.store.logo }}
-                    style={{ height: 88, aspectRatio: 1, borderRadius: 12 }}
-                  />
-                  <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Text variant="titleMedium" numberOfLines={1}>
-                      {product.store.name}
-                    </Text>
-                    <Text variant="bodyMedium" numberOfLines={3}>
-                      {product.store.description}
-                    </Text>
-                  </View>
-                </View>
-                <Button
-                  mode="contained"
-                  onPress={() => router.push(`user/stores/${product.store.id}`)}
-                >
-                  Visitar la tienda
-                </Button>
-              </Surface>
-            </Pressable>
-
-            <SimilarProducts productId={product._id} />
-          </>
-        )}
       </View>
 
-      {/* Description dialog */}
-      <DialogWithScroll
-        title="Descripción"
-        visible={descriptionOpen}
-        onDismiss={() => setDescriptionOpen(false)}
-        actions={
-          <Button onPress={() => setDescriptionOpen(false)}>Cerrar</Button>
-        }
-      >
-        <Text variant="bodyMedium">{product.description}</Text>
-      </DialogWithScroll>
-    </>
+      {/* Description */}
+      <View style={styles.littleGap}>
+        <Text variant="titleMedium">Descripción</Text>
+        <DescriptionPressable description={product.description} />
+      </View>
+
+      {/* Categories */}
+      {product.categories.length > 0 && (
+        <View style={styles.littleGap}>
+          <Text variant="titleMedium">Categorías</Text>
+          <ChipList items={product.categories} titleKey="name" icon="tag" />
+        </View>
+      )}
+
+      <WithRole roles={[ROLES.GUEST, ROLES.USER]}>
+        <View style={styles.littleGap}>
+          <Text variant="titleMedium">Tienda</Text>
+          <StoreItem store={product.store} />
+        </View>
+
+        <View style={styles.littleGap}>
+          <Text variant="titleMedium">Productos similares</Text>
+          <SimilarProducts productId={product._id} />
+        </View>
+      </WithRole>
+    </ScreenWrapper>
   );
 };
 
@@ -266,22 +168,46 @@ const SimilarProducts = ({ productId }) => {
 
   return (
     <View style={{ gap: 16 }}>
-      <Text variant="titleMedium">Productos similares</Text>
-
       {isPending && <Loader />}
       {isError && (
         <Text>Error obteniendo los productos similares: {error.message}</Text>
       )}
 
-      {similar?.length > 0 ? (
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 16 }}>
-          {similar?.map((product) => (
-            <ProductItem key={product._id} product={product} />
-          ))}
-        </View>
-      ) : (
-        <Text>No hay productos similares</Text>
-      )}
+      <ProductList products={similar} />
     </View>
   );
 };
+
+const getStyles = (theme) =>
+  StyleSheet.create({
+    imageScrollView: { maxHeight: 360, minHeight: 360 },
+    image: { aspectRatio: 1, borderRadius: 32 },
+    productName: { fontWeight: "bold" },
+    rowContainer: { flexDirection: "row", gap: 8, alignItems: "center" },
+    price: { fontSize: 18 },
+    promoPrice: {
+      textDecorationLine: "line-through",
+      color: theme.colors.onSurfaceDisabled,
+      fontSize: 18,
+    },
+    promoTag: {
+      paddingHorizontal: 8,
+      backgroundColor: theme.colors.primaryContainer,
+      borderRadius: 50,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    promoText: { color: theme.colors.primary },
+    availabilityTag: {
+      paddingHorizontal: 8,
+      paddingVertical: 2.2,
+      backgroundColor: theme.colors.surfaceDisabled,
+      borderRadius: 50,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    availabilityText: { color: theme.colors.onSurfaceVariant },
+    littleGap: {
+      gap: 8,
+    },
+  });

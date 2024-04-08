@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Divider, FAB, Icon, Text, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { Stack, useRouter } from "expo-router";
@@ -6,9 +6,9 @@ import { useMemo, useState } from "react";
 import Header from "../../../components/Header";
 import { useGetProducts } from "../../../services/hooks/products";
 import { useGlobalStore } from "../../../stores/global";
-import ProductItem from "../../../components/ProductItem";
 import Loader from "../../../components/Loader";
 import { useDebounce } from "../../../hooks/useDebounce";
+import ProductList from "../../../components/ProductList";
 
 const StoreProducts = () => {
   const router = useRouter();
@@ -88,17 +88,12 @@ const StoreProducts = () => {
         {isPending && <Loader />}
         {isError && <Text>{error.message}</Text>}
         {data && (
-          <FlatList
-            data={products}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <ProductItem product={item} />}
-            numColumns={2}
-            contentContainerStyle={styles.flatListContentContainer}
-            columnWrapperStyle={styles.columnWrapper}
-            onEndReachedThreshold={0.5}
-            onEndReached={loadMore}
-            ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
-            showsVerticalScrollIndicator={false}
+          <ProductList
+            products={products}
+            virtualized
+            loadMore={loadMore}
+            isFetchingNextPage={isFetchingNextPage}
+            style={styles.flatListContentContainer}
           />
         )}
 
@@ -131,10 +126,6 @@ const styles = StyleSheet.create({
   flatListContentContainer: {
     paddingTop: 16,
     paddingBottom: 80,
-    gap: 16,
-  },
-  columnWrapper: {
-    justifyContent: "space-between",
   },
   fab: {
     position: "absolute",

@@ -60,12 +60,12 @@ export const useGetSimilarProducts = (productId) => {
   });
 };
 
-export const useDeleteProduct = () => {
+export const useDeleteProduct = (productId) => {
   const queryClient = useQueryClient();
   const showSnackbar = useGlobalStore((state) => state.showSnackbar);
 
   return useMutation({
-    mutationFn: (productId) => deleteProduct(productId),
+    mutationFn: () => deleteProduct(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
@@ -91,9 +91,6 @@ export const useCreateProduct = () => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
       });
-      queryClient.invalidateQueries({
-        queryKey: ["store-products-feedback"],
-      });
       showSnackbar("Producto creado con éxito");
     },
     onError: (error) => {
@@ -111,6 +108,9 @@ export const useUpdateProduct = (productId) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["store-products-feedback"],
       });
       showSnackbar("Producto actualizado con éxito");
     },

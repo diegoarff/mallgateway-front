@@ -12,10 +12,12 @@ const ProductItem = ({ product }) => {
   const hasPromo = product.promo && product.promo.value > 0;
 
   const handleRedirect = () => {
+    const id = product._id || product.id;
     if (user.role === ROLES.STORE) {
-      router.push(`store/products/${product._id}`);
+      router.push(`store/products/${id}`);
+      console.log("🚀 ~ handleRedirect ~ store:", `store/products/${id}`);
     } else if (user.role === ROLES.USER || user.role === ROLES.GUEST) {
-      router.push(`user/products/${product._id}`);
+      router.push(`products/${id}`);
     }
   };
 

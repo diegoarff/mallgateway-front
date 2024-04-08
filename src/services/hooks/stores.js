@@ -20,6 +20,7 @@ import {
   updateStore,
   getStoreFeedback,
   getStoreProductsFeedback,
+  followStore,
 } from "../api/stores";
 import { useGlobalStore } from "../../stores/global";
 
@@ -187,5 +188,20 @@ export const useGetStoreProductsFeedback = () => {
   return useQuery({
     queryKey: ["store-products-feedback"],
     queryFn: getStoreProductsFeedback,
+  });
+};
+
+export const useFollowStore = (storeId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: () => followStore(storeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
   });
 };

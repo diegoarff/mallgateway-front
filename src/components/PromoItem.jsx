@@ -22,7 +22,7 @@ const PromoItem = ({ promo }) => {
     if (user.role === ROLES.STORE) {
       router.push(`store/promos/${promo._id}`);
     } else if (user.role === ROLES.USER || user.role === ROLES.GUEST) {
-      router.push(`user/promos/${promo._id}`);
+      router.push(`promos/${promo._id}`);
     }
   };
 
