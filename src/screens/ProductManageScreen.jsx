@@ -108,6 +108,14 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
 
   const watchAllFields = watch();
 
+  const basicInfoEqual = useMemo(() => {
+    return (
+      watchAllFields.name === product.name &&
+      watchAllFields.description === product.description &&
+      watchAllFields.price === product.price.toString()
+    );
+  }, [watchAllFields, product]);
+
   const isProductInvalid = useMemo(() => {
     return (
       JSON.stringify(product) === JSON.stringify(initialState.current) ||
@@ -209,7 +217,10 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
       component: (
         <Appbar.Action
           icon="content-save-outline"
-          disabled={isProductInvalid || mutation.isPending || areImagesLoading}
+          disabled={
+            (isProductInvalid || mutation.isPending || areImagesLoading) &&
+            basicInfoEqual
+          }
           onPress={handleSubmit(handleMutation)}
         />
       ),
@@ -365,8 +376,11 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
         <Button
           mode="contained"
           onPress={handleSubmit(handleMutation)}
-          loading={mutation.isPending}
-          disabled={mutation.isPending || areImagesLoading || isProductInvalid}
+          loading={mutation.isPending || areImagesLoading}
+          disabled={
+            (isProductInvalid || mutation.isPending || areImagesLoading) &&
+            basicInfoEqual
+          }
         >
           {editProduct ? "Guardar cambios" : "Añadir producto"}
         </Button>
