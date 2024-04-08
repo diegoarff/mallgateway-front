@@ -13,6 +13,7 @@ import {
   createProduct,
   updateProduct,
   followProduct,
+  addFeedbackToProduct,
 } from "../api/products";
 import { useGlobalStore } from "../../stores/global";
 
@@ -131,6 +132,24 @@ export const useFollowProduct = (productId) => {
       queryClient.invalidateQueries({
         queryKey: ["products"],
       });
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useAddFeedbackToProduct = (productId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (feedback) => addFeedbackToProduct(productId, feedback),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["store-products-feedback"],
+      });
+      showSnackbar("Reseña enviada con éxito");
     },
     onError: (error) => {
       showSnackbar(error);

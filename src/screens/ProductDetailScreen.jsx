@@ -1,8 +1,10 @@
 import { useRouter } from "expo-router";
 import { View, Pressable, Image, ScrollView, StyleSheet } from "react-native";
-import { Icon, Text, useTheme } from "react-native-paper";
+import { Icon, Text, useTheme, IconButton } from "react-native-paper";
 import { useAuthStore } from "../stores/auth";
 import {
+  useAddFeedbackToProduct,
+  useFollowProduct,
   useGetProduct,
   useGetSimilarProducts,
 } from "../services/hooks/products";
@@ -15,6 +17,8 @@ import ProductList from "../components/ProductList";
 import StoreItem from "../components/StoreItem";
 import ChipList from "../components/ChipList";
 import ScreenWrapper from "../components/ScreenWrapper";
+import { useState } from "react";
+import FeedbackDialog from "../components/FeedbackDialog";
 
 const AVAILABILITY = {
   available: "Disponible",
@@ -28,6 +32,10 @@ const ProductDetailScreen = ({ id }) => {
   const user = useAuthStore((state) => state.user);
 
   const { data: product, status, error } = useGetProduct(id);
+  const { mutate: followProduct, isPending } = useFollowProduct(product?._id);
+  const addFeedbackToProduct = useAddFeedbackToProduct(product?._id);
+
+  const [feedbackDialogVisible, setFeedbackDialogVisible] = useState(false);
 
   if (status === "pending") return <Loader />;
   if (status === "error") return <ErrorScreen error={error} />;
@@ -61,56 +69,99 @@ const ProductDetailScreen = ({ id }) => {
         ))}
       </ScrollView>
 
-      <View style={styles.littleGap}>
-        {/* Product Info */}
-        <Text variant="titleLarge" numberOfLines={2} style={styles.productName}>
-          {product.name}
-        </Text>
-
-        {/* Price */}
-        <View style={styles.rowContainer}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View style={[styles.littleGap, { flex: 1 }]}>
+          {/* Product Info */}
           <Text
-            variant="titleMedium"
-            style={[
-              styles.price,
-              {
-                color: hasPromo ? theme.colors.primary : theme.colors.onSurface,
-              },
-            ]}
+            variant="titleLarge"
+            numberOfLines={2}
+            style={styles.productName}
           >
-            $
-            {hasPromo
-              ? product.price - product.price * (product.promo.value / 100)
-              : product.price}
+            {product.name}
           </Text>
-          {hasPromo && (
-            <Pressable
-              onPress={handlePromoRedirect}
-              style={styles.rowContainer}
+
+          {/* Price */}
+          <View style={styles.rowContainer}>
+            <Text
+              variant="titleMedium"
+              style={[
+                styles.price,
+                {
+                  color: hasPromo
+                    ? theme.colors.primary
+                    : theme.colors.onSurface,
+                },
+              ]}
             >
-              <Text variant="titleMedium" style={styles.promoPrice}>
-                ${product.price}
-              </Text>
-
-              <View style={styles.promoTag}>
-                <Text variant="labelLarge" style={styles.promoText}>
-                  {product.promo.value}
-                </Text>
-                <Icon
-                  source="percent-outline"
-                  size={14}
-                  color={theme.colors.primary}
-                />
-              </View>
-            </Pressable>
-          )}
-
-          <View style={styles.availabilityTag}>
-            <Text variant="labelMedium" style={styles.availabilityText}>
-              {AVAILABILITY[product.availability]}
+              $
+              {hasPromo
+                ? product.price - product.price * (product.promo.value / 100)
+                : product.price}
             </Text>
+            {hasPromo && (
+              <Pressable
+                onPress={handlePromoRedirect}
+                style={styles.rowContainer}
+              >
+                <Text variant="titleMedium" style={styles.promoPrice}>
+                  ${product.price}
+                </Text>
+
+                <View style={styles.promoTag}>
+                  <Text variant="labelLarge" style={styles.promoText}>
+                    {product.promo.value}
+                  </Text>
+                  <Icon
+                    source="percent-outline"
+                    size={14}
+                    color={theme.colors.primary}
+                  />
+                </View>
+              </Pressable>
+            )}
+
+            <View style={styles.availabilityTag}>
+              <Text variant="labelMedium" style={styles.availabilityText}>
+                {AVAILABILITY[product.availability]}
+              </Text>
+            </View>
           </View>
         </View>
+
+        {/* Actions */}
+        <WithRole roles={[ROLES.USER]}>
+          <View style={[styles.rowContainer, { gap: 0 }]}>
+            <IconButton
+              mode="contained"
+              icon={product.interest ? "heart" : "heart-outline"}
+              iconColor="#ffffff"
+              containerColor={
+                product.interest
+                  ? theme.colors.primary
+                  : theme.colors.surfaceVariant
+              }
+              size={24}
+              onPress={() => {
+                if (!isPending) {
+                  followProduct();
+                }
+              }}
+            />
+
+            <IconButton
+              mode="contained"
+              icon="flag-variant-outline"
+              size={24}
+              onPress={() => setFeedbackDialogVisible(true)}
+            />
+          </View>
+        </WithRole>
       </View>
 
       {/* Variants */}
@@ -150,6 +201,12 @@ const ProductDetailScreen = ({ id }) => {
           <SimilarProducts productId={product._id} />
         </View>
       </WithRole>
+
+      <FeedbackDialog
+        visible={feedbackDialogVisible}
+        onDismiss={() => setFeedbackDialogVisible(false)}
+        mutation={addFeedbackToProduct}
+      />
     </ScreenWrapper>
   );
 };
