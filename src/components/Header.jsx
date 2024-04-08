@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { Appbar, Searchbar, Tooltip, useTheme, Text } from "react-native-paper";
 
 const Header = ({
@@ -26,7 +27,11 @@ const Header = ({
   return (
     <Appbar.Header style={style}>
       {!searchVisible &&
-        (back ? <Appbar.BackAction onPress={navigation.goBack} /> : left)}
+        (back ? (
+          <Appbar.BackAction onPress={navigation.goBack} />
+        ) : (
+          <View style={{ marginHorizontal: 16 }}>{left}</View>
+        ))}
 
       <Appbar.Content
         title={

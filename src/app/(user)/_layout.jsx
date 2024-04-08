@@ -13,6 +13,7 @@ const UserLayout = () => {
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="search" />
       <Stack.Screen name="products/[id]" />
       <Stack.Screen name="promos/[id]" />
       <Stack.Screen name="stores/[id]" />

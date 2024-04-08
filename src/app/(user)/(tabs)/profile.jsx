@@ -66,7 +66,6 @@ const AuthProfile = () => {
                   {appSettings.mallName}
                 </Text>
               }
-              style={{ paddingLeft: 16, gap: 12 }}
               {...props}
             />
           ),

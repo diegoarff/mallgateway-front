@@ -63,9 +63,9 @@ const UserTabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="explore/index"
+        name="explore"
         options={{
-          headerTitle: "Explora",
+          headerShown: false,
           tabBarLabel: "Explora",
           tabBarIcon: (props) => renderIcon(props, "compass"),
         }}

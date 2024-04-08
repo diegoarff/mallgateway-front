@@ -128,7 +128,7 @@ const Stores = () => {
 
       <ScreenWrapper withInsets={false}>
         <List.Section style={styles.list}>
-          <View style={{ flex: 1, minHeight: 200 }}>
+          <View style={{ flex: 1, minHeight: 300 }}>
             <FlashList
               data={stores}
               renderItem={({ item }) => renderItem(item)}
@@ -138,6 +138,7 @@ const Stores = () => {
               onEndReachedThreshold={0.5}
               ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
               showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 16 }}
             />
           </View>
         </List.Section>

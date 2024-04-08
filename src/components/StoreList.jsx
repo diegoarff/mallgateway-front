@@ -21,9 +21,9 @@ const StoreList = ({
       data={stores}
       keyExtractor={(item) => item.name}
       renderItem={({ item }) => <StoreItem store={item} compact />}
-      numColumns={2}
+      numColumns={horizontal ? undefined : 2}
       contentContainerStyle={[styles.flatListContentContainer, style]}
-      columnWrapperStyle={styles.columnWrapper}
+      columnWrapperStyle={horizontal ? null : styles.columnWrapper}
       onEndReachedThreshold={0.5}
       onEndReached={loadMore}
       ListFooterComponent={isFetchingNextPage ? <Loader /> : null}

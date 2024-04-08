@@ -16,9 +16,9 @@ const ProductItem = ({ product }) => {
 
   const handleRedirect = () => {
     const id = product._id || product.id;
-    if (user.role === ROLES.STORE) {
+    if (user?.role === ROLES.STORE) {
       router.push(`store/products/${id}`);
-    } else if (user.role === ROLES.USER || user.role === ROLES.GUEST) {
+    } else if (user?.role === ROLES.USER || user?.role === ROLES.GUEST) {
       router.push(`products/${id}`);
     }
   };

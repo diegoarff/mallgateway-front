@@ -82,7 +82,6 @@ const StoreHeader = ({ ...props }) => {
         </Text>
       }
       actions={headerActions}
-      style={{ paddingLeft: 16, gap: 12 }}
       {...props}
     />
   );
