@@ -1,3 +1,5 @@
+import { useAuthStore } from "../../stores/auth";
+import { ROLES } from "../../utils/constants";
 import api from "./axios";
 
 export const getPromos = async (params) => {
@@ -11,6 +13,9 @@ export const getPromos = async (params) => {
 
 export const getPromosFromFollowed = async (params) => {
   try {
+    const user = await useAuthStore.getState().user;
+    if (user?.role === ROLES.GUEST) return { results: [] };
+
     const response = await api.get("/promos/followed", { params });
     return response.data.data;
   } catch (error) {

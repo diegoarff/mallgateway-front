@@ -147,3 +147,12 @@ export const followStore = async (storeId) => {
     throw new Error(error.response.data.message);
   }
 };
+
+export const addFeedbackToStore = async (storeId, feedback) => {
+  try {
+    const response = await api.post(`/stores/${storeId}/feedback`, feedback);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

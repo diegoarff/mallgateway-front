@@ -11,7 +11,12 @@ const DialogWithScroll = ({ visible, onDismiss, title, actions, children }) => {
       >
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.ScrollArea>
-          <ScrollView style={styles.scrollView}>{children}</ScrollView>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            {children}
+          </ScrollView>
         </Dialog.ScrollArea>
         <Dialog.Actions>{actions}</Dialog.Actions>
       </Dialog>

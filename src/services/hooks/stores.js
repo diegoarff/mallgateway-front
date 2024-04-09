@@ -21,6 +21,7 @@ import {
   getStoreFeedback,
   getStoreProductsFeedback,
   followStore,
+  addFeedbackToStore,
 } from "../api/stores";
 import { useGlobalStore } from "../../stores/global";
 
@@ -201,6 +202,22 @@ export const useFollowStore = (storeId) => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       queryClient.invalidateQueries({ queryKey: ["products", "followed"] });
       queryClient.invalidateQueries({ queryKey: ["promos", "followed"] });
+    },
+    onError: (error) => {
+      showSnackbar(error);
+    },
+  });
+};
+
+export const useAddFeedbackToStore = (storeId) => {
+  const queryClient = useQueryClient();
+  const showSnackbar = useGlobalStore((state) => state.showSnackbar);
+
+  return useMutation({
+    mutationFn: (feedback) => addFeedbackToStore(storeId, feedback),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["store-feedback"] });
+      showSnackbar("Reseña enviada con éxito");
     },
     onError: (error) => {
       showSnackbar(error);

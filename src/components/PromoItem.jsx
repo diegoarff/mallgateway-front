@@ -37,7 +37,7 @@ const PromoItem = ({ promo }) => {
     <Pressable onPress={handleRedirect}>
       <Surface mode="flat" elevation={2} style={styles.container}>
         <WithRole roles={[ROLES.USER, ROLES.GUEST]}>
-          <Pressable onPress={() => router.push(`stores/${promo.store.id}`)}>
+          <Pressable onPress={() => router.push(`stores/${promo.store._id}`)}>
             <View style={styles.row}>
               <Image
                 source={{ uri: promo.store.logo }}

@@ -129,7 +129,7 @@ const Promos = ({ search }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetPromos({ search });
+  } = useGetPromos({ search, active: true });
 
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
