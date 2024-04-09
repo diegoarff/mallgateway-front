@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
-import ScreenWrapper from "../../../components/ScreenWrapper";
-import Loader from "../../../components/Loader";
-import ErrorScreen from "../../../components/ErrorScreen";
+import ScreenWrapper from "../../../../components/ScreenWrapper";
+import Loader from "../../../../components/Loader";
+import ErrorScreen from "../../../../components/ErrorScreen";
 import {
   Text,
   Appbar,
@@ -16,21 +17,20 @@ import {
   useAddFeedbackToStore,
   useFollowStore,
   useGetStore,
-} from "../../../services/hooks/stores";
-import Header from "../../../components/Header";
-import ChipList from "../../../components/ChipList";
-import WithRole from "../../../components/WithRole";
-import FeedbackDialog from "../../../components/FeedbackDialog";
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import { ROLES } from "../../../utils/constants";
-import ProductList from "../../../components/ProductList";
-import PromoList from "../../../components/PromoList";
-import DialogWithScroll from "../../../components/DialogWithScroll";
-import ContactList from "../../../components/store/ContactList";
-import { useGetProducts } from "../../../services/hooks/products";
-import { useGetPromos } from "../../../services/hooks/promos";
-import ReferencePoint from "../../../components/store/ReferencePoint";
-import ScheduleList from "../../../components/store/ScheduleList";
+} from "../../../../services/hooks/stores";
+import Header from "../../../../components/Header";
+import ChipList from "../../../../components/ChipList";
+import WithRole from "../../../../components/WithRole";
+import FeedbackDialog from "../../../../components/FeedbackDialog";
+import { ROLES } from "../../../../utils/constants";
+import ProductList from "../../../../components/ProductList";
+import PromoList from "../../../../components/PromoList";
+import DialogWithScroll from "../../../../components/DialogWithScroll";
+import ContactList from "../../../../components/store/ContactList";
+import { useGetProducts } from "../../../../services/hooks/products";
+import { useGetPromos } from "../../../../services/hooks/promos";
+import ReferencePoint from "../../../../components/store/ReferencePoint";
+import ScheduleList from "../../../../components/store/ScheduleList";
 
 const currentDay = new Date().getDay();
 const currentTime = new Date().toLocaleTimeString("en-US", {

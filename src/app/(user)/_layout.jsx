@@ -16,7 +16,10 @@ const UserLayout = () => {
       <Stack.Screen name="search" />
       <Stack.Screen name="products/[id]" />
       <Stack.Screen name="promos/[id]" />
-      <Stack.Screen name="stores/[id]" />
+      <Stack.Screen name="stores/[id]/index" />
+      <Stack.Screen name="stores/[id]/products" />
+      <Stack.Screen name="stores/[id]/promos" />
+      <Stack.Screen name="stores/[id]/search" />
       <Stack.Screen name="user-settings" options={{ headerTitle: "Cuenta" }} />
     </Stack>
   );
