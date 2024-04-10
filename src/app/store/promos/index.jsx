@@ -1,7 +1,7 @@
 import { Stack, useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { Text, FlatList, StyleSheet } from "react-native";
-import { FAB } from "react-native-paper";
+import { FAB, Appbar } from "react-native-paper";
 import { useGetPromos } from "../../../services/hooks/promos";
 import { useGlobalStore } from "../../../stores/global";
 import Header from "../../../components/Header";
@@ -9,6 +9,7 @@ import ScreenWrapper from "../../../components/ScreenWrapper";
 import Loader from "../../../components/Loader";
 import PromoItem from "../../../components/PromoItem";
 import { useDebounce } from "../../../hooks/useDebounce";
+import PromoFilters from "../../../components/filters/PromoFilters";
 
 const StorePromos = () => {
   const router = useRouter();
@@ -16,6 +17,8 @@ const StorePromos = () => {
 
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filters, setFilters] = useState({});
 
   const {
     data,
@@ -28,6 +31,7 @@ const StorePromos = () => {
   } = useGetPromos({
     search: debouncedSearch,
     store: store.id,
+    ...filters,
   });
 
   const loadMore = () => {
@@ -41,6 +45,19 @@ const StorePromos = () => {
     return data.pages.flatMap((page) => page.results);
   }, [data]);
 
+  const headerActions = [
+    {
+      tooltip: "Filtrar",
+      component: (
+        <Appbar.Action
+          icon="filter-variant"
+          size={28}
+          onPress={() => setFiltersVisible(true)}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <Stack.Screen
@@ -52,6 +69,7 @@ const StorePromos = () => {
               searchValue={searchText}
               onSearchChange={setSearchText}
               searchbarPlaceholder="Buscar productos"
+              actions={headerActions}
             />
           ),
         }}
@@ -78,6 +96,12 @@ const StorePromos = () => {
           label="Añadir"
           style={styles.fab}
           onPress={() => router.push("store/promos/new")}
+        />
+        <PromoFilters
+          visible={filtersVisible}
+          onDismiss={() => setFiltersVisible(false)}
+          setFilters={setFilters}
+          withActive
         />
       </ScreenWrapper>
     </>

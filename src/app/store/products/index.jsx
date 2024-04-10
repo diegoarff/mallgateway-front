@@ -1,5 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import { Button, Divider, FAB, Icon, Text, useTheme } from "react-native-paper";
+import {
+  Button,
+  Divider,
+  FAB,
+  Icon,
+  Text,
+  useTheme,
+  Appbar,
+} from "react-native-paper";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { Stack, useRouter } from "expo-router";
 import { useMemo, useState } from "react";
@@ -9,6 +17,7 @@ import { useGlobalStore } from "../../../stores/global";
 import Loader from "../../../components/Loader";
 import { useDebounce } from "../../../hooks/useDebounce";
 import ProductList from "../../../components/ProductList";
+import ProductFilters from "../../../components/filters/ProductFilters";
 
 const StoreProducts = () => {
   const router = useRouter();
@@ -17,6 +26,8 @@ const StoreProducts = () => {
 
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filters, setFilters] = useState({});
 
   const {
     data,
@@ -29,6 +40,7 @@ const StoreProducts = () => {
   } = useGetProducts({
     search: debouncedSearch,
     store: store.id,
+    ...filters,
   });
 
   const loadMore = () => {
@@ -42,6 +54,19 @@ const StoreProducts = () => {
     return data.pages.flatMap((page) => page.results);
   }, [data]);
 
+  const headerActions = [
+    {
+      tooltip: "Filtrar",
+      component: (
+        <Appbar.Action
+          icon="filter-variant"
+          size={28}
+          onPress={() => setFiltersVisible(true)}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <Stack.Screen
@@ -53,6 +78,7 @@ const StoreProducts = () => {
               searchValue={searchText}
               onSearchChange={setSearchText}
               searchbarPlaceholder="Buscar productos"
+              actions={headerActions}
             />
           ),
         }}
@@ -102,6 +128,11 @@ const StoreProducts = () => {
           label="Añadir"
           style={styles.fab}
           onPress={() => router.push("store/products/new")}
+        />
+        <ProductFilters
+          visible={filtersVisible}
+          onDismiss={() => setFiltersVisible(false)}
+          setFilters={setFilters}
         />
       </ScreenWrapper>
     </>

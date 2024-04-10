@@ -19,22 +19,27 @@ import { FlashList } from "@shopify/flash-list";
 import ErrorScreen from "../../../components/ErrorScreen";
 import { useMemo, useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounce";
+import StoreFilters from "../../../components/filters/StoreFilters";
 
 const Stores = () => {
   const router = useRouter();
 
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filters, setFilters] = useState({});
 
   const {
     data,
-    status,
+    isLoading,
+    isError,
     error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   } = useGetStores({
     search: debouncedSearch,
+    ...filters,
   });
 
   const [dialogVisible, setDialogVisible] = useState(false);
@@ -100,14 +105,11 @@ const Stores = () => {
         <Appbar.Action
           icon="filter-variant"
           size={28}
-          onPress={() => console.log("filter")}
+          onPress={() => setFiltersVisible(true)}
         />
       ),
     },
   ];
-
-  if (status === "pending") return <Loader />;
-  if (status === "error") return <ErrorScreen error={error} />;
 
   return (
     <>
@@ -128,19 +130,23 @@ const Stores = () => {
 
       <ScreenWrapper>
         <List.Section style={styles.list}>
-          <View style={{ flex: 1, minHeight: 300 }}>
-            <FlashList
-              data={stores}
-              renderItem={({ item }) => renderItem(item)}
-              keyExtractor={(item) => item._id}
-              estimatedItemSize={50}
-              onEndReached={loadMore}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 16 }}
-            />
-          </View>
+          {isLoading && <Loader />}
+          {isError && <ErrorScreen error={error} />}
+          {data && (
+            <View style={{ flex: 1, minHeight: 300 }}>
+              <FlashList
+                data={stores}
+                renderItem={({ item }) => renderItem(item)}
+                keyExtractor={(item) => item._id}
+                estimatedItemSize={50}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={isFetchingNextPage ? <Loader /> : null}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 16 }}
+              />
+            </View>
+          )}
         </List.Section>
 
         <Portal>
@@ -184,6 +190,11 @@ const Stores = () => {
           </Portal>
         </Portal.Host>
       </ScreenWrapper>
+      <StoreFilters
+        visible={filtersVisible}
+        onDismiss={() => setFiltersVisible(false)}
+        setFilters={setFilters}
+      />
     </>
   );
 };

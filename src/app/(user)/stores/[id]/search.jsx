@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Text, Searchbar, useTheme, Appbar } from "react-native-paper";
+import { Text, Searchbar, useTheme, Appbar, Chip } from "react-native-paper";
 import { TabScreen, Tabs, TabsProvider } from "react-native-paper-tabs";
 import ScreenWrapper from "../../../../components/ScreenWrapper";
 import { Stack, useLocalSearchParams } from "expo-router";
@@ -10,6 +10,8 @@ import Loader from "../../../../components/Loader";
 import { useGetProducts } from "../../../../services/hooks/products";
 import { useGetPromos } from "../../../../services/hooks/promos";
 import { useDebounce } from "../../../../hooks/useDebounce";
+import ProductFilters from "../../../../components/filters/ProductFilters";
+import PromoFilters from "../../../../components/filters/PromoFilters";
 
 const StoreDetailSearch = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -29,18 +31,16 @@ const StoreDetailSearch = () => {
         }}
       />
       <ScreenWrapper withScrollView={false}>
-        {debouncedSearch && (
-          <TabsProvider defaultIndex={0}>
-            <Tabs>
-              <TabScreen label="Productos">
-                <Products search={debouncedSearch} />
-              </TabScreen>
-              <TabScreen label="Promociones">
-                <Promos search={debouncedSearch} />
-              </TabScreen>
-            </Tabs>
-          </TabsProvider>
-        )}
+        <TabsProvider defaultIndex={0}>
+          <Tabs>
+            <TabScreen label="Productos">
+              <Products search={debouncedSearch} />
+            </TabScreen>
+            <TabScreen label="Promociones">
+              <Promos search={debouncedSearch} />
+            </TabScreen>
+          </Tabs>
+        </TabsProvider>
       </ScreenWrapper>
     </>
   );
@@ -77,6 +77,9 @@ const SearchHeader = ({ value, setValue, navigation }) => {
 
 const Products = ({ search }) => {
   const { id } = useLocalSearchParams();
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filters, setFilters] = useState({});
+
   const {
     data,
     isPending,
@@ -85,7 +88,7 @@ const Products = ({ search }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetProducts({ store: id, search });
+  } = useGetProducts({ store: id, search, ...filters });
 
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -100,6 +103,16 @@ const Products = ({ search }) => {
 
   return (
     <View>
+      <Chip
+        icon="tune-variant"
+        onPress={() => setFiltersVisible(true)}
+        style={{
+          marginVertical: 16,
+          alignSelf: "flex-start",
+        }}
+      >
+        Filtrar
+      </Chip>
       {isPending && <Loader />}
       {isError && <Text>{error.message}</Text>}
       {data && (
@@ -108,14 +121,23 @@ const Products = ({ search }) => {
           virtualized
           loadMore={loadMore}
           isFetchingNextPage={isFetchingNextPage}
-          style={{ paddingVertical: 20 }}
+          style={{ paddingBottom: 20 }}
         />
       )}
+
+      <ProductFilters
+        visible={filtersVisible}
+        onDismiss={() => setFiltersVisible(false)}
+        filters={filters}
+        setFilters={setFilters}
+      />
     </View>
   );
 };
 
 const Promos = ({ search }) => {
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [filters, setFilters] = useState({});
   const { id } = useLocalSearchParams();
 
   const {
@@ -126,7 +148,7 @@ const Promos = ({ search }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetPromos({ store: id, search, active: true });
+  } = useGetPromos({ store: id, search, active: true, ...filters });
 
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -141,6 +163,16 @@ const Promos = ({ search }) => {
 
   return (
     <View>
+      <Chip
+        icon="tune-variant"
+        onPress={() => setFiltersVisible(true)}
+        style={{
+          marginVertical: 16,
+          alignSelf: "flex-start",
+        }}
+      >
+        Filtrar
+      </Chip>
       {isPending && <Loader />}
       {isError && <Text>{error.message}</Text>}
       {data && (
@@ -149,9 +181,15 @@ const Promos = ({ search }) => {
           virtualized
           loadMore={loadMore}
           isFetchingNextPage={isFetchingNextPage}
-          style={{ paddingVertical: 20 }}
+          style={{ paddingBottom: 20 }}
         />
       )}
+      <PromoFilters
+        visible={filtersVisible}
+        onDismiss={() => setFiltersVisible(false)}
+        filters={filters}
+        setFilters={setFilters}
+      />
     </View>
   );
 };
