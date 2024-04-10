@@ -1,8 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useAuthStore } from "../../../../stores/auth";
 import { ROLES } from "../../../../utils/constants";
 import { useRouter, Stack } from "expo-router";
-import { Text, Avatar, Button, IconButton } from "react-native-paper";
+import { Text, Button, IconButton } from "react-native-paper";
 import { appSettings } from "../../../../settings";
 import Header from "../../../../components/Header";
 import ScreenWrapper from "../../../../components/ScreenWrapper";
@@ -126,7 +126,12 @@ export default Home;
 const UserHeader = ({ ...props }) => {
   return (
     <Header
-      left={<Avatar.Image source={{ uri: appSettings.mallLogo }} size={36} />}
+      left={
+        <Image
+          source={{ uri: appSettings.mallLogo }}
+          style={{ height: 36, aspectRatio: 1 }}
+        />
+      }
       title={
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           {appSettings.mallName}

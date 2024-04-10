@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { useRegister } from "../../services/hooks/auth";
 import { useForm } from "react-hook-form";
 import { Text, Button, useTheme } from "react-native-paper";
@@ -6,6 +6,7 @@ import ScreenWrapper from "../../components/ScreenWrapper";
 import FormInput from "../../components/FormInput";
 import { Link } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
+import { appSettings } from "../../settings";
 
 const Register = () => {
   const { mutate: register, isPending } = useRegister();
@@ -26,6 +27,17 @@ const Register = () => {
       }}
     >
       {/* Mall logo */}
+      <View
+        style={{
+          marginBottom: 32,
+          alignItems: "center",
+        }}
+      >
+        <Image
+          source={{ uri: appSettings.mallLogo }}
+          style={{ height: 80, aspectRatio: 1 }}
+        />
+      </View>
 
       {/* Main text */}
       <View>

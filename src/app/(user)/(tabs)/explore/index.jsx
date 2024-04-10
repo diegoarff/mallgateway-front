@@ -1,11 +1,11 @@
 import ScreenWrapper from "../../../../components/ScreenWrapper";
-import { Text, Avatar, Appbar, IconButton, Button } from "react-native-paper";
+import { Text, Appbar, IconButton, Button } from "react-native-paper";
 import { Stack, useRouter } from "expo-router";
 import Header from "../../../../components/Header";
 import { appSettings } from "../../../../settings";
 import { useGetProducts } from "../../../../services/hooks/products";
 import { useGetStores } from "../../../../services/hooks/stores";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useMemo } from "react";
 import StoreList from "../../../../components/StoreList";
 import ProductList from "../../../../components/ProductList";
@@ -115,7 +115,12 @@ const ExploreHeader = ({ ...props }) => {
 
   return (
     <Header
-      left={<Avatar.Image source={{ uri: appSettings.mallLogo }} size={36} />}
+      left={
+        <Image
+          source={{ uri: appSettings.mallLogo }}
+          style={{ height: 36, aspectRatio: 1 }}
+        />
+      }
       title={
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           {appSettings.mallName}

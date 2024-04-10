@@ -1,10 +1,10 @@
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Header from "../../../components/Header";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import { appSettings } from "../../../settings";
 import { useAuthStore } from "../../../stores/auth";
 import { ROLES } from "../../../utils/constants";
-import { Text, Button, Avatar, List } from "react-native-paper";
+import { Text, Button, List } from "react-native-paper";
 import { Stack, useRouter } from "expo-router";
 import { TabScreen, Tabs, TabsProvider } from "react-native-paper-tabs";
 import {
@@ -25,9 +25,9 @@ const Profile = () => {
           header: (props) => (
             <Header
               left={
-                <Avatar.Image
+                <Image
                   source={{ uri: appSettings.mallLogo }}
-                  size={36}
+                  style={{ height: 36, aspectRatio: 1 }}
                 />
               }
               title={

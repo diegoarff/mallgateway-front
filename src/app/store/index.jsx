@@ -7,6 +7,7 @@ import { Appbar, Avatar, List, Text } from "react-native-paper";
 import Header from "../../components/Header";
 import { appSettings } from "../../settings";
 import { useGetOwnedStore } from "../../services/hooks/stores";
+import { Image } from "react-native";
 
 const Index = () => {
   const { data, status, error } = useGetOwnedStore();
@@ -75,7 +76,12 @@ const StoreHeader = ({ ...props }) => {
 
   return (
     <Header
-      left={<Avatar.Image source={{ uri: appSettings.mallLogo }} size={36} />}
+      left={
+        <Image
+          source={{ uri: appSettings.mallLogo }}
+          style={{ height: 36, aspectRatio: 1 }}
+        />
+      }
       title={
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           {appSettings.mallName}

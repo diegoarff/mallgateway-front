@@ -2,8 +2,9 @@ import { Stack, useRouter } from "expo-router";
 import DashboardList from "../../components/DashboardList";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import Header from "../../components/Header";
-import { Appbar, Avatar, Text } from "react-native-paper";
+import { Appbar, Text } from "react-native-paper";
 import { appSettings } from "../../settings";
+import { Image } from "react-native";
 
 const Index = () => {
   const items = [
@@ -52,7 +53,12 @@ const AdminHeader = ({ ...props }) => {
 
   return (
     <Header
-      left={<Avatar.Image source={{ uri: appSettings.mallLogo }} size={36} />}
+      left={
+        <Image
+          source={{ uri: appSettings.mallLogo }}
+          style={{ height: 36, aspectRatio: 1 }}
+        />
+      }
       title={
         <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
           {appSettings.mallName}
