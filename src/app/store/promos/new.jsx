@@ -1,8 +1,8 @@
 import PromoManageScreen from "../../../screens/PromoManageScreen";
-import { useCreateProduct } from "../../../services/hooks/products";
+import { useCreatePromo } from "../../../services/hooks/promos";
 
 const StoreNewPromo = () => {
-  const createPromo = useCreateProduct();
+  const createPromo = useCreatePromo();
 
   return <PromoManageScreen mutation={createPromo} />;
 };

@@ -57,7 +57,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
 
   const { control, handleSubmit, reset, watch } = useForm();
   const formValues = watch();
-  const initialFormValues = useRef();
+  const initialFormValues = useRef(formValues);
 
   const imagesToDelete = useRef([]);
 
@@ -258,7 +258,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
               mode="outlined"
               name="price"
               label="Precio"
-              keyboardType="numeric"
+              inputMode="numeric"
               control={control}
               rules={{ required: "El precio es requerido" }}
             />

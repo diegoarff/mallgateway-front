@@ -5,14 +5,17 @@ import { Text, Button, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import FormInput from "../../components/FormInput";
 import { Link } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Register = () => {
   const { mutate: register, isPending } = useRegister();
   const { control, handleSubmit } = useForm();
 
   const theme = useTheme();
+  const queryClient = useQueryClient();
 
   const registerHandler = (data) => {
+    queryClient.invalidateQueries();
     register(data);
   };
 

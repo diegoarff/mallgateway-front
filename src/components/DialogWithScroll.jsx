@@ -1,22 +1,36 @@
-import { Dimensions, ScrollView, StyleSheet } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { Dialog, Portal } from "react-native-paper";
 
-const DialogWithScroll = ({ visible, onDismiss, title, actions, children }) => {
+const DialogWithScroll = ({
+  visible,
+  onDismiss,
+  title,
+  actions,
+  children,
+  withScrollview = true,
+  maxHeight,
+}) => {
   return (
     <Portal>
       <Dialog
         visible={visible}
         onDismiss={onDismiss}
-        style={{ maxHeight: 0.8 * Dimensions.get("window").height }}
+        style={{
+          maxHeight: maxHeight || Dimensions.get("window").height * 0.8,
+        }}
       >
         <Dialog.Title>{title}</Dialog.Title>
         <Dialog.ScrollArea>
-          <ScrollView
-            contentContainerStyle={styles.scrollView}
-            showsVerticalScrollIndicator={false}
-          >
-            {children}
-          </ScrollView>
+          {withScrollview ? (
+            <ScrollView
+              contentContainerStyle={styles.scrollView}
+              showsVerticalScrollIndicator={false}
+            >
+              {children}
+            </ScrollView>
+          ) : (
+            <View>{children}</View>
+          )}
         </Dialog.ScrollArea>
         <Dialog.Actions>{actions}</Dialog.Actions>
       </Dialog>

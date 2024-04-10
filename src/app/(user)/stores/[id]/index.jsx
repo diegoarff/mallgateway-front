@@ -103,11 +103,11 @@ const StoreDetail = () => {
   }, [promoData]);
 
   const redirectProducts = () => {
-    router.push("home/products-followed");
+    router.push(`stores/${id}/products`);
   };
 
   const redirectPromos = () => {
-    router.push("home/promos-followed");
+    router.push(`stores/${id}/promos`);
   };
 
   if (status === "pending") return <Loader />;

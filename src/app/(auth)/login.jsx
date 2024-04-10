@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import { View } from "react-native";
 import { Link } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Login = () => {
   const { mutate: login, isPending } = useLogin();
@@ -14,8 +15,10 @@ const Login = () => {
   const theme = useTheme();
 
   const doLogin = useAuthStore((state) => state.doLogin);
+  const queryClient = useQueryClient();
 
   const loginHandler = (data) => {
+    queryClient.invalidateQueries();
     login(data);
   };
 
