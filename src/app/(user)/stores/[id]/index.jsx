@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import ScreenWrapper from "../../../../components/ScreenWrapper";
 import Loader from "../../../../components/Loader";
@@ -11,6 +11,7 @@ import {
   IconButton,
   Surface,
   Icon,
+  TouchableRipple,
   useTheme,
 } from "react-native-paper";
 import {
@@ -116,7 +117,10 @@ const StoreDetail = () => {
   const headerActions = [
     {
       component: (
-        <Appbar.Action icon="magnify" onPress={() => router.push("search")} />
+        <Appbar.Action
+          icon="magnify"
+          onPress={() => router.push(`stores/${id}/search`)}
+        />
       ),
       tooltip: "Buscar",
     },
@@ -273,9 +277,6 @@ const StoreDetail = () => {
         {store.addresses.map((address) => (
           <ReferencePoint key={address._id} reference={address} />
         ))}
-        {store.addresses.map((address) => (
-          <ReferencePoint key={address._id} reference={address} />
-        ))}
       </DialogWithScroll>
 
       {/* Schedule Dialog */}
@@ -295,11 +296,19 @@ export default StoreDetail;
 const InfoButton = ({ icon, onPress, title }) => {
   const theme = useTheme();
   return (
-    <Pressable onPress={onPress} style={{ flex: 1 }}>
+    <TouchableRipple
+      onPress={onPress}
+      style={{ flex: 1, borderRadius: 12 }}
+      borderless
+    >
       <Surface
         mode="flat"
         elevation={3}
-        style={{ padding: 12, borderRadius: 12, alignItems: "center", gap: 8 }}
+        style={{
+          padding: 12,
+          alignItems: "center",
+          gap: 8,
+        }}
       >
         <Icon source={icon} size={24} color={theme.colors.primary} />
         <Text
@@ -309,7 +318,7 @@ const InfoButton = ({ icon, onPress, title }) => {
           {title}
         </Text>
       </Surface>
-    </Pressable>
+    </TouchableRipple>
   );
 };
 
