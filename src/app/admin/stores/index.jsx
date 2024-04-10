@@ -126,7 +126,7 @@ const Stores = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false}>
+      <ScreenWrapper>
         <List.Section style={styles.list}>
           <View style={{ flex: 1, minHeight: 300 }}>
             <FlashList

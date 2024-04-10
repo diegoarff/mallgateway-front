@@ -24,7 +24,7 @@ const StoresRegister = () => {
   }, [isSuccess]);
 
   return (
-    <ScreenWrapper withInsets={false}>
+    <ScreenWrapper>
       <FormInput
         mode="outlined"
         name="name"

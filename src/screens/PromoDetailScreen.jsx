@@ -21,7 +21,6 @@ const PromoDetailScreen = ({ id }) => {
 
   return (
     <ScreenWrapper
-      withInsets={false}
       contentContainerStyle={{
         gap: 16,
         paddingBottom: 20,

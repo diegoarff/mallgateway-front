@@ -112,7 +112,7 @@ const Contacts = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false} withBottomAction>
+      <ScreenWrapper withBottomAction>
         <View>
           <SectionHeader title="General" />
           <FormInput

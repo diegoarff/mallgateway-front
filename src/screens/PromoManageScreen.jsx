@@ -43,7 +43,6 @@ const initialPromo = {
   entities: [],
 };
 
-// TODO: Handle products in promo
 const PromoManageScreen = ({ editPromo, mutation }) => {
   const [promo, setPromo] = useState(() =>
     editPromo ? JSON.parse(JSON.stringify(editPromo)) : initialPromo
@@ -158,7 +157,6 @@ const PromoManageScreen = ({ editPromo, mutation }) => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         withBottomAction
         contentContainerStyle={{
           gap: 12,

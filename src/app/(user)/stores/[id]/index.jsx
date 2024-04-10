@@ -135,7 +135,6 @@ const StoreDetail = () => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         contentContainerStyle={[styles.gap, { paddingBottom: 20 }]}
       >
         {/* Basic info */}

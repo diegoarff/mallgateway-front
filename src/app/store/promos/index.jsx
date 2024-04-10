@@ -57,7 +57,7 @@ const StorePromos = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false} withScrollView={false}>
+      <ScreenWrapper withScrollView={false}>
         {isPending && <Loader />}
         {isError && <Text>{error.message}</Text>}
         {data && (

@@ -40,7 +40,7 @@ const Profile = () => {
           ),
         }}
       />
-      <ScreenWrapper withInsets={false} withScrollView={false}>
+      <ScreenWrapper withScrollView={false}>
         {user?.role === ROLES.USER ? <AuthProfile /> : <GuestProfile />}
       </ScreenWrapper>
     </>

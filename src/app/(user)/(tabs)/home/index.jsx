@@ -68,7 +68,6 @@ const Home = () => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         contentContainerStyle={{
           gap: 24,
           paddingBottom: 20,

@@ -28,7 +28,7 @@ const UserPromosFollowed = () => {
   }, [data]);
 
   return (
-    <ScreenWrapper withInsets={false} withScrollView={false}>
+    <ScreenWrapper withScrollView={false}>
       {isPending && <Loader />}
       {isError && <Text>{error.message}</Text>}
       {data && (

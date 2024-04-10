@@ -138,7 +138,6 @@ const Schedule = () => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         withBottomAction
         contentContainerStyle={styles.screenWrapper}
       >

@@ -12,7 +12,7 @@ const ReviewList = ({ query }) => {
   if (status === "error") return <ErrorScreen error={error} />;
 
   return (
-    <ScreenWrapper withInsets={false}>
+    <ScreenWrapper>
       <FlashList
         data={data}
         renderItem={({ item }) => <ReviewItem review={item} />}

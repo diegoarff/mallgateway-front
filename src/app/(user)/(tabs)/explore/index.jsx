@@ -53,10 +53,7 @@ const Explore = () => {
           header: (props) => <ExploreHeader {...props} />,
         }}
       />
-      <ScreenWrapper
-        withInsets={false}
-        contentContainerStyle={{ gap: 24, paddingBottom: 20 }}
-      >
+      <ScreenWrapper contentContainerStyle={{ gap: 24, paddingBottom: 20 }}>
         <View style={styles.gap}>
           <View style={styles.sectionHeader}>
             <Text variant="titleMedium" style={styles.sectionTitle}>

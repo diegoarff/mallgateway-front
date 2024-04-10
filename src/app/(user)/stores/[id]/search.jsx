@@ -28,7 +28,7 @@ const StoreDetailSearch = () => {
           ),
         }}
       />
-      <ScreenWrapper withInsets={false} withScrollView={false}>
+      <ScreenWrapper withScrollView={false}>
         {debouncedSearch && (
           <TabsProvider defaultIndex={0}>
             <Tabs>

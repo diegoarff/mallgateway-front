@@ -53,10 +53,7 @@ const ProductDetailScreen = ({ id }) => {
   const styles = getStyles(theme);
 
   return (
-    <ScreenWrapper
-      withInsets={false}
-      contentContainerStyle={{ paddingBottom: 20, gap: 16 }}
-    >
+    <ScreenWrapper contentContainerStyle={{ paddingBottom: 20, gap: 16 }}>
       {/* Images */}
       <ScrollView
         horizontal

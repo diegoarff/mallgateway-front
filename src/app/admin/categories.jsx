@@ -39,7 +39,7 @@ const Categories = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false}>
+      <ScreenWrapper>
         <EditableList itemsName="categorías" mutation={processCategories} />
       </ScreenWrapper>
     </>

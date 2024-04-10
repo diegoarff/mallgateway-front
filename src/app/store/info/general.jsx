@@ -107,7 +107,6 @@ const General = () => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         withBottomAction
         contentContainerStyle={{
           gap: 18,

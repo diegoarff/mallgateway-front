@@ -51,7 +51,7 @@ const UserSettingsScreen = () => {
   }, [user]);
 
   return (
-    <ScreenWrapper withInsets={false} contentContainerStyle={styles.screen}>
+    <ScreenWrapper contentContainerStyle={styles.screen}>
       {/* Change user settings */}
       <View style={styles.form}>
         <View style={styles.textContainer}>

@@ -2,11 +2,10 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "react-native-paper";
 
-// TODO: With insets false by default
 const ScreenWrapper = ({
   children,
   withScrollView = true,
-  withInsets = true,
+  withInsets = false,
   withBottomAction = false,
   style,
   contentContainerStyle,

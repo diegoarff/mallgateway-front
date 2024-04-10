@@ -12,10 +12,7 @@ const StoreInfoScreen = ({ store }) => {
   const router = useRouter();
 
   return (
-    <ScreenWrapper
-      withInsets={false}
-      contentContainerStyle={styles.screenWrapper}
-    >
+    <ScreenWrapper contentContainerStyle={styles.screenWrapper}>
       {/* General information */}
       <List.Section>
         <SectionHeader

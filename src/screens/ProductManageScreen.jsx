@@ -229,7 +229,7 @@ const ProductManageScreen = ({ editProduct, mutation }) => {
         }}
       />
 
-      <ScreenWrapper withInsets={false} withBottomAction>
+      <ScreenWrapper withBottomAction>
         <View style={styles.container}>
           <Text variant="titleMedium">Información básica</Text>
           <View>

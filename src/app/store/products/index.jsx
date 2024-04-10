@@ -58,7 +58,7 @@ const StoreProducts = () => {
         }}
       />
 
-      <ScreenWrapper withInsets={false} withScrollView={false}>
+      <ScreenWrapper withScrollView={false}>
         <View style={styles.buttonsContainer}>
           <Button
             icon={() => (

@@ -4,7 +4,6 @@ import ScreenWrapper from "./ScreenWrapper";
 const Loader = ({ containerStyle = {} }) => {
   return (
     <ScreenWrapper
-      withInsets={false}
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
       style={containerStyle}
     >

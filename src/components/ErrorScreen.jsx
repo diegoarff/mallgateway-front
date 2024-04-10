@@ -6,7 +6,6 @@ const ErrorScreen = ({ error }) => {
   const doLogout = useAuthStore((state) => state.doLogout);
   return (
     <ScreenWrapper
-      withInsets={false}
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
       <Text>{error.message}</Text>

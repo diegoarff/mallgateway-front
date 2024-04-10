@@ -103,7 +103,6 @@ const Location = () => {
       />
 
       <ScreenWrapper
-        withInsets={false}
         withBottomAction
         contentContainerStyle={{
           gap: 16,
