@@ -59,6 +59,7 @@ const PromoFilters = ({
           label="Mínimo"
           value={tempFilters.minValue}
           onChangeText={(text) => handleFilterChange("minValue", text)}
+          inputMode="numeric"
           style={{ backgroundColor: theme.colors.elevation.level3 }}
         />
         <TextInput
@@ -66,6 +67,7 @@ const PromoFilters = ({
           label="Máximo"
           value={tempFilters.maxValue}
           onChangeText={(text) => handleFilterChange("maxValue", text)}
+          inputMode="numeric"
           style={{ backgroundColor: theme.colors.elevation.level3 }}
         />
       </List.Section>

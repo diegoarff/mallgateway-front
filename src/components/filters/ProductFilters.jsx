@@ -67,6 +67,7 @@ const ProductFilters = ({ visible, onDismiss, setFilters }) => {
           label="Mínimo"
           value={tempFilters.minPrice}
           onChangeText={(text) => handleFilterChange("minPrice", text)}
+          inputMode="numeric"
           style={{ backgroundColor: theme.colors.elevation.level3 }}
         />
         <TextInput
@@ -74,6 +75,7 @@ const ProductFilters = ({ visible, onDismiss, setFilters }) => {
           label="Máximo"
           value={tempFilters.maxPrice}
           onChangeText={(text) => handleFilterChange("maxPrice", text)}
+          inputMode="numeric"
           style={{ backgroundColor: theme.colors.elevation.level3 }}
         />
       </List.Section>

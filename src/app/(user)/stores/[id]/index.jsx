@@ -178,7 +178,7 @@ const StoreDetail = () => {
             </Button>
             <IconButton
               mode="contained"
-              icon="flag-variant-outline"
+              icon="comment-edit-outline"
               size={24}
               onPress={() => toggleDialog("feedback")}
             />
