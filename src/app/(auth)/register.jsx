@@ -7,6 +7,7 @@ import FormInput from "../../components/FormInput";
 import { Link } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { appSettings } from "../../settings";
+import { registerForPushNotificationsAsync } from "../../utils/notifications";
 
 const Register = () => {
   const { mutate: register, isPending } = useRegister();
@@ -15,9 +16,10 @@ const Register = () => {
   const theme = useTheme();
   const queryClient = useQueryClient();
 
-  const registerHandler = (data) => {
+  const registerHandler = async (data) => {
     queryClient.invalidateQueries();
-    register(data);
+    const expoToken = await registerForPushNotificationsAsync();
+    register({ ...data, expoToken });
   };
 
   return (
