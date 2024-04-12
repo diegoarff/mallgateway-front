@@ -4,9 +4,6 @@ export const appSettings = {
   mallName: "Blue Mall", // Replace with actual mall name
   mallLogo:
     "https://static.vecteezy.com/system/resources/previews/035/898/407/original/3d-alphabet-letter-b-with-blue-color-free-png.png", // Replace with actual logo
-  mallLogoLight: "https://via.placeholder.com/150", // Replace with actual logo
-  mallLogoDark: "https://via.placeholder.com/150", // Replace with actual logo
-  mallFacade: "https://via.placeholder.com/150", // Replace with actual facade
 
   // COLOR SCHEMES - The following settings are used to generate the theme for the app.
   lightScheme: {

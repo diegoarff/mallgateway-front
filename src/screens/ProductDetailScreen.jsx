@@ -129,6 +129,19 @@ const ProductDetailScreen = ({ id }) => {
               </Text>
             </View>
           </View>
+
+          <WithRole roles={[ROLES.STORE]}>
+            <Text
+              variant="bodyMedium"
+              style={{ color: theme.colors.onSurfaceVariant }}
+            >
+              Hay {product.numInterests}{" "}
+              {product.numInterests > 1
+                ? "usuarios interesados"
+                : "usuario interesado"}{" "}
+              en este producto
+            </Text>
+          </WithRole>
         </View>
 
         {/* Actions */}
