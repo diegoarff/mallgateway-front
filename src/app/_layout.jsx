@@ -76,18 +76,7 @@ const RootLayout = () => {
 
   SystemUI.setBackgroundColorAsync(theme.colors.background);
 
-  const queryClient = new QueryClient({
-    // Put the best options for perfomance
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-      },
-    },
-  });
+  const queryClient = new QueryClient();
 
   const [fontsLoaded, fontError] = useFonts({
     interLight: Inter_300Light,

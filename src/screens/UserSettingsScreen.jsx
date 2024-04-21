@@ -6,11 +6,13 @@ import ScreenWrapper from "../components/ScreenWrapper";
 import { StyleSheet, View } from "react-native";
 import FormInput from "../components/FormInput";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UserSettingsScreen = () => {
   const doLogout = useAuthStore((state) => state.doLogout);
   const user = useAuthStore((state) => state.user);
   const theme = useTheme();
+  const queryClient = useQueryClient();
 
   const { mutate: changePassword, isPending } = useChangePassword();
 
@@ -39,6 +41,11 @@ const UserSettingsScreen = () => {
       newPassword: "",
       passwordConfirmation: "",
     });
+  };
+
+  const logout = () => {
+    queryClient.clear();
+    doLogout();
   };
 
   useEffect(() => {
@@ -160,7 +167,7 @@ const UserSettingsScreen = () => {
           Cambiar contraseña
         </Button>
       </View>
-      <Button onPress={doLogout} mode="outlined">
+      <Button onPress={logout} mode="outlined">
         Cerrar sesión
       </Button>
     </ScreenWrapper>

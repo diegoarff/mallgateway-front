@@ -5,7 +5,6 @@ import { Text, Button, useTheme } from "react-native-paper";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import FormInput from "../../components/FormInput";
 import { Link } from "expo-router";
-import { useQueryClient } from "@tanstack/react-query";
 import { appSettings } from "../../settings";
 import { registerForPushNotificationsAsync } from "../../utils/notifications";
 
@@ -14,10 +13,8 @@ const Register = () => {
   const { control, handleSubmit } = useForm();
 
   const theme = useTheme();
-  const queryClient = useQueryClient();
 
   const registerHandler = async (data) => {
-    queryClient.invalidateQueries();
     const expoToken = await registerForPushNotificationsAsync();
     register({ ...data, expoToken });
   };

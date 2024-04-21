@@ -7,7 +7,6 @@ import ScreenWrapper from "../../components/ScreenWrapper";
 import BottomAction from "../../components/store/BottomAction";
 import { Image, View } from "react-native";
 import { Link } from "expo-router";
-import { useQueryClient } from "@tanstack/react-query";
 import { appSettings } from "../../settings";
 
 const Login = () => {
@@ -17,10 +16,8 @@ const Login = () => {
   const theme = useTheme();
 
   const doLogin = useAuthStore((state) => state.doLogin);
-  const queryClient = useQueryClient();
 
   const loginHandler = (data) => {
-    queryClient.invalidateQueries();
     login(data);
   };
 
