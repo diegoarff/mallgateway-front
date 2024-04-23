@@ -54,6 +54,11 @@ const ContactList = ({ store }) => {
             content={social.url}
           />
         ))}
+      {!store.phone && !store.website && store.socials.length === 0 && (
+        <Text variant="bodyMedium" style={{ textAlign: "center" }}>
+          No hay información de contacto
+        </Text>
+      )}
     </View>
   );
 };

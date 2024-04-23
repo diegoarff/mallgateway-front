@@ -1,7 +1,7 @@
 import { Image, StyleSheet, View } from "react-native";
 import { useAuthStore } from "../../../../stores/auth";
 import { ROLES } from "../../../../utils/constants";
-import { useRouter, Stack } from "expo-router";
+import { useRouter, Stack, Redirect } from "expo-router";
 import { Text, Button, IconButton } from "react-native-paper";
 import { appSettings } from "../../../../settings";
 import Header from "../../../../components/Header";
@@ -53,14 +53,12 @@ const Home = () => {
     router.push("home/promos-followed");
   };
 
-  const shouldRedirect = () => {
-    if (user?.role === ROLES.GUEST) {
-      return router.replace("explore");
-    }
-  };
+  if (user?.role === ROLES.GUEST) {
+    return <Redirect href="explore" />;
+  }
 
   return (
-    <View style={{ flex: 1 }} onLayout={shouldRedirect}>
+    <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
           header: (props) => <UserHeader {...props} />,

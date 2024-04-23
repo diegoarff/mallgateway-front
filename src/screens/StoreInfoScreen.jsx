@@ -66,19 +66,17 @@ const StoreInfoScreen = ({ store }) => {
       </List.Section>
 
       {/* Contacts */}
-      {(store.phone || store.website || store.socials.length > 0) && (
-        <List.Section>
-          <SectionHeader
-            title="Contactos"
-            icon="pencil"
-            onIconPress={() => {
-              router.push("store/info/contacts");
-            }}
-          />
+      <List.Section>
+        <SectionHeader
+          title="Contactos"
+          icon="pencil"
+          onIconPress={() => {
+            router.push("store/info/contacts");
+          }}
+        />
 
-          <ContactList store={store} />
-        </List.Section>
-      )}
+        <ContactList store={store} />
+      </List.Section>
 
       {/* Location */}
       <List.Section>

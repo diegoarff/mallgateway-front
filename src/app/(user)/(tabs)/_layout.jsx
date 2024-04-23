@@ -1,14 +1,35 @@
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
 import { useAuthStore } from "../../../stores/auth";
 import { ROLES } from "../../../utils/constants";
 import Header from "../../../components/Header";
-import { View } from "react-native";
+import { BackHandler, View } from "react-native";
+import { useEffect } from "react";
 
 const UserTabLayout = () => {
   const theme = useTheme();
   const user = useAuthStore((state) => state.user);
+  const path = usePathname();
+
+  useEffect(() => {
+    const backAction = () => {
+      if (path === "/explore" || path === "/profile") {
+        if (user?.role === ROLES.GUEST) {
+          BackHandler.exitApp();
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [path]);
 
   const renderIcon = (props, name) => {
     return (

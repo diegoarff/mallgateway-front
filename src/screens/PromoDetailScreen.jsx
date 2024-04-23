@@ -31,7 +31,11 @@ const PromoDetailScreen = ({ id }) => {
       )}
 
       <View style={styles.titleContainer}>
-        <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
+        <Text
+          variant="titleLarge"
+          style={{ fontWeight: "bold", flex: 1 }}
+          numberOfLines={2}
+        >
           {promo.name}
         </Text>
 
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 12,
     alignItems: "center",
   },
   promoImage: {

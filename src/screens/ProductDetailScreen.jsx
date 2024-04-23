@@ -43,9 +43,9 @@ const ProductDetailScreen = ({ id }) => {
   const hasPromo = product.promo && product.promo.value > 0;
 
   const handlePromoRedirect = () => {
-    if (user.role === "store") {
+    if (user.role === ROLES.STORE) {
       router.push(`store/promos/${product.promo._id}`);
-    } else if (user.role === "user") {
+    } else {
       router.push(`promos/${product.promo._id}`);
     }
   };
