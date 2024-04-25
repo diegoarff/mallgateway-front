@@ -1,14 +1,33 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "mallgateway",
     "web": {
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font",
+      "./plugins/tel-linking"
     ],
-    "name": "mallgateway-front",
+    "name": "Blue Mall",
     "slug": "mallgateway-front",
-    "userInterfaceStyle": "automatic"
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#E0E7FF"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "363bd879-64dd-4983-8aed-71b2230e8da6"
+      }
+    },
+    "android": {
+      "package": "com.diegoarf.mallgateway",
+      "googleServicesFile": "./google-services.json"
+    }
   }
 }
