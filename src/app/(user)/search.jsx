@@ -125,7 +125,7 @@ const Products = ({ search }) => {
           virtualized
           loadMore={loadMore}
           isFetchingNextPage={isFetchingNextPage}
-          style={{ paddingBottom: 20 }}
+          style={{ paddingBottom: 80 }}
         />
       )}
 
@@ -182,7 +182,7 @@ const Promos = ({ search }) => {
           virtualized
           loadMore={loadMore}
           isFetchingNextPage={isFetchingNextPage}
-          style={{ paddingBottom: 20 }}
+          style={{ paddingBottom: 80 }}
         />
       )}
       <PromoFilters
@@ -237,7 +237,7 @@ const Stores = ({ search }) => {
           stores={stores}
           loadMore={loadMore}
           isFetchingNextPage={isFetchingNextPage}
-          style={{ paddingBottom: 20 }}
+          style={{ paddingBottom: 80 }}
         />
       )}
       <StoreFilters
